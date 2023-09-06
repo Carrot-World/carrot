@@ -23,7 +23,10 @@ dependencies {
 
     implementation 'org.mybatis:mybatis:3.5.13'
     implementation 'org.mybatis:mybatis-spring:2.1.1'
-    implementation 'com.oracle.database.jdbc:ojdbc8:19.3.0.0'
+    implementation ('com.oracle.database.jdbc:ojdbc8:19.3.0.0'){
+        exclude group:'com.oracle.database.ha', module:'simplefan'
+        exclude group:'com.oracle.database.ha', module:'ons'
+    }
 
     implementation 'org.springframework.security:spring-security-web:5.0.6.RELEASE'
     implementation 'org.springframework.security:spring-security-config:5.0.6.RELEASE'
