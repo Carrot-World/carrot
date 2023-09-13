@@ -74,15 +74,15 @@ public class LoginController {
     
     @GetMapping("/api/success")
     public String success(Model model) {
-    	
+
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 		UserVO vo = mapper.selectById(authentication.getName());
 		
 		model.addAttribute("user",vo);
 		model.addAttribute("msg",authentication.getName()+"님 어서오세요");
-    	
-        return "imsiLoginSuccess";
+
+        return "listItem";
     }
     
     @GetMapping("/accessDenied")

@@ -24,19 +24,28 @@ img {
     margin-bottom: 30px;
 }
 
+#categoryLabel {
+    margin-right: 30px;
+}
+
+#searchCategory {
+    margin-right: 35px;
+}
+
 #searchLabel {
     margin-right: 30px;
 }
 
 #searchLocation {
-    width: 600px;
+    width: 500px;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    margin-right: 20px;
 }
 
 #searchLocation > select {
-    width: 27%;
+    width: 31%;
 }
 
 .card-title {

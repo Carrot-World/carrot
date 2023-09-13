@@ -1,12 +1,17 @@
 package com.carrot.controller;
 
+import com.carrot.domain.CategoryVO;
 import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.LocationVO;
 import com.carrot.service.ItemPostService;
 import com.carrot.service.LocationService;
+import com.carrot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +31,9 @@ public class ItemPostController {
 
     @Autowired
     private LocationService locationService;
+
+    @Autowired
+    private UserService userService;
 
     @ResponseBody
     @RequestMapping("/api/loc/get2")
@@ -47,12 +55,16 @@ public class ItemPostController {
 
     @RequestMapping("/page/listItem")
     public String listItem(Model model) {
+        if (userService.isAnonymous()) {
+            model.addAttribute("user", userService.getUserInfo());
+        }
         model.addAttribute("list", itemPostService.select());
         return "listItem";
     }
 
     @RequestMapping("/page/insertItem")
-    public String insertForm() {
+    public String insertForm(Model model) {
+        model.addAttribute("user", userService.getUserInfo());
         return "insertItem";
     }
 
@@ -60,10 +72,18 @@ public class ItemPostController {
     public ResponseEntity<Void> insert(ItemPostVO vo,
                                        @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
 
+        System.out.println("itemPostVO" + vo);
+        System.out.println("imageList" + imageList);
         if (itemPostService.insert(vo, imageList) == 1) {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public String search(CategoryVO categoryVO, LocationVO locationVO) {
+        System.out.println("category : " + categoryVO);
+        System.out.println();
+        return null;
     }
 }

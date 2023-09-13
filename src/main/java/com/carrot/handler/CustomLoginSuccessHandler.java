@@ -19,7 +19,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 //		String msg = auth.getName()+"님 환영합니다.";
 //		request.setAttribute("msg", msg); //request 영역에 저장
 		
-		response.sendRedirect("/api/success");
+		response.sendRedirect("/page/listItem");
 		
 	}
 }

@@ -83,7 +83,7 @@
         <label for="categorySelect" class="col-sm-2 col-form-label">카테고리</label>
         <div class="col-sm-10" id="categorySelect">
             <select class="form-select form-select-sm" aria-label="Small select example" id="category_id" name="category_id">
-                <option selected>카테고리</option>
+                <option selected disabled>카테고리</option>
                 <option value="1">디지털기기</option>
                 <option value="2">가구/인테리어</option>
                 <option value="3">유아동</option>
@@ -125,6 +125,7 @@
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="button" class="btn btn-primary" onclick="uploadHandler()">물품 등록</button>
     </div>
+    <input type="hidden" id="token" name="${_csrf.parameterName}" value="${_csrf.token}">
 </div>
 </body>
 </html>

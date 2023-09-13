@@ -11,6 +11,7 @@ function uploadHandler() {
     const categoryId = categoryEl.options[categoryEl.selectedIndex].value;
     const categoryName = categoryEl.options[categoryEl.selectedIndex].textContent;
     const content = document.querySelector("textarea#content").value;
+    const token = document.querySelector("input#token");
 
     const formData = new FormData();
     const files = document.querySelector("input[type=file]").files;
@@ -25,6 +26,8 @@ function uploadHandler() {
     formData.append("category_id", categoryId);
     formData.append("category_name", categoryName);
     formData.append("content", content);
+    formData.append(token.getAttribute("name"), token.value);
+
 
     for (let key of formData.keys()) {
         console.log(key);
@@ -40,7 +43,7 @@ function uploadHandler() {
         enctype: "multipart/form-data",
         processData: false,
         contentType: false,
-        method: "POST",
+        method: "post",
         success: function () {
             if (window.confirm("등록 되었습니다.")) {
                 window.location = '/page/listItem';
@@ -110,7 +113,7 @@ function changeLoc1Select() {
         data: {
             "loc1": loc1SelectValue
         },
-        method: "post",
+        method: "get",
         dataType: "json"
     }).done((data) => {
         console.log(data);
@@ -134,7 +137,7 @@ function changeLoc2Select() {
             "loc1": loc1SelectValue,
             "loc2": loc2SelectValue
         },
-        method: "post",
+        method: "get",
         dataType: "json"
     }).done((data) => {
         console.log(data);
