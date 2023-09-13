@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.carrot.domain.AuthVO;
 import com.carrot.domain.UserVO;
-import com.carrot.service.UserService;
+import com.carrot.repository.UserRepository;
 
 
 public class CustomUserDetails implements UserDetailsService{
@@ -23,12 +23,12 @@ public class CustomUserDetails implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//userName means userid
 	
-		 UserService mapper = sqlSession.getMapper(UserService.class);
+		 UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 		 UserVO vo = mapper.selectById(username);
 		 System.out.println(vo);
 		 System.out.println("userid:" +username);
 		 List <AuthVO> list = mapper.selectByAuth(username);
-		 System.out.println("¸®½ºÆ®: "+list);
+		 System.out.println("ë¦¬ìŠ¤íŠ¸: "+list);
 		 vo.setAuthList(list);
 		
 		return vo == null ? null : new CustomUser(vo);

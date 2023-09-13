@@ -13,11 +13,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.carrot.domain.AuthVO;
 import com.carrot.domain.UserVO;
+import com.carrot.repository.UserRepository;
 import com.carrot.service.UserService;
 
 @Controller
 public class LoginController {
     
+	@Autowired
+	UserService userService; 
 	
 	@Autowired
 	SqlSession sqlSession;
@@ -25,16 +28,15 @@ public class LoginController {
 	@Autowired 
 	BCryptPasswordEncoder encoder;
 	
-	
 	@GetMapping("/page/login")
     public String login() {
-		System.out.println("·Î±×ÀÎÆäÀÌÁö·Î ÀÌµ¿");
+		System.out.println("ë¡œê·¸ì¸í˜ì´ì§€ë¡œ ì´ë™");
         return "login";
     }
 
     @GetMapping("/page/signUp")
     public String signUp() {
-    	System.out.println("È¸¿ø°¡ÀÔÆäÀÌÁö ÀÌµ¿");
+    	System.out.println("íšŒì›ê°€ì…í˜ì´ì§€ ì´ë™");
         return "signUp";
     }
     
@@ -46,8 +48,10 @@ public class LoginController {
     	
     	UserVO vo = new UserVO(id, nickname, encodepw, email, loc1, loc2, loc3);
     	AuthVO authVo = new AuthVO(id);
-    	
-		UserService mapper = sqlSession.getMapper(UserService.class);
+    	System.out.println(loc1);
+    	System.out.println(loc2);
+    	System.out.println(loc3);
+		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 
 		int result = mapper.signUp(vo);
 		result += mapper.signUp_auth(authVo);
@@ -64,20 +68,19 @@ public class LoginController {
 	
 	@GetMapping("/page/signUpResult")
 	public String loginResult() {
-		System.out.println("È¸¿ø°¡ÀÔ °á°úÃ¢ µé·ÈÀ½");
+		System.out.println("íšŒì›ê°€ì… ê²°ê³¼ì°½ ë“¤ë ¸ìŒ");
 		return "signUpResult";
 	}
-    
     
     @GetMapping("/api/success")
     public String success(Model model) {
     	
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserService mapper = sqlSession.getMapper(UserService.class);
-		
+		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 		UserVO vo = mapper.selectById(authentication.getName());
+		
 		model.addAttribute("user",vo);
-		model.addAttribute("msg",authentication.getName()+"´Ô ¾î¼­¿À¼¼¿ä");
+		model.addAttribute("msg",authentication.getName()+"ë‹˜ ì–´ì„œì˜¤ì„¸ìš”");
     	
         return "imsiLoginSuccess";
     }

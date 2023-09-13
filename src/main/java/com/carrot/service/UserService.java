@@ -1,13 +1,9 @@
 package com.carrot.service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
-import com.carrot.domain.AuthVO;
-import com.carrot.domain.UserVO;
+@Service
+public class UserService {
 
-public interface UserService {
-	public UserVO selectById(String id);
-	public List<AuthVO> selectByAuth(String id);
-	public int signUp(UserVO vo);
-	public int signUp_auth(AuthVO authVo);
+
 }
