@@ -1,7 +1,9 @@
 package com.carrot.service;
 
+import com.carrot.domain.CategoryVO;
 import com.carrot.domain.ImageVO;
 import com.carrot.domain.ItemPostVO;
+import com.carrot.repository.CategoryRepository;
 import com.carrot.repository.ImageRepository;
 import com.carrot.repository.ItemPostRepository;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,6 +24,8 @@ public class ItemPostService {
 
     @Autowired
     private SqlSession sqlSession;
+    private static HashMap<Integer, String> categoryMap;
+    private static boolean isSetCategory;
 
     public int insert(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
         vo.setWriter("imkeunho");
@@ -42,6 +47,10 @@ public class ItemPostService {
     public List<ItemPostVO> select() {
         List<ItemPostVO> itemPostList = sqlSession.getMapper(ItemPostRepository.class).selectAll();
         for (ItemPostVO itemPost : itemPostList) {
+            if (!isSetCategory) {
+                setCategoryMap();
+            }
+            itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
             List<ImageVO> imageList = sqlSession.getMapper(ImageRepository.class).selectById(itemPost.getId());
             if (imageList.size() != 0) {
                 itemPost.setImageList(imageList);
@@ -53,6 +62,17 @@ public class ItemPostService {
     public ItemPostVO detail(int id) {
         ItemPostVO itemPost = sqlSession.getMapper(ItemPostRepository.class).selectById(id);
         itemPost.setImageList(sqlSession.getMapper(ImageRepository.class).selectById(id));
+        itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
         return itemPost;
+    }
+
+    public void setCategoryMap() {
+        System.out.println("set categoryMap");
+        List<CategoryVO> categoryList = sqlSession.getMapper(CategoryRepository.class).selectAll();
+        categoryMap = new HashMap<>();
+        for (CategoryVO vo : categoryList) {
+            categoryMap.put(vo.getId(), vo.getName());
+        }
+        isSetCategory = true;
     }
 }

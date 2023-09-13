@@ -1,0 +1,72 @@
+.card {
+    width: 200px;
+}
+
+
+img {
+    width: 198px;
+    height: 198px;
+}
+
+#content {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.search {
+    width: 1000px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+#searchLabel {
+    margin-right: 30px;
+}
+
+#searchLocation {
+    width: 600px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#searchLocation > select {
+    width: 27%;
+}
+
+.card-title {
+    font-size: 19px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+p {
+    margin-bottom: 1px;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.location {
+    font-size: 13px;
+}
+
+.count {
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.itemList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 30px;
+    margin-bottom: 30px;
+}

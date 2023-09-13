@@ -18,79 +18,8 @@
             crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <style>
-        .card {
-            width: 200px;
-        }
-
-
-        img {
-            width: 198px;
-            height: 198px;
-        }
-
-        #content {
-            width: 1000px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0 auto;
-        }
-
-        .search {
-            width: 1000px;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            margin-bottom: 30px;
-        }
-        #searchLabel {
-            margin-right: 30px;
-        }
-
-        #searchLocation {
-            width: 600px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-        }
-
-        #searchLocation > select {
-            width: 27%;
-        }
-
-        .card-title {
-            font-size: 19px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        p {
-            margin-bottom: 1px;
-        }
-
-        .price {
-            font-weight: bold;
-        }
-
-        .location {
-            font-size: 13px;
-        }
-
-        .count {
-            font-size: 12px;
-            font-weight: 300;
-        }
-
-        .itemList {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/resources/css/listItem.css?after" rel="stylesheet">
+    <script defer src="${pageContext.request.contextPath}/resources/js/listItem.js"></script>
 </head>
 <body>
 <div id="content">
@@ -129,7 +58,7 @@
         <c:forEach items="${list}" var="item">
             <div class="card" onclick="location.href='/page/detail?id=${item.id}'">
                 <c:if test="${item.imageList == null}">
-                    <img src="../../resources/image/noImage.png" class="card-img-top" alt="...">
+                    <img src="${pageContext.request.contextPath}/resources/image/noImage.png" class="card-img-top" alt="...">
                 </c:if>
                 <c:if test="${item.imageList != null}">
                     <c:forEach items="${item.imageList}" var="image" end="0">
@@ -163,53 +92,5 @@
         </nav>
     </div>
 </div>
-<script>
-    function changeLoc1Select() {
-        var loc1Select = document.getElementById("loc1");
-        var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
-
-        $.ajax({
-            url: "/api/loc/get2",
-            data: {
-                "loc1" : loc1SelectValue},
-            method: "post",
-            dataType: "json"
-        }).done((data) => {
-            console.log(data);
-            var selectEl = document.querySelector("#loc2");
-            selectEl.innerHTML = "";
-            data.forEach((loc) => {
-                selectEl.innerHTML += optionEl(loc);
-            })
-        });
-    }
-
-    function changeLoc2Select() {
-        var loc1Select = document.getElementById("loc1");
-        var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
-        var loc2Select = document.getElementById("loc2");
-        var loc2SelectValue = loc2Select.options[loc2Select.selectedIndex].value;
-
-        $.ajax({
-            url: "/api/loc/get3",
-            data: {
-                "loc1" : loc1SelectValue,
-                "loc2" : loc2SelectValue},
-            method: "post",
-            dataType: "json"
-        }).done((data) => {
-            console.log(data);
-            var selectEl = document.querySelector("#loc3");
-            selectEl.innerHTML = "";
-            data.forEach((loc) => {
-                selectEl.innerHTML += optionEl(loc);
-            })
-        });
-    }
-
-    function optionEl(loc) {
-        return '<option value="'+ loc + '">' + loc + '</option>'
-    }
-</script>
 </body>
 </html>
