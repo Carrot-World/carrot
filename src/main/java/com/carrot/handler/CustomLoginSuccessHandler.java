@@ -16,8 +16,8 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication auth) throws IOException, ServletException {
 		System.out.println("login success");
 
-//		String msg = auth.getName()+"´Ô È¯¿µÇÕ´Ï´Ù.";
-//		request.setAttribute("msg", msg); //request ¿µ¿ª¿¡ ÀúÀå
+//		String msg = auth.getName()+"ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤.";
+//		request.setAttribute("msg", msg); //request ì˜ì—­ì— ì €ì¥
 		
 		response.sendRedirect("/api/success");
 		
