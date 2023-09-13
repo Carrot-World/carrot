@@ -19,43 +19,8 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous">
     </script>
-    <style>
-        body {
-            background-color: antiquewhite;
-        }
-        #content {
-            width: 500px;
-            display: flex;
-            flex-direction: column;
-            margin: 0 auto;
-        }
-
-        .carousel {
-            width: 500px;
-        }
-
-        .article-info {
-            font-size: 13px;
-            font-weight: 300;
-        }
-
-        .detail {
-            padding: 5px;
-        }
-
-        .btnDetail {
-            padding-right: 10px;
-        }
-
-        #article-content {
-            margin-bottom: 15px;
-        }
-
-        #price {
-            font-size: 20px;
-            font-weight: bold;
-        }
-    </style>
+    <link href="${pageContext.request.contextPath}/resources/css/detailItem.css?after" rel="stylesheet">
+    <script defer src="${pageContext.request.contextPath}/resources/js/detailItem.js"></script>
 </head>
 <body>
 <div id="content">

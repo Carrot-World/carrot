@@ -1,0 +1,36 @@
+body {
+    background-color: antiquewhite;
+}
+
+#content {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.carousel {
+    width: 500px;
+}
+
+.article-info {
+    font-size: 13px;
+    font-weight: 300;
+}
+
+.detail {
+    padding: 5px;
+}
+
+.btnDetail {
+    padding-right: 10px;
+}
+
+#article-content {
+    margin-bottom: 15px;
+}
+
+#price {
+    font-size: 20px;
+    font-weight: bold;
+}
