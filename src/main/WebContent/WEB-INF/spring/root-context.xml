@@ -24,4 +24,19 @@
         <constructor-arg name="sqlSessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="104857600"/>
+        <property name="maxUploadSizePerFile" value="104857600"/>
+        <property name="maxInMemorySize" value="104857600"/>
+    </bean>
+
+    <bean id="credential" class="com.amazonaws.auth.BasicAWSCredentials">
+        <constructor-arg name="accessKey" value="${aws_access_key_id}"/>
+        <constructor-arg name="secretKey" value="${aws_secret_access_key}"/>
+    </bean>
+
+    <bean id="s3client" class="com.amazonaws.services.s3.AmazonS3Client">
+        <constructor-arg ref="credential"/>
+    </bean>
+
 </beans>
