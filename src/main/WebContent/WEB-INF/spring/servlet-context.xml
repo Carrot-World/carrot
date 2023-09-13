@@ -9,6 +9,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <context:component-scan base-package="org.example"/>
+    <context:component-scan base-package="com.carrot.*"/>
     <mvc:annotation-driven/>
 </beans>
