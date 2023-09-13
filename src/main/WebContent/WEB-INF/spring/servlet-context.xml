@@ -9,6 +9,10 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+<<<<<<< Updated upstream
     <context:component-scan base-package="com.carrot.*"/>
+=======
+    <context:component-scan base-package="com.carrot.controller"/>
+>>>>>>> Stashed changes
     <mvc:annotation-driven/>
 </beans>
