@@ -15,4 +15,22 @@
     <select id="selectById" resultType="com.carrot.domain.ItemPostVO" parameterType="int">
         select * from ITEM_POST where id = #{id}
     </select>
+    <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
+        select * from item_post
+        <where>
+            <if test="category_id != 0">
+                category_id = #{category_id}
+            </if>
+            <if test="loc1 != null">
+                and loc1 = #{loc1}
+            </if>
+            <if test="loc2 != null">
+                and loc2 = #{loc2}
+            </if>
+            <if test="loc3 != null">
+                and loc3 = #{loc3}
+            </if>
+        </where>
+        order by created_at desc offset 0 rows fetch first 8 rows only
+    </select>
 </mapper>

@@ -1,10 +1,7 @@
 package com.carrot.service;
 
-import com.carrot.domain.CategoryVO;
-import com.carrot.domain.ImageVO;
-import com.carrot.domain.ItemPostVO;
+import com.carrot.domain.*;
 import com.carrot.repository.CategoryRepository;
-import com.carrot.repository.ImageRepository;
 import com.carrot.repository.ItemPostRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +21,23 @@ public class ItemPostService {
 
     @Autowired
     private SqlSession sqlSession;
+
+    @Autowired
+    private ImageService imageService;
     private static HashMap<Integer, String> categoryMap;
     private static boolean isSetCategory;
 
-    public int insert(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
-        vo.setWriter("imkeunho");
+    public int insert(UserVO user, ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
+        vo.setWriter(user.getNickname());
         vo.setCreated_at(new Date(System.currentTimeMillis()));
         if (sqlSession.getMapper(ItemPostRepository.class).insert(vo) > 0) {
             AWSS3.uploadImage(vo.getId(), imageList);
             for (int i = 0; i < imageList.size(); i++) {
                 String url = "https://carrot-world.s3.ap-northeast-2.amazonaws.com/";
                 String fileName = AWSS3.getFileName(vo.getId(), i, imageList.get(i));
-                ImageVO imageVO = new ImageVO(vo.getId(), i, url + fileName);
-                sqlSession.getMapper(ImageRepository.class).insert(imageVO);
+                if (imageService.insert(new ImageVO(vo.getId(), i, url + fileName)) != 1) {
+                    return -1;
+                }
             }
         } else {
             return -1;
@@ -44,30 +45,35 @@ public class ItemPostService {
         return 1;
     }
 
-    public List<ItemPostVO> select() {
-        List<ItemPostVO> itemPostList = sqlSession.getMapper(ItemPostRepository.class).selectAll();
-        for (ItemPostVO itemPost : itemPostList) {
-            if (!isSetCategory) {
-                setCategoryMap();
-            }
-            itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
-            List<ImageVO> imageList = sqlSession.getMapper(ImageRepository.class).selectById(itemPost.getId());
-            if (imageList.size() != 0) {
-                itemPost.setImageList(imageList);
-            }
+    public List<ItemPostVO> search(SearchVO vo) {
+//        if (vo.getLoc1() == null && vo.getLoc1().equals("")) {
+//            vo = new SearchVO();
+//        }
+//        if (vo.getLoc1() != null && vo.getLoc2().equals("")) {
+//            vo.setLoc2(null);
+//            vo.setLoc3(null);
+//        }
+//        if (vo.getLoc1() != null && vo.getLoc2() != null && vo.getLoc3().equals("")) {
+//            vo.setLoc3(null);
+//        }
+        List<ItemPostVO> itemPostList = sqlSession.getMapper(ItemPostRepository.class).search(vo);
+        if (!isSetCategory) {
+            setCategoryMap();
         }
-        return itemPostList;
+        if (itemPostList.isEmpty()) {
+            return null;
+        }
+        return imageService.setFirstImage(itemPostList);
     }
 
     public ItemPostVO detail(int id) {
         ItemPostVO itemPost = sqlSession.getMapper(ItemPostRepository.class).selectById(id);
-        itemPost.setImageList(sqlSession.getMapper(ImageRepository.class).selectById(id));
+        itemPost.setImageList(imageService.selectById(id));
         itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
         return itemPost;
     }
 
     public void setCategoryMap() {
-        System.out.println("set categoryMap");
         List<CategoryVO> categoryList = sqlSession.getMapper(CategoryRepository.class).selectAll();
         categoryMap = new HashMap<>();
         for (CategoryVO vo : categoryList) {
