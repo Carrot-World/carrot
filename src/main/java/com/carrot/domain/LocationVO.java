@@ -8,6 +8,16 @@ public class LocationVO {
     public LocationVO() {
     }
 
+    public LocationVO(String loc1, String loc2) {
+        this.loc1 = loc1;
+        this.loc2 = loc2;
+    }
+
+    public LocationVO(String loc1) {
+        this.loc1 = loc1;
+
+    }
+
     public String getLoc1() {
         return loc1;
     }
