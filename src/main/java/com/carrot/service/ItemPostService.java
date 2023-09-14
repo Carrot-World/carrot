@@ -59,6 +59,9 @@ public class ItemPostService {
     public ItemPostVO detail(int id) {
         ItemPostVO itemPost = sqlSession.getMapper(ItemPostRepository.class).selectById(id);
         itemPost.setImageList(imageService.selectById(id));
+        if (!isSetCategory) {
+            setCategoryMap();
+        }
         itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
         return itemPost;
     }

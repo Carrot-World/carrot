@@ -39,7 +39,9 @@ public class ItemPostController {
     @RequestMapping(value = "/page/detail", method = RequestMethod.GET)
     public String detailItem(int id, Model model) {
         if (userService.isAuthenticated()) {
-            model.addAttribute("isHart", hartService.isCheck(userService.getUserInfo(), id));
+            UserVO user = userService.getUserInfo();
+            model.addAttribute("isHart", hartService.isCheck(user, id));
+            model.addAttribute("user", user);
         }
         model.addAttribute("item", itemPostService.detail(id));
         return "detailItem";
