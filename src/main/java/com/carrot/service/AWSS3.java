@@ -1,21 +1,47 @@
 package com.carrot.service;
 
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Service
 public class AWSS3 {
 
     @Autowired
     AmazonS3Client s3Client;
+    
+    public String getImgTag(MultipartFile file) throws IOException { //동네생활게시판 등록시 imgtag변환
+        UUID uuid = UUID.randomUUID();
+        String originfileName = file.getOriginalFilename();
+        String suffix = getSuffix(file);
+        System.out.println("suffix : " + suffix);
+        
+        String imageFileName = uuid+originfileName;
+         
+            try {
+                ObjectMetadata metadata = new ObjectMetadata();
+                String contentType = "image/" + suffix;
+                metadata.setContentType(contentType);
+                metadata.setContentLength(file.getResource().contentLength());
+                PutObjectRequest request = new PutObjectRequest("carrot-world",
+                        imageFileName, file.getInputStream(), metadata);
+                s3Client.putObject(request);
+                return imageFileName;
+            } catch (AmazonServiceException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    
 
     public void uploadImage(int itemPostId, List<MultipartFile> imageList) throws IOException {
         for (int i = 0; i < imageList.size(); i++) {
