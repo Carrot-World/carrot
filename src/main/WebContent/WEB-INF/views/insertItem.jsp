@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,30 +52,22 @@
         <label for="location" class="col-sm-2 col-form-label">위치</label>
         <div class="col-sm-10" id="location">
             <select id="loc1" name="loc1" onchange="changeLoc1Select()" class="form-select form-select-sm" aria-label="Small select example">
-                <option selected disabled>도, 시</option>
-                <option value="강원특별자치도">강원특별자치도</option>
-                <option value="경기도">경기도</option>
-                <option value="경상남도">경상남도</option>
-                <option value="경상북도">경상북도</option>
-                <option value="광주광역시">광주광역시</option>
-                <option value="대구광역시">대구광역시</option>
-                <option value="대전광역시">대전광역시</option>
-                <option value="부산광역시">부산광역시</option>
-                <option value="서울특별시">서울특별시</option>
-                <option value="세종특별자치시">세종특별자치시</option>
-                <option value="울산광역시">울산광역시</option>
-                <option value="인천광역시">인천광역시</option>
-                <option value="전라남도">전라남도</option>
-                <option value="전라북도">전라북도</option>
-                <option value="제주특별자치도">제주특별자치도</option>
-                <option value="충청남도">충청남도</option>
-                <option value="충청북도">충청북도</option>
+                <option></option>
+                <c:forEach items="${loc1List}" var="location1">
+                    <option ${location1 == user.loc1 ? 'selected' : ''} value="${location1}">${location1}</option>
+                </c:forEach>
             </select>
             <select id="loc2" name="loc2" onchange="changeLoc2Select()" class="form-select form-select-sm" aria-label="Small select example">
-                <option selected>구, 시</option>
+                <option></option>
+                <c:forEach items="${loc2List}" var="location2">
+                    <option ${location2 == user.loc2 ? 'selected' : ''} value="${location2}">${location2}</option>
+                </c:forEach>
             </select>
             <select id="loc3" name="loc3" class="form-select form-select-sm" aria-label="Small select example">
-                <option selected>동, 면, 읍</option>
+                <option></option>
+                <c:forEach items="${loc3List}" var="location3">
+                    <option ${location3 == user.loc3 ? 'selected' : ''} value="${location3}">${location3}</option>
+                </c:forEach>
             </select>
         </div>
     </div>
