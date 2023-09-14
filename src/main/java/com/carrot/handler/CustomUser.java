@@ -31,4 +31,15 @@ public class CustomUser extends User {
 				.map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()) );
 		this.user = vo;
 	}
+	
+	public UserVO getUser() {
+		return user;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomUser [user=" + user + "]";
+	}
+	
+	
 }

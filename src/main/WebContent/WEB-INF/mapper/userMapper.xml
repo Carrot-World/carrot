@@ -13,11 +13,15 @@
 			select * from role where user_id = #{user_id}
 		</select>
 		
-	<insert id="signUp" parameterType="com.carrot.domain.UserVO">
-		insert into user_info(id, nickname, password, email, loc1, loc2, loc3) values (#{id}, #{nickname}, #{password}, #{email}, #{loc1}, #{loc2}, #{loc3})
-	</insert>
+		<insert id="signUp" parameterType="com.carrot.domain.UserVO">
+			insert into user_info(id, nickname, password, email, loc1, loc2, loc3) values (#{id}, #{nickname}, #{password}, #{email}, #{loc1}, #{loc2}, #{loc3})
+		</insert>
 
-	<insert id="signUp_auth" parameterType="com.carrot.domain.AuthVO">
-		insert into role(user_Id, auth) values (#{user_id}, 'ROLE_MEMBER')
-	</insert>
+		<insert id="signUp_auth" parameterType="com.carrot.domain.AuthVO">
+			insert into role(user_Id, auth) values (#{user_id}, 'ROLE_MEMBER')
+		</insert>
+		
+		<select id="idCheck" parameterType="String" resultType="Integer">
+      SELECT count(*) FROM user_info WHERE id = #{id}
+    </select>
 </mapper>	

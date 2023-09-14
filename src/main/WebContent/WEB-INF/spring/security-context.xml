@@ -15,6 +15,7 @@
 		<bean id="customUserDetails"	class="com.carrot.handler.CustomUserDetails" />
 
 		<security:http>
+
 <!--				 <security:csrf disabled="true"/>-->
 				<security:intercept-url pattern="/page/login" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/signUp" access="isAnonymous()" />
@@ -31,8 +32,9 @@
 				<security:intercept-url pattern="/api/item/search" access="permitAll()" />
 
 				<security:form-login login-page= "/page/login" 
-				authentication-success-handler-ref="loginSuccess"
-				/>
+				authentication-success-handler-ref="loginSuccess"/>
+				
+				<security:logout logout-success-url="/page/listItem"/>
 				
 				<security:access-denied-handler ref="customAccessDenied" />
 		</security:http>

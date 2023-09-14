@@ -10,4 +10,5 @@ public interface UserRepository {
 	public List<AuthVO> selectByAuth(String id);
 	public int signUp(UserVO vo);
 	public int signUp_auth(AuthVO authVo);
+	public int idCheck(String id);
 }
