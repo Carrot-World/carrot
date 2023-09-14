@@ -46,7 +46,7 @@
         <div class="carousel-inner">
             <c:if test="${item.imageList == null}">
                 <div class="carousel-item active">
-                    <img src="../../resources/image/noImage.png" class="d-block w-100" alt="...">
+                    <img src="${pageContext.request.contextPath}/resources/image/noImage.png" class="d-block w-100" alt="...">
                 </div>
             </c:if>
             <c:if test="${item.imageList != null}">

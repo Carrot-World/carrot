@@ -72,7 +72,10 @@ public class ItemPostService {
 
     public ItemPostVO detail(int id) {
         ItemPostVO itemPost = sqlSession.getMapper(ItemPostRepository.class).selectById(id);
-        itemPost.setImageList(imageService.selectById(id));
+        List<ImageVO> imageList = imageService.selectById(id);
+        if (!imageList.isEmpty()) {
+            itemPost.setImageList(imageService.selectById(id));
+        }
         if (!isSetCategory) {
             setCategoryMap();
         }

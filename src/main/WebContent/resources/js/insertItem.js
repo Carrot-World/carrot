@@ -1,6 +1,3 @@
-var imgCnt = 0;
-var uploadFiles = [];
-
 function uploadHandler() {
     const title = document.querySelector("input#title").value;
     const price = document.querySelector("input#price").value;
@@ -76,6 +73,9 @@ function uploadHandler() {
     }
 
 }
+
+var imgCnt = 0;
+var uploadFiles = [];
 
 function getImageFiles(e) {
     const files = e.currentTarget.files;
