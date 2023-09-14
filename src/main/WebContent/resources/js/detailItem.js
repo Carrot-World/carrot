@@ -3,7 +3,8 @@ function hartBtnHandler() {
     var id = el.attr("value");
     var cnt = el.attr("value1");
     var name = el.attr("name");
-    console.log(cnt);
+
+    el.attr("disabled", true);
 
     if (name === "plus") {
         $.ajax({
@@ -16,12 +17,12 @@ function hartBtnHandler() {
         }).done((result) => {
             window.location = result;
         })
-    } else if (name === "minus"){
+    } else if (name === "minus") {
         $.ajax({
             url: "/api/item/hartMinus",
             data: {
                 "item_post_id": id,
-                "cnt" : cnt
+                "cnt": cnt
             },
             method: "get",
             dataType: "text"
