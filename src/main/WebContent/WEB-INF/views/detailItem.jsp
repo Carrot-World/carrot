@@ -90,7 +90,7 @@
                 내가 작성한 글~
                 <button class="btn btn-primary" type="button">판매완료</button>
                 <button class="btn btn-primary" type="button">삭제</button>
-                <button class="btn btn-primary" type="button">수정</button>
+                <button class="btn btn-primary" type="button" onclick="location.href='${pageContext.request.contextPath}/page/updateForm?item_id=${item.id}&user_id=${user.id}'">수정</button>
             </c:if>
             <c:if test="${item.writer != user.nickname}">
                 ${item.writer}님 에게
