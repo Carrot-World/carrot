@@ -18,6 +18,7 @@ public class ItemPostVO {
     private Date created_at;
     private List<ImageVO> imageList;
     private String category_name;
+    private int hart_cnt;
 
     public ItemPostVO() {
     }
@@ -134,6 +135,14 @@ public class ItemPostVO {
         this.category_name = category_name;
     }
 
+    public int getHart_cnt() {
+        return hart_cnt;
+    }
+
+    public void setHart_cnt(int hart_cnt) {
+        this.hart_cnt = hart_cnt;
+    }
+
     @Override
     public String toString() {
         return "ItemPostVO{" +
@@ -151,6 +160,7 @@ public class ItemPostVO {
                 ", created_at=" + created_at +
                 ", imageList=" + imageList +
                 ", category_name='" + category_name + '\'' +
+                ", hart_cnt=" + hart_cnt +
                 '}';
     }
 }

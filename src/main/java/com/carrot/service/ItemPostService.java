@@ -46,16 +46,6 @@ public class ItemPostService {
     }
 
     public List<ItemPostVO> search(SearchVO vo) {
-//        if (vo.getLoc1() == null && vo.getLoc1().equals("")) {
-//            vo = new SearchVO();
-//        }
-//        if (vo.getLoc1() != null && vo.getLoc2().equals("")) {
-//            vo.setLoc2(null);
-//            vo.setLoc3(null);
-//        }
-//        if (vo.getLoc1() != null && vo.getLoc2() != null && vo.getLoc3().equals("")) {
-//            vo.setLoc3(null);
-//        }
         List<ItemPostVO> itemPostList = sqlSession.getMapper(ItemPostRepository.class).search(vo);
         if (!isSetCategory) {
             setCategoryMap();
