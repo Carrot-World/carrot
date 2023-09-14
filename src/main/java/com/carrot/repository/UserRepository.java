@@ -11,4 +11,5 @@ public interface UserRepository {
 	public int signUp(UserVO vo);
 	public int signUp_auth(AuthVO authVo);
 	public int idCheck(String id);
+	public int nicCheck(String nickname);
 }

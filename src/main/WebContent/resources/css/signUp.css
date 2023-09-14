@@ -11,7 +11,7 @@ body {
 }
 
 .input-form {
-	max-width: 600px;
+	max-width: 610px;
 	
 	margin-top: 80px;
 	padding: 50px;
@@ -33,13 +33,13 @@ body {
   margin-left: 12px;
 }
 
-.button-row{
+#btn-emailCheck{
+	--bs-btn-padding-x: 0.8rem;
+}
+
+.button-row, .register-row{
 	display: flex;
  	justify-content: flex-end;
-}
-.register-row{
-	display: flex;
-	justify-content: flex-end;
 }
 
 .loc-row{
@@ -50,4 +50,11 @@ body {
     margin-top: calc(-1 * var(--bs-gutter-y));
     margin-right: calc(-.5 * var(--bs-gutter-x));
     margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+
+#btn-myLoc{
+		--bs-btn-padding-y: 0.35rem;
+  --bs-btn-padding-x: 0.3rem;
+  --bs-btn-font-size: 1.0rem;
+  --bs-btn-border-radius: 0.5rem;
 }
