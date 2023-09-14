@@ -14,12 +14,24 @@ public class LocationService {
 
     @Autowired
     private SqlSession sqlSession;
+    private static List<String> loc1Arr;
 
+    public List<String> loc1Set() {
+        if (loc1Arr != null) {
+            return loc1Arr;
+        }
+        List<LocationVO> locationList = sqlSession.getMapper(LocationRepository.class).selectInit();
+        List<String> loc1 = new ArrayList<>();
+        for (LocationVO locationVO : locationList) {
+            loc1.add(locationVO.getLoc1());
+        }
+        return loc1;
+    }
     public List<String> loc2Set(LocationVO vo) {
         List<LocationVO> locationList = sqlSession.getMapper(LocationRepository.class).selectByLoc1(vo);
         List<String> loc2 = new ArrayList<>();
-        for (int i = 0; i < locationList.size(); i++) {
-            loc2.add(locationList.get(i).getLoc2());
+        for (LocationVO locationVO : locationList) {
+            loc2.add(locationVO.getLoc2());
         }
         return loc2;
     }
@@ -27,8 +39,8 @@ public class LocationService {
     public List<String> loc3Set(LocationVO vo) {
         List<LocationVO> locationList = sqlSession.getMapper(LocationRepository.class).selectByLoc2(vo);
         List<String> loc3 = new ArrayList<>();
-        for (int i = 0; i < locationList.size(); i++) {
-            loc3.add(locationList.get(i).getLoc3());
+        for (LocationVO locationVO : locationList) {
+            loc3.add(locationVO.getLoc3());
         }
         return loc3;
     }

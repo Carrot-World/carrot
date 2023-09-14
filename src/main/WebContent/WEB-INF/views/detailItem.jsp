@@ -24,18 +24,22 @@
 </head>
 <body>
 <div id="content">
-    <div id="carouselExampleIndicators" class="carousel slide">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
-                    aria-label="Slide 4"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
-                    aria-label="Slide 5"></button>
+            <c:if test="${item.imageList == null}">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+            </c:if>
+            <c:if test="${item.imageList != null}">
+                <c:forEach items="${item.imageList}" var="image" end="0" varStatus="status">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" class="active"
+                            aria-current="true" aria-label="Slide ${status.count}"></button>
+                </c:forEach>
+                <c:forEach items="${item.imageList}" var="image" begin="1" varStatus="status">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}"
+                            aria-label="Slide ${status.count + 1}"></button>
+                </c:forEach>
+            </c:if>
         </div>
         <div class="carousel-inner">
             <c:if test="${item.imageList == null}">
@@ -80,6 +84,7 @@
     </div>
     <hr>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end btnDetail">
+        ${item.writer}님 에게
         <button class="btn btn-primary" type="button">채팅하기</button>
         <button class="btn btn-primary" type="button">찜하기</button>
         <button class="btn btn-primary" type="button">신고하기</button>

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ImageRepository {
 
-    public void insert(ImageVO vo);
+    public int insert(ImageVO vo);
     public List<ImageVO> selectById(int id);
+    public List<ImageVO> selectAtFirst(List<Integer> list);
 }

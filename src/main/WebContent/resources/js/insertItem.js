@@ -38,7 +38,7 @@ function uploadHandler() {
     }
 
     $.ajax({
-        url: "/api/item/insert.do",
+        url: "/api/item/insert",
         data: formData,
         enctype: "multipart/form-data",
         processData: false,
@@ -117,10 +117,12 @@ function changeLoc1Select() {
         dataType: "json"
     }).done((data) => {
         console.log(data);
-        var selectEl = document.querySelector("#loc2");
-        selectEl.innerHTML = "";
+        var selectLoc2El = document.querySelector("#loc2");
+        var selectLoc3El = document.querySelector("#loc3");
+        selectLoc2El.innerHTML = "<option></option>";
+        selectLoc3El.innerHTML = "<option></option>";
         data.forEach((loc) => {
-            selectEl.innerHTML += optionEl(loc);
+            selectLoc2El.innerHTML += optionEl(loc);
         })
     });
 }
@@ -142,7 +144,7 @@ function changeLoc2Select() {
     }).done((data) => {
         console.log(data);
         var selectEl = document.querySelector("#loc3");
-        selectEl.innerHTML = "";
+        selectEl.innerHTML = "<option></option>";
         data.forEach((loc) => {
             selectEl.innerHTML += optionEl(loc);
         })

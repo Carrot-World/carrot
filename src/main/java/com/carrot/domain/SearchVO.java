@@ -1,21 +1,36 @@
 package com.carrot.domain;
 
-public class LocationVO {
+public class SearchVO {
+
+    private int category_id;
+    private String category_name;
     private String loc1;
     private String loc2;
     private String loc3;
 
-    public LocationVO() {
+    public SearchVO() {
     }
 
-    public LocationVO(String loc1, String loc2) {
+    public SearchVO(String loc1, String loc2, String loc3) {
         this.loc1 = loc1;
         this.loc2 = loc2;
+        this.loc3 = loc3;
     }
 
-    public LocationVO(String loc1) {
-        this.loc1 = loc1;
+    public int getCategory_id() {
+        return category_id;
+    }
 
+    public void setCategory_id(int category_id) {
+        this.category_id = category_id;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
     }
 
     public String getLoc1() {
@@ -44,8 +59,10 @@ public class LocationVO {
 
     @Override
     public String toString() {
-        return "LocationVO{" +
-                "loc1='" + loc1 + '\'' +
+        return "SearchVO{" +
+                "category_id=" + category_id +
+                ", category_name='" + category_name + '\'' +
+                ", loc1='" + loc1 + '\'' +
                 ", loc2='" + loc2 + '\'' +
                 ", loc3='" + loc3 + '\'' +
                 '}';

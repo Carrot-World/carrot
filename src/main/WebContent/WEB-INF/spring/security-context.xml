@@ -22,13 +22,13 @@
 				<security:intercept-url pattern="/page/success" access="hasRole('ROLE_ADMIN')" />
 				<security:intercept-url pattern="/api/signUp" access="permitAll" />
 				<security:intercept-url pattern="/api/join" access="permitAll" />
-				<security:intercept-url pattern="/api/item/insert.do" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/listItem" access="permitAll()" />
 				<security:intercept-url pattern="/page/insertItem" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/detail" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
-
+				<security:intercept-url pattern="/api/item/search" access="permitAll()" />
 
 				<security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"
