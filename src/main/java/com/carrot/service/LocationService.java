@@ -25,6 +25,7 @@ public class LocationService {
         for (LocationVO locationVO : locationList) {
             loc1.add(locationVO.getLoc1());
         }
+        loc1Arr = loc1;
         return loc1;
     }
     public List<String> loc2Set(LocationVO vo) {
