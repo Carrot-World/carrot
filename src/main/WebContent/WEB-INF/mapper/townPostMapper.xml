@@ -22,4 +22,8 @@
 	update town_post set read_cnt = read_cnt + 1 where id = #{id}
 </update>
 
+<update id="updatePost" parameterType="com.carrot.domain.TownPostVO">
+	update town_post set  title = #{title}, content=#{content} where id = #{id}
+</update>
+
 </mapper>

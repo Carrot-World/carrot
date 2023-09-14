@@ -39,7 +39,17 @@ public class TownPostController {
 	public String newpost() {
 		return "newpostsummernote";
 	}
+	
+	@RequestMapping("/page/editpost/{id}") // 게시물 수정 페이지
+	public String editPost(Model model, @PathVariable String id) throws Exception {
+		TownPostVO vo = new TownPostVO();
+		vo = townpostService.detailPost(id);
+		model.addAttribute("postdetail", vo);
+		return "editpostsummernote";
+	}	
 
+	
+	// 기능
 	@RequestMapping("/api/post/inspost") // 게시물 등록
 	public String insertPost(MultipartFile file, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -54,6 +64,14 @@ public class TownPostController {
 		townpostService.readCount(id); //조회수 증가
 		model.addAttribute("postdetail", vo);
 		return "postDetail";
+	}
+	
+
+	@RequestMapping("/api/post/updatepost/{id}") // 게시물 수정 버튼
+	public String updatePost(MultipartFile file, HttpServletRequest request, HttpServletResponse response,
+			@PathVariable String id) throws Exception {
+		townpostService.updatePost(file, request, response, id);
+		return "redirect:/page/detailpost/" + id;
 	}
 
 	@ResponseBody

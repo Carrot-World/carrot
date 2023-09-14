@@ -71,6 +71,14 @@ public class TownPostService {
 		return sqlSession.getMapper(TownPostRepository.class).readCount(id);
 	}
 	
+	public int updatePost(MultipartFile file, HttpServletRequest request, HttpServletResponse response, String id) throws Exception { //게시글 수정
+		TownPostVO vo = new TownPostVO();
+		vo.setTitle(request.getParameter("posttitle"));
+		vo.setContent(request.getParameter("editordata"));
+		vo.setId(Integer.parseInt(id));
+	return sqlSession.getMapper(TownPostRepository.class).updatePost(vo);
+	}
+	
 	public String imgTag(MultipartFile file) { //imgTag 변환
 		
 		String fileName;
