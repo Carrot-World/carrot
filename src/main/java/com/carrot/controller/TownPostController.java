@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +45,15 @@ public class TownPostController {
 			throws Exception {
 		townpostService.insertPost(file, request, response);
 		return "redirect:/page/postList";
+	}
+	
+	@RequestMapping("/page/detailpost/{id}") // 게시물 상세보기 , 조회수 증가
+	public String detailPost(Model model, @PathVariable String id) throws Exception {
+		TownPostVO vo = new TownPostVO();
+		vo = townpostService.detailPost(id);
+		townpostService.readCount(id); //조회수 증가
+		model.addAttribute("postdetail", vo);
+		return "postDetail";
 	}
 
 	@ResponseBody

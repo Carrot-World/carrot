@@ -63,6 +63,14 @@ public class TownPostService {
 		return sqlSession.getMapper(TownPostRepository.class).insertPost(vo);
 	}
 	
+	public TownPostVO detailPost(String id) { //게시글 상세보기
+		return sqlSession.getMapper(TownPostRepository.class).detailPost(id);
+	}
+	
+	public int readCount(String id) { //조회수
+		return sqlSession.getMapper(TownPostRepository.class).readCount(id);
+	}
+	
 	public String imgTag(MultipartFile file) { //imgTag 변환
 		
 		String fileName;
