@@ -19,6 +19,7 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous">
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="${pageContext.request.contextPath}/resources/css/detailItem.css?after" rel="stylesheet">
     <script defer src="${pageContext.request.contextPath}/resources/js/detailItem.js"></script>
 </head>
@@ -80,13 +81,13 @@
         <p id="article-content">
             ${fn:replace(item.content, replaceChar, "<br/>")}
         </p>
-        <p class="article-info">찜 5 ∙ 채팅 ${item.chat_cnt}</p>
+        <p class="article-info">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
     </div>
     <hr>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end btnDetail">
         ${item.writer}님 에게
         <button class="btn btn-primary" type="button">채팅하기</button>
-        <button class="btn btn-primary" type="button">찜하기</button>
+        <button class="btn btn-primary" type="button" id="hartBtn" value="${item.id}" value1="${item.hart_cnt}" name="${isHart == null ? "plus" : "minus"}" onclick="hartBtnHandler()">${isHart == null ? "찜하기" : "찜 취소"}</button>
         <button class="btn btn-primary" type="button">신고하기</button>
     </div>
 </div>

@@ -111,7 +111,7 @@
                             <h5 class="card-title">${item.title}</h5>
                             <p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</p>
                             <p class="location">${item.loc1} ${item.loc2} ${item.loc3}</p>
-                            <p class="count">찜 5 ∙ 채팅 ${item.chat_cnt}</p>
+                            <p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
                         </div>
                     </div>
                 </c:forEach>

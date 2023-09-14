@@ -33,4 +33,18 @@
         </where>
         order by created_at desc offset 0 rows fetch first 8 rows only
     </select>
+
+    <update id="hartPlus" parameterType="com.carrot.domain.HartVO">
+        update ITEM_POST set HART_CNT = HART_CNT + 1 where id = #{item_post_id}
+    </update>
+
+    <update id="hartMinus" parameterType="com.carrot.domain.HartVO">
+        update ITEM_POST set HART_CNT = HART_CNT
+        <if test="cnt > 0">
+            - 1 where id = #{item_post_id}
+        </if>
+        <if test="cnt == 0">
+            where id = 0
+        </if>
+    </update>
 </mapper>

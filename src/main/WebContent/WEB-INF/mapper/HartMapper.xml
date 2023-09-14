@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.repository.HartRepository">
+    <insert id="insert" parameterType="com.carrot.domain.HartVO">
+        insert into hart values (#{item_post_id}, #{user_id})
+    </insert>
+
+    <delete id="delete" parameterType="com.carrot.domain.HartVO">
+        delete from hart where user_id = #{user_id} and item_post_id = #{item_post_id}
+    </delete>
+
+    <select id="selectAtOne" parameterType="com.carrot.domain.HartVO">
+        select * from hart where user_id = #{user_id} and item_post_id = #{item_post_id}
+    </select>
+</mapper>

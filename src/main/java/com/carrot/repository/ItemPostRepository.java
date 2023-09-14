@@ -1,5 +1,6 @@
 package com.carrot.repository;
 
+import com.carrot.domain.HartVO;
 import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.SearchVO;
 
@@ -10,5 +11,7 @@ public interface ItemPostRepository {
     public List<ItemPostVO> selectAll();
     public ItemPostVO selectById(int id);
     public List<ItemPostVO> search(SearchVO vo);
+    public int hartPlus(HartVO vo);
+    public int hartMinus(HartVO vo);
 
 }
