@@ -33,10 +33,10 @@ public class UserService {
     }
     
     public int idCheck(String id) {
-		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
-
-		int cnt = mapper.idCheck(id);
-    	
-    	return cnt;
+    	return sqlSession.getMapper(UserRepository.class).idCheck(id);
+    }
+    
+    public int nicCheck(String nickname) {
+    	return sqlSession.getMapper(UserRepository.class).idCheck(nickname);
     }
 }

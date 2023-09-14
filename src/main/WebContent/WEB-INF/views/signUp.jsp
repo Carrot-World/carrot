@@ -12,7 +12,7 @@
     <link href="../resources/css/signUp.css?after" rel="stylesheet">
     <!-- 사용자 css -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
-    <script src="../resources/js/signUp.js" ></script>
+    <script defer src="../resources/js/signUp.js" ></script>
     
 <title>회원가입 페이지</title>
 </head>
@@ -54,14 +54,19 @@
 	          </div>
           </div>
 
-          <div class="mb-3">
+				 	<div class="row">
             <label for="email">이메일</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="id@example.com" required>
-          </div>
+	          <div class="col-md-8 mb-3">
+	            <input type="email" class="form-control" id="email" name="email" placeholder="id@example.com" required>
+	          </div>
+	          <div class="col-md-4 mb-3 button-row">
+          		<input type="button" id="btn-emailCheck" class="btn btn-primary btn-custom btn-block" value="인증 받기"/>
+	          </div>
+	        </div>  
 
-					<div class="row">
+					<div class="row loc-row">
             <label for="location">위치</label>
-	          <div class="col">
+	          <div class="col-md-4 mb-3">
     	        <select id="loc1" class="form-select" name="loc1" onchange="changeLoc1Select()">
     	        	<option selected disabled>도, 시</option>
                 <option value="강원특별자치도">강원특별자치도</option>
@@ -84,18 +89,18 @@
             	</select>
 		        </div>
 		        
-		        <div class="col">
+		        <div class="col-md-3 mb-3">
      	        <select id="loc2" class="form-select" name="loc2" onchange="changeLoc2Select()" >
     	        	<option selected disabled>구, 시</option>
             	</select>
             </div>
-            <div class="col">
+            <div class="col-md-3 mb-3">
      	        <select id="loc3" class="form-select" name="loc3">
     	        	<option selected disabled>동, 면, 읍</option>
             	</select>
             </div>
-            <div class="col-md-3">
-           		<input type="button" id="btn-myLoc" class="btn btn-primary btn-custom btn-block" value="내 위치"/>
+            <div class="col-md-2 mb-3 button-row">
+           		<input type="button" id="btn-myLoc" class="btn btn-primary btn-block" value="내 위치"/>
             </div>
           </div>
           
@@ -106,7 +111,7 @@
             <label class="custom-control-label" for="agreement">개인정보 수집 및 이용에 동의합니다.</label>
           </div><br/>
           <div class="register-row">
-         		<button class="btn btn-primary btn-custom btn-block" type="submit">가입</button>
+         		<button type="submit" id="submit" class="btn btn-primary btn-custom btn-block" >가입</button>
           	<input type="button" id="btn-cancel" class="btn btn-warning btn-custom btn-block" value="취소" />
           </div>
       </div>

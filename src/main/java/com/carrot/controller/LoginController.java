@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.carrot.domain.AuthVO;
@@ -107,12 +109,23 @@ public class LoginController {
 	return "imsiLoginSuccess";
 	}
     
+    @ResponseBody
     @PostMapping("/api/signup/idcheck")
-    public int idCheck(String id) {
+    public int idCheck(@RequestParam String id) {
+    	System.out.println("컨트롤러 왔음");
     	int cnt = 0;
     	cnt = userService.idCheck(id);
     	
     	return cnt;
     }
     
+    @ResponseBody
+    @PostMapping("/api/signup/niccheck")
+    public int nicCheck(@RequestParam String nickname) {
+    	System.out.println("컨트롤러 왔음");
+    	int cnt = 0;
+    	cnt = userService.idCheck(nickname);
+    	
+    	return cnt;
+    }
 }
