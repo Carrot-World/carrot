@@ -79,6 +79,11 @@ public class TownPostService {
 	return sqlSession.getMapper(TownPostRepository.class).updatePost(vo);
 	}
 	
+	public int deletePost(String id) { //게시글 삭제
+		return sqlSession.getMapper(TownPostRepository.class).deletePost(id);
+	}
+	
+	
 	public String imgTag(MultipartFile file) { //imgTag 변환
 		
 		String fileName;

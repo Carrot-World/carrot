@@ -73,6 +73,15 @@ public class TownPostController {
 		townpostService.updatePost(file, request, response, id);
 		return "redirect:/page/detailpost/" + id;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/api/post/delete") //게시물 삭제 버튼
+	public String delectPost(String id) {
+		System.out.println("deleteid : " + id);
+		townpostService.deletePost(id);
+		return "/page/postList";
+	}
+	
 
 	@ResponseBody
 	@RequestMapping("/api/image/image") // summernote에서 이미지 업로드시 img태그로 변환 (base64 -> url)

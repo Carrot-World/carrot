@@ -26,4 +26,8 @@
 	update town_post set  title = #{title}, content=#{content} where id = #{id}
 </update>
 
+<delete id="deletePost">
+	delete from town_post where id=#{id}
+</delete>
+
 </mapper>
