@@ -31,4 +31,12 @@ public class UserService {
         UserVO user = customuser.getUser();
         return new SearchVO(user.getLoc1(), user.getLoc2(), user.getLoc3());
     }
+    
+    public int idCheck(String id) {
+		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+
+		int cnt = mapper.idCheck(id);
+    	
+    	return cnt;
+    }
 }

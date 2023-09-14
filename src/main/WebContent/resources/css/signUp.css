@@ -11,10 +11,10 @@ body {
 }
 
 .input-form {
-	max-width: 680px;
+	max-width: 600px;
 	
 	margin-top: 80px;
-	padding: 32px;
+	padding: 50px;
 	
 	background: #fff;
 	-webkit-border-radius: 10px;
@@ -23,4 +23,31 @@ body {
 	-webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 	-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
 	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+}
+
+.btn-custom{
+	--bs-btn-padding-y: 0.35rem;
+  --bs-btn-padding-x: 1rem;
+  --bs-btn-font-size: 1.0rem;
+  --bs-btn-border-radius: 0.5rem;
+  margin-left: 12px;
+}
+
+.button-row{
+	display: flex;
+ 	justify-content: flex-end;
+}
+.register-row{
+	display: flex;
+	justify-content: flex-end;
+}
+
+.loc-row{
+    --bs-gutter-x: 0.7rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
 }

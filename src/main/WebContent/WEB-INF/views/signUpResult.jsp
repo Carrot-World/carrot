@@ -16,7 +16,7 @@ if(msg === "success") {
 }
 if(msg === "fail") {
     alert("회원가입 실패했습니다.");
-    location.href="/page/signUp;"
+    location.href="/page/signup;"
 }
 location.href="/page/login"
 </script>

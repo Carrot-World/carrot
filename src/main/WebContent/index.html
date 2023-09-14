@@ -6,8 +6,9 @@
   </head>
   <body>
     <h1>Index.html입니다.</h1>
-    <form>
-    <input type="submit">
-   </form>
+    <form action="logout" method="post">
+      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+      <button>로그아웃 버튼 입니다....</button>
+    </form>
   </body>
 </html>
