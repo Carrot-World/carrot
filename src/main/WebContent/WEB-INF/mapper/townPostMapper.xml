@@ -5,6 +5,10 @@
 
 <mapper namespace="com.carrot.repository.TownPostRepository">
 
+<select id="listByALL" resultType="com.carrot.domain.TownPostVO">
+	select * from town_post order by id desc  
+</select>
+
 <insert id="insertPost" parameterType="com.carrot.domain.TownPostVO">
 	insert into town_post ( id, title, content, writer, read_cnt, reply_cnt, loc1, loc2, loc3, created_at, category_id )
 	values ( town_post_id.nextval, #{title}, #{content}, #{writer}, 0, 0, #{loc1}, #{loc2}, #{loc3}, current_timestamp, #{category_id} )

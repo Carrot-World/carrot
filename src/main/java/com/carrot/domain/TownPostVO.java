@@ -8,7 +8,7 @@ public class TownPostVO {
 	private int id, read_cnt, reply_cnt, category_id;
 	private String title, content, writer, loc1, loc2, loc3;
 	private Date created_at;
-	
+	private String categoryName;
 	
 	
 	//getter setter
@@ -79,6 +79,13 @@ public class TownPostVO {
 	public void setCategory_id(int category_id) {
 		this.category_id = category_id;
 	} 
+	
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
 	
 
 }	

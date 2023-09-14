@@ -1,6 +1,9 @@
 package com.carrot.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.carrot.domain.CategoryVO;
 import com.carrot.domain.TownPostVO;
 import com.carrot.domain.UserVO;
+import com.carrot.repository.CategoryRepository;
 import com.carrot.repository.TownPostRepository;
 
 @Service
@@ -25,6 +30,24 @@ public class TownPostService {
 	
 	@Autowired
 	private AWSS3 AWSS3;
+	
+	private static HashMap <Integer, String> categoryNameMap;
+	private static boolean isSetCategory;
+	
+	public ArrayList<TownPostVO> listPost(){ //게시글 전체 조회
+
+		if (!isSetCategory) {
+			setCategoryName();
+        }
+		
+		ArrayList<TownPostVO> list = sqlSession.getMapper(TownPostRepository.class).listByALL();
+		
+		for ( TownPostVO townpostvo : list ) {
+			townpostvo.setCategoryName(categoryNameMap.get(townpostvo.getId()));
+		}
+		return list;
+	}
+	
 
 	public int insertPost(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception { //게시글 등록
 		
@@ -54,6 +77,18 @@ public class TownPostService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	//카테고리 id -> name 얻기
+	public void setCategoryName() {
+		
+		List<CategoryVO> list = new ArrayList<>();
+		list = sqlSession.getMapper(CategoryRepository.class).selecttownpostAll();
+		categoryNameMap = new HashMap();
+		for ( CategoryVO vo : list ) {
+			categoryNameMap.put(vo.getId(), vo.getName());
+		}
+		isSetCategory = true;
 	}
 
 }

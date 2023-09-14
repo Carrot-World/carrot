@@ -6,4 +6,8 @@
     <select id="selectAll" resultType="com.carrot.domain.CategoryVO">
         select * from CATEGORY order by id
     </select>
+    
+    <select id="selecttownpostAll" resultType="com.carrot.domain.CategoryVO">
+        select * from town_post_category order by id
+    </select>
 </mapper>
