@@ -7,13 +7,19 @@
     <insert id="insert" parameterType="com.carrot.domain.ImageVO">
         insert into image values(#{seq}, #{url}, #{item_post_id})
     </insert>
+
     <select id="selectById" resultType="com.carrot.domain.ImageVO">
         select * from image where item_post_id = #{id} order by seq
     </select>
+
     <select id="selectAtFirst" resultType="com.carrot.domain.ImageVO" parameterType="java.util.ArrayList">
         select * from IMAGE where seq = 0 and ITEM_POST_ID in
         <foreach collection="list" index="index" item="item_post_id" open="(" close=")" separator=",">
             #{item_post_id}
         </foreach>
     </select>
+
+    <delete id="delete" parameterType="int">
+        delete from IMAGE where ITEM_POST_ID = #{item_post_id}
+    </delete>
 </mapper>

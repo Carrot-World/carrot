@@ -31,16 +31,30 @@ public class ItemPostService {
         vo.setWriter(user.getNickname());
         vo.setCreated_at(new Date(System.currentTimeMillis()));
         if (sqlSession.getMapper(ItemPostRepository.class).insert(vo) > 0) {
-            AWSS3.uploadImage(vo.getId(), imageList);
-            for (int i = 0; i < imageList.size(); i++) {
-                String url = "https://carrot-world.s3.ap-northeast-2.amazonaws.com/";
-                String fileName = AWSS3.getFileName(vo.getId(), i, imageList.get(i));
-                if (imageService.insert(new ImageVO(vo.getId(), i, url + fileName)) != 1) {
-                    return -1;
-                }
-            }
+            return setImage(vo, imageList);
         } else {
             return -1;
+        }
+    }
+
+    public int update(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
+        if (sqlSession.getMapper(ItemPostRepository.class).update(vo) > 0) {
+            AWSS3.deleteImage(imageService.getImageFileName(vo.getId()));
+            imageService.delete(vo.getId());
+            return setImage(vo, imageList);
+        } else {
+            return -1;
+        }
+    }
+
+    public int setImage(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
+        AWSS3.uploadImage(vo.getId(), imageList);
+        for (int i = 0; i < imageList.size(); i++) {
+            String url = "https://carrot-world.s3.ap-northeast-2.amazonaws.com/";
+            String fileName = AWSS3.getFileName(vo.getId(), i, imageList.get(i));
+            if (imageService.insert(new ImageVO(vo.getId(), i, url + fileName)) != 1) {
+                return -1;
+            }
         }
         return 1;
     }
@@ -58,7 +72,13 @@ public class ItemPostService {
 
     public ItemPostVO detail(int id) {
         ItemPostVO itemPost = sqlSession.getMapper(ItemPostRepository.class).selectById(id);
-        itemPost.setImageList(imageService.selectById(id));
+        List<ImageVO> imageList = imageService.selectById(id);
+        if (!imageList.isEmpty()) {
+            itemPost.setImageList(imageService.selectById(id));
+        }
+        if (!isSetCategory) {
+            setCategoryMap();
+        }
         itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
         return itemPost;
     }

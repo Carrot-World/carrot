@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
@@ -55,6 +56,16 @@ public class AWSS3 {
                 PutObjectRequest request = new PutObjectRequest("carrot-world",
                         imageFileName, imageList.get(i).getInputStream(), metadata);
                 s3Client.putObject(request);
+            } catch (AmazonServiceException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void deleteImage(List<String> keys) {
+        for (String key : keys) {
+            try {
+                s3Client.deleteObject(new DeleteObjectRequest("carrot-world", key));
             } catch (AmazonServiceException e) {
                 e.printStackTrace();
             }

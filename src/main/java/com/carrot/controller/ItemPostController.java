@@ -6,8 +6,6 @@ import com.carrot.service.ItemPostService;
 import com.carrot.service.LocationService;
 import com.carrot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 @Controller
@@ -39,7 +37,9 @@ public class ItemPostController {
     @RequestMapping(value = "/page/detail", method = RequestMethod.GET)
     public String detailItem(int id, Model model) {
         if (userService.isAuthenticated()) {
-            model.addAttribute("isHart", hartService.isCheck(userService.getUserInfo(), id));
+            UserVO user = userService.getUserInfo();
+            model.addAttribute("isHart", hartService.isCheck(user, id));
+            model.addAttribute("user", user);
         }
         model.addAttribute("item", itemPostService.detail(id));
         return "detailItem";
@@ -62,7 +62,10 @@ public class ItemPostController {
     }
 
     @RequestMapping("/page/insertItem")
-    public String insertForm(Model model) {
+    public String insertForm(String itemId, Model model) {
+        if (itemId != null) {
+            model.addAttribute("item", itemPostService.detail(Integer.parseInt(itemId)));
+        }
         UserVO user = userService.getUserInfo();
         model.addAttribute("user", user);
         model.addAttribute("loc1List", locationService.loc1Set());
@@ -95,11 +98,10 @@ public class ItemPostController {
             return "/page/login";
         }
         vo.setUser_id(userService.getUserInfo().getId());
-        System.out.println(vo);
         if (hartService.plus(vo) == 2) {
             return "/page/detail?id=" + vo.getItem_post_id();
         } else {
-            return "/page/error";
+            return "accessDenied";
         }
     }
 
@@ -110,7 +112,29 @@ public class ItemPostController {
         if (hartService.minus(vo) > 0) {
             return "/page/detail?id=" + vo.getItem_post_id();
         } else {
-            return "/page/error";
+            return "accessDenied";
+        }
+    }
+
+    @RequestMapping("/page/updateForm")
+    public String updateForm(int item_id, String user_id, RedirectAttributes re) {
+        if (user_id.equals(userService.getUserInfo().getId())) {
+            re.addAttribute("itemId", String.valueOf(item_id));
+            return "redirect:/page/insertItem";
+        } else {
+            return "accessDenied";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/api/item/update")
+    public String update(ItemPostVO vo,
+                         @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
+
+        if (itemPostService.update(vo, imageList) == 1) {
+            return "/page/detail?id=" + vo.getId();
+        } else {
+            return "accessDenied";
         }
     }
 }

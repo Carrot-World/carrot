@@ -1,6 +1,3 @@
-var imgCnt = 0;
-var uploadFiles = [];
-
 function uploadHandler() {
     const title = document.querySelector("input#title").value;
     const price = document.querySelector("input#price").value;
@@ -37,25 +34,48 @@ function uploadHandler() {
         console.log(value);
     }
 
-    $.ajax({
-        url: "/api/item/insert",
-        data: formData,
-        enctype: "multipart/form-data",
-        processData: false,
-        contentType: false,
-        method: "post",
-        success: function () {
-            if (window.confirm("등록 되었습니다.")) {
-                window.location = '/page/listItem';
-            } else {
-                window.location = '/page/listItem';
+    const insertBtnEl = $("#insertBtn");
+    const insertBtnName = insertBtnEl.attr("name");
+    console.log("버튼이름: " + insertBtnName);
+    if (insertBtnName === "insert") {
+        $.ajax({
+            url: "/api/item/insert",
+            data: formData,
+            enctype: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            method: "post",
+            success: function () {
+                if (window.confirm("등록 되었습니다.")) {
+                    window.location = '/page/listItem';
+                } else {
+                    window.location = '/page/listItem';
+                }
+            },
+            error: function () {
+                alert("애러 발생 ㅜㅜ");
             }
-        },
-        error: function () {
-            alert("애러 발생 ㅜㅜ");
-        }
-    });
+        });
+    } else if (insertBtnName === "update") {
+        const id = insertBtnEl.attr("value");
+        formData.append("id", id);
+        $.ajax({
+            url: "/api/item/update",
+            data: formData,
+            enctype: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            method: "post",
+            dataType: "text"
+        }).done((result) => {
+            window.location = result;
+        })
+    }
+
 }
+
+var imgCnt = 0;
+var uploadFiles = [];
 
 function getImageFiles(e) {
     const files = e.currentTarget.files;
