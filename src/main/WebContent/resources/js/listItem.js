@@ -119,3 +119,12 @@ function searchBtnHandler() {
         })
     }
 }
+
+function pageMove(url) {
+    $.ajax({
+        url,
+        dataType: "text"
+    }).done((text) => {
+        $("div#component").html(text);
+    })
+}

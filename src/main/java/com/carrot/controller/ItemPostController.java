@@ -1,10 +1,7 @@
 package com.carrot.controller;
 
 import com.carrot.domain.*;
-import com.carrot.service.HartService;
-import com.carrot.service.ItemPostService;
-import com.carrot.service.LocationService;
-import com.carrot.service.UserService;
+import com.carrot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -24,6 +21,9 @@ public class ItemPostController {
 
     @Autowired
     private ItemPostService itemPostService;
+
+    @Autowired
+    private PagingService pagingService;
 
     @Autowired
     private LocationService locationService;
@@ -46,18 +46,20 @@ public class ItemPostController {
     }
 
     @RequestMapping("/page/listItem")
-    public String listItem(Model model) {
+    public String listItem(SearchVO vo, Model model) {
         if (userService.isAuthenticated()) {
             UserVO user = userService.getUserInfo();
             model.addAttribute("user", user);
-            model.addAttribute("list", itemPostService.search(userService.setUserLocation()));
+            model.addAttribute("list", itemPostService.search(pagingService.setInitPaging(userService.setUserLocation())));
             model.addAttribute("loc1List", locationService.loc1Set());
             model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
             model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
-            return "listItem";
+            model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
+        } else {
+            model.addAttribute("list", itemPostService.search(pagingService.setInitPaging(new SearchVO())));
+            model.addAttribute("loc1List", locationService.loc1Set());
+            model.addAttribute("page", pagingService.getPagingInfo(new SearchVO()));
         }
-        model.addAttribute("loc1List", locationService.loc1Set());
-        model.addAttribute("list", itemPostService.search(new SearchVO()));
         return "listItem";
     }
 
@@ -88,6 +90,12 @@ public class ItemPostController {
     @RequestMapping("/api/item/search")
     public String search(SearchVO vo, Model model) {
         model.addAttribute("list", itemPostService.search(vo));
+        model.addAttribute("list", itemPostService.search(pagingService.setPaging(vo)));
+        model.addAttribute("loc1List", locationService.loc1Set());
+        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
+        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
+        model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
+        model.addAttribute("searchInfo", vo);
         return "searchResult";
     }
 

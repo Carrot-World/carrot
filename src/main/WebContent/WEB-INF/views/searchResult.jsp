@@ -27,21 +27,34 @@
             </div>
         </c:forEach>
     </div>
-    <div class="footer">
-        <nav aria-label="...">
-            <ul class="pagination pagination-sm justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link">&laquo;</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">&raquo;</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    <c:if test="${page != null}">
+        <div class="footer">
+            <nav aria-label="...">
+                <ul class="pagination pagination-sm justify-content-center">
+                    <c:if test="${page.start != 1}">
+                        <li class="page-item">
+                            <a class="page-link"
+                               onclick="pageMove('/api/item/search?category_id=${searchInfo.category_id}&loc1=${searchInfo.loc1}&loc2=${searchInfo.loc2}&loc3=${searchInfo.loc3}&pageNo=${page.start - 1}')">
+                                &laquo;</a>
+                        </li>
+                    </c:if>
+                    <c:forEach var="i" begin="${page.start}" end="${page.end}">
+                        <li class="page-item ${i == page.current ? 'active' : ''}">
+                            <a class="page-link"
+                               onclick="pageMove('/api/item/search?category_id=${searchInfo.category_id}&loc1=${searchInfo.loc1}&loc2=${searchInfo.loc2}&loc3=${searchInfo.loc3}&pageNo=${i}')">
+                                    ${i}
+                            </a>
+                        </li>
+                    </c:forEach>
+                    <c:if test="${page.end != page.total}">
+                        <li class="page-item">
+                            <a class="page-link"
+                               onclick="pageMove('/api/item/search?category_id=${searchInfo.category_id}&loc1=${searchInfo.loc1}&loc2=${searchInfo.loc2}&loc3=${searchInfo.loc3}&pageNo=${page.end + 1}')">
+                                &raquo;</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </nav>
+        </div>
+    </c:if>
 </c:if>
