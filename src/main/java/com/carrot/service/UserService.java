@@ -39,7 +39,11 @@ public class UserService {
     }
     
     public int nicCheck(String nickname) {
-    	return sqlSession.getMapper(UserRepository.class).idCheck(nickname);
+    	return sqlSession.getMapper(UserRepository.class).nicCheck(nickname);
+    }
+    
+    public int emailCheck(String email) {
+    	return sqlSession.getMapper(UserRepository.class).emailCheck(email);
     }
     
     public UserVO selectById(String id) {

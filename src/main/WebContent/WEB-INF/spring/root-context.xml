@@ -38,5 +38,19 @@
     <bean id="s3client" class="com.amazonaws.services.s3.AmazonS3Client">
         <constructor-arg ref="credential"/>
     </bean>
-
+    
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="${google_id}"/>
+        <property name="password" value="${google_pwd}" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
+      </bean>  
 </beans>

@@ -1,12 +1,10 @@
 $("#btn-idCheck").click(function () {
-  //    e.preventDefault();
+  //e.preventDefault();
   var username = $("#id").val();
   var tokenInput = $("#token");
   var data = { id: username };
   data[tokenInput.attr("name")] = tokenInput.val();
 
-  console.log("ajax이전");
-  //alert("Button 아이디체크 Clicked!");
   if (username.search(/\s/) != -1) {
     alert("아이디에는 공백이 들어갈 수 없습니다.");
   } else {
@@ -34,14 +32,13 @@ $("#btn-idCheck").click(function () {
         },
       });
     } else {
-      alert("아이디를 입력해주세요.");
+      alert("아이디를  재입력해주세요.");
     }
   }
 });
 
 $("#btn-nicCheck").click(function (e) {
   e.preventDefault();
-  //alert("Button 닉네임체크 Clicked!");
   var nickname = $("#nickname").val();
   var tokenInput = $("#token");
   var data = { nickname: nickname };
@@ -62,7 +59,7 @@ $("#btn-nicCheck").click(function (e) {
         contentType: "application/x-www-form-urlencoded",
         success: function (cnt) {
           if (cnt > 0) {
-            alert("해당 닉네임 존재");
+            alert("해당 이메일 존재");
             $("#submit").attr("disabled", "disabled");
             $("#nickname").focus();
           } else {
@@ -76,15 +73,96 @@ $("#btn-nicCheck").click(function (e) {
         },
       });
     } else {
-      alert("닉네임을 입력해주세요.");
+      alert("닉네임을 재입력해주세요.");
     }
   }
 });
 
 $("#btn-emailCheck").click(function (e) {
   e.preventDefault();
-  alert("Button 이메일 인증버튼 Clicked!");
+
+  // alert("Button 이메일 인증버튼 Clicked!");
+
+  var email = $("#email").val();
+  var tokenInput = $("#token");
+  var data = { email: email };
+  data[tokenInput.attr("name")] = tokenInput.val();
+  //   var str = email;
+  //   str += "은 사용 가능합니다.";
+
+  $.ajax({
+    async: true,
+    type: "POST",
+    data,
+    url: "/api/signup/emailcheck",
+    dataType: "json",
+    contentType: "application/x-www-form-urlencoded",
+    success: function (cnt) {
+      if (cnt > 0) {
+        alert("해당 이메일 존재");
+        $("#submit").attr("disabled", "disabled");
+        $("#eamil").focus();
+      } else {
+        $("#submit").removeAttr("disabled");
+        $("#modal-text-email").val(email);
+        $("#res-authnum-text").val("");
+        $("#staticBackdrop").modal("show");
+        sendEmail();
+      }
+    },
+    error: function (error) {
+      alert("이메일을 재입력해주세요.");
+    },
+  });
 });
+
+function sendEmail() {
+  var email_auth_cd = "";
+  var eamil_auth_compl = false;
+
+  $("#res-authnum").click(function () {
+    if ($("#res-authnum-text").val() != email_auth_cd) {
+      alert("인증번호가 일치하지 않습니다.");
+      eamil_auth_compl = false;
+    }
+    if ($("#res-authnum-text").val() == email_auth_cd) {
+      alert("인증번호가 일치 합니다.");
+      eamil_auth_compl = true;
+    }
+  });
+
+  $("#request-authnum").click(function () {
+    eamil_auth_compl = false;
+    var email = $("#email").val();
+    var tokenInput = $("#token");
+    var data = { email: email };
+    data[tokenInput.attr("name")] = tokenInput.val();
+
+    $.ajax({
+      type: "POST",
+      url: "/api/sendemail",
+      data,
+      success: function (data) {
+        alert("인증번호가 발송되었습니다.");
+        email_auth_cd = data;
+      },
+      error: function (data) {
+        alert("메일 발송에 실패했습니다.");
+      },
+    });
+  });
+  $("#submit-email-auth").click(function () {
+    if (eamil_auth_compl == true) {
+      alert("인증이 완료되었습니다.");
+      $("#email").prop("readonly", true);
+      $("#email").attr("style", "background-color:#80808021;");
+      $("#staticBackdrop").modal("hide");
+    }
+    if (eamil_auth_compl == false) {
+      alert("인증이 완료되지 않았습니다.");
+    }
+  });
+}
 
 //DB 주소값 받아오기
 function changeLoc1Select() {
