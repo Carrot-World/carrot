@@ -50,13 +50,12 @@ public class TownPostService {
 	
 
 	public int insertPost(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception { //게시글 등록
-		
 		TownPostVO vo = new TownPostVO();
 		vo.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
 		UserVO user = userService.getUserInfo();
 		vo.setTitle(request.getParameter("posttitle"));
 		vo.setContent(request.getParameter("editordata"));
-		vo.setWriter(user.getNickname());
+		vo.setWriter(user.getId());
 		vo.setLoc1(user.getLoc1());
 		vo.setLoc2(user.getLoc2());
 		vo.setLoc3(user.getLoc3());
@@ -64,7 +63,11 @@ public class TownPostService {
 	}
 	
 	public TownPostVO detailPost(String id) { //게시글 상세보기
-		return sqlSession.getMapper(TownPostRepository.class).detailPost(id);
+		TownPostVO vo = new TownPostVO();
+		vo = sqlSession.getMapper(TownPostRepository.class).detailPost(id);
+		UserVO user = userService.selectById(vo.getWriter());
+		vo.setWriterNickname(user.getNickname());
+		return vo;
 	}
 	
 	public int readCount(String id) { //조회수
@@ -82,7 +85,6 @@ public class TownPostService {
 	public int deletePost(String id) { //게시글 삭제
 		return sqlSession.getMapper(TownPostRepository.class).deletePost(id);
 	}
-	
 	
 	public String imgTag(MultipartFile file) { //imgTag 변환
 		

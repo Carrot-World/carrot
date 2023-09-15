@@ -18,7 +18,6 @@ public interface TownPostRepository {
 	public ArrayList<TownPostVO> listByTitle();
 	
 	
-	
 	//게시글 등록
 	public int insertPost(TownPostVO vo);
 	//게시글 수정
@@ -27,11 +26,12 @@ public interface TownPostRepository {
 	public int deletePost(String postid);
 	//게시글 조회
 	public TownPostVO detailPost(String postid);
+
 	
 	//조회수 증가
 	public int readCount(String postid);
 	//댓글 수 증가
-	public int replyCount(String postid);
+	public int replyCount(int postid);
 	
 
 }

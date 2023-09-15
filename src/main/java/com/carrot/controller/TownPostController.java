@@ -1,5 +1,6 @@
 package com.carrot.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,12 +10,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.carrot.domain.ReplyVO;
 import com.carrot.domain.TownPostVO;
 import com.carrot.service.TownPostService;
 
@@ -77,7 +80,6 @@ public class TownPostController {
 	@ResponseBody
 	@RequestMapping("/api/post/delete") //게시물 삭제 버튼
 	public String delectPost(String id) {
-		System.out.println("deleteid : " + id);
 		townpostService.deletePost(id);
 		return "/page/postList";
 	}
