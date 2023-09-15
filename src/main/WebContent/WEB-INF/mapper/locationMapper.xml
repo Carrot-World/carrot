@@ -8,10 +8,34 @@
     </select>
 
     <select id="selectByLoc1" resultType="com.carrot.domain.LocationVO" parameterType="com.carrot.domain.LocationVO">
-        select distinct loc2 from LOCATION where loc1 = #{loc1} order by loc2
+        select distinct loc2 from LOCATION
+        <where>
+            <if test="loc1 == null">
+                loc1 = ''
+            </if>
+            <if test="loc1 != null">
+                loc1 = #{loc1}
+            </if>
+        </where>
+        order by loc2
     </select>
 
     <select id="selectByLoc2" resultType="com.carrot.domain.LocationVO" parameterType="com.carrot.domain.LocationVO">
-        select distinct loc3 from LOCATION where loc1 = #{loc1} and loc2 = #{loc2} order by loc3
+        select distinct loc3 from LOCATION
+        <where>
+            <if test="loc1 == null">
+                loc1 = ''
+            </if>
+            <if test="loc1 != null">
+                loc1 = #{loc1}
+            </if>
+            <if test="loc2 == null">
+                and loc2 = ''
+            </if>
+            <if test="loc2 != null">
+                and loc2 = #{loc2}
+            </if>
+        </where>
+        order by loc3
     </select>
 </mapper>

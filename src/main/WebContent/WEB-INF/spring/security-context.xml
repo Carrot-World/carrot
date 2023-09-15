@@ -34,6 +34,20 @@
 				<security:intercept-url pattern="/page/updateForm" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
+				
+				
+				<security:intercept-url pattern="/page/newpost" access="permitAll" />
+				<security:intercept-url pattern="/page/townpost" access="permitAll" />
+				<security:intercept-url pattern="/page/detailpost" access="permitAll" />
+				<security:intercept-url pattern="/page/editpost" access="permitAll" />
+				<security:intercept-url pattern="/page/postList" access="permitAll" />
+				<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
+				<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
+				<security:intercept-url pattern="/api/image/image" access="permitAll" />
+				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
+				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
+				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />				
+				
 
 				<security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"/>

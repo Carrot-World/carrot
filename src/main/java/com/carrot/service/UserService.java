@@ -45,4 +45,9 @@ public class UserService {
     public int emailCheck(String email) {
     	return sqlSession.getMapper(UserRepository.class).emailCheck(email);
     }
+    
+    public UserVO selectById(String id) {
+    	return sqlSession.getMapper(UserRepository.class).selectById(id);
+    }
+    
 }

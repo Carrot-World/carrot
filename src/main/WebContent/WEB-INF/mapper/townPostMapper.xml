@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.carrot.repository.TownPostRepository">
+
+<select id="listByALL" resultType="com.carrot.domain.TownPostVO">
+	select * from town_post order by id desc  
+</select>
+
+<insert id="insertPost" parameterType="com.carrot.domain.TownPostVO">
+	insert into town_post ( id, title, content, writer, read_cnt, reply_cnt, loc1, loc2, loc3, created_at, category_id )
+	values ( town_post_id.nextval, #{title}, #{content}, #{writer}, 0, 0, #{loc1}, #{loc2}, #{loc3}, #{created_at}, #{category_id} )
+</insert>
+
+<select id="detailPost" resultType="com.carrot.domain.TownPostVO">
+	select * from town_post where id = #{id}
+</select>
+
+<update id="readCount">
+	update town_post set read_cnt = read_cnt + 1 where id = #{id}
+</update>
+
+<update id="updatePost" parameterType="com.carrot.domain.TownPostVO">
+	update town_post set  title = #{title}, content=#{content} where id = #{id}
+</update>
+
+<delete id="deletePost">
+	delete from town_post where id=#{id}
+</delete>
+
+<insert id="insertReply" parameterType="com.carrot.domain.ReplyVO" >
+	insert into reply (id, town_post_id, content, created_at, writer, nickname )
+	values ( reply_id.nextval, #{townPostId}, #{content}, #{created_at}, #{writer}, #{nickname} )
+</insert>
+
+<update id="replyCount">
+	update town_post set reply_cnt = reply_cnt + 1 where id = #{id}
+</update>
+
+<select id="replList" resultType="com.carrot.domain.ReplyVO">
+	select TOWN_POST_ID as townPostId, PARENT, CONTENT, CREATED_AT, WRITER, NICKNAME from reply where town_post_id=#{id}
+</select>
+
+</mapper>

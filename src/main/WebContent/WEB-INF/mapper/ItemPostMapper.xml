@@ -15,8 +15,22 @@
         where id = #{id}
     </update>
 
-    <select id="selectAll" resultType="com.carrot.domain.ItemPostVO">
-        select * from item_post order by CREATED_AT desc offset 0 rows fetch first 8 rows only
+    <select id="selectCount" parameterType="com.carrot.domain.SearchVO" resultType="int">
+        select count(*) from item_post
+        <where>
+            <if test="category_id != 0">
+                category_id = #{category_id}
+            </if>
+            <if test="loc1 != null">
+                and loc1 = #{loc1}
+            </if>
+            <if test="loc2 != null">
+                and loc2 = #{loc2}
+            </if>
+            <if test="loc3 != null">
+                and loc3 = #{loc3}
+            </if>
+        </where>
     </select>
 
     <select id="selectById" resultType="com.carrot.domain.ItemPostVO" parameterType="int">
@@ -39,7 +53,7 @@
                 and loc3 = #{loc3}
             </if>
         </where>
-        order by created_at desc offset 0 rows fetch first 8 rows only
+        order by id desc offset #{pageStartCnt} rows fetch first #{pageSize} rows only
     </select>
 
     <update id="hartPlus" parameterType="com.carrot.domain.HartVO">

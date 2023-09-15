@@ -1,12 +1,14 @@
 package com.carrot.domain;
 
 public class SearchVO {
-
     private int category_id;
-    private String category_name;
     private String loc1;
     private String loc2;
     private String loc3;
+    private int pageNo;
+    private String category_name;
+    private int pageStartCnt;
+    private int pageSize;
 
     public SearchVO() {
     }
@@ -57,6 +59,30 @@ public class SearchVO {
         this.loc3 = loc3;
     }
 
+    public int getPageStartCnt() {
+        return pageStartCnt;
+    }
+
+    public void setPageStartCnt(int pageStartCnt) {
+        this.pageStartCnt = pageStartCnt;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
+
     @Override
     public String toString() {
         return "SearchVO{" +
@@ -65,6 +91,9 @@ public class SearchVO {
                 ", loc1='" + loc1 + '\'' +
                 ", loc2='" + loc2 + '\'' +
                 ", loc3='" + loc3 + '\'' +
+                ", pageStartCnt=" + pageStartCnt +
+                ", pageNo=" + pageNo +
+                ", pageSize=" + pageSize +
                 '}';
     }
 }
