@@ -1,8 +1,9 @@
 package com.carrot.repository;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 
+import com.carrot.domain.ReplyVO;
 import com.carrot.domain.TownPostVO;
 
 public interface TownPostRepository {
@@ -27,6 +28,12 @@ public interface TownPostRepository {
 	//게시글 조회
 	public TownPostVO detailPost(String postid);
 
+	
+	//댓글 등록
+	public int insertReply(ReplyVO vo);
+	//댓글 조회
+	public List<ReplyVO> replList(String postid);
+	
 	
 	//조회수 증가
 	public int readCount(String postid);

@@ -21,19 +21,6 @@
 				<security:intercept-url pattern="/page/signUp" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/signUpResult" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/success" access="hasRole('ROLE_ADMIN')" />
-				
-				
-				<security:intercept-url pattern="/page/newpost" access="permitAll" />
-				<security:intercept-url pattern="/page/townpost" access="permitAll" />
-				<security:intercept-url pattern="/page/detailpost" access="permitAll" />
-				<security:intercept-url pattern="/page/editpost" access="permitAll" />
-				<security:intercept-url pattern="/page/postList" access="permitAll" />
-				<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
-				<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
-				<security:intercept-url pattern="/api/image/image" access="permitAll" />
-				<security:intercept-url pattern="/api/post/insreply" access="permitAll" />
-				
-				
 				<security:intercept-url pattern="/api/signUp" access="permitAll" />
 				<security:intercept-url pattern="/api/join" access="permitAll" />
 				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
@@ -47,6 +34,20 @@
 				<security:intercept-url pattern="/page/updateForm" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
+				
+				
+				<security:intercept-url pattern="/page/newpost" access="permitAll" />
+				<security:intercept-url pattern="/page/townpost" access="permitAll" />
+				<security:intercept-url pattern="/page/detailpost" access="permitAll" />
+				<security:intercept-url pattern="/page/editpost" access="permitAll" />
+				<security:intercept-url pattern="/page/postList" access="permitAll" />
+				<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
+				<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
+				<security:intercept-url pattern="/api/image/image" access="permitAll" />
+				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
+				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
+				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />				
+				
 
 				<security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"/>

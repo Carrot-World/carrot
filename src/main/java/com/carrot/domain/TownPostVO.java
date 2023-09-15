@@ -1,6 +1,7 @@
 package com.carrot.domain;
 
 import java.util.Date;
+import java.util.List;
 
 public class TownPostVO {
 	
@@ -9,6 +10,7 @@ public class TownPostVO {
 	private String title, content, writer, loc1, loc2, loc3;
 	private Date created_at;
 	private String categoryName, writerNickname;
+	private List<ReplyVO> replylist;
 	
 	
 	//getter setter
@@ -94,6 +96,21 @@ public class TownPostVO {
 		this.writerNickname = writerNickname;
 	}
 	
+	public List<ReplyVO> getReplylist() {
+		return replylist;
+	}
+	public void setReplylist(List<ReplyVO> replylist) {
+		this.replylist = replylist;
+	}
+	
+	@Override
+	public String toString() {
+		return "TownPostVO [id=" + id + ", read_cnt=" + read_cnt + ", reply_cnt=" + reply_cnt + ", category_id="
+				+ category_id + ", title=" + title + ", content=" + content + ", writer=" + writer + ", loc1=" + loc1
+				+ ", loc2=" + loc2 + ", loc3=" + loc3 + ", created_at=" + created_at + ", categoryName=" + categoryName
+				+ ", writerNickname=" + writerNickname + ", replylist=" + replylist + "]";
+	}
 
+	
 }	
 

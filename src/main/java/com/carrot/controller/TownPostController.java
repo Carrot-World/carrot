@@ -1,6 +1,7 @@
 package com.carrot.controller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.domain.ReplyVO;
 import com.carrot.domain.TownPostVO;
+import com.carrot.domain.UserVO;
 import com.carrot.service.TownPostService;
+import com.carrot.service.UserService;
 
 @Controller
 public class TownPostController {
@@ -29,6 +33,9 @@ public class TownPostController {
 
 	@Autowired
 	private TownPostService townpostService;
+	
+	@Autowired
+	private UserService userService;
 
 	// 페이지 이동
 	@RequestMapping("/page/postList") // 게시물 목록조회 (전체조회)
@@ -82,6 +89,15 @@ public class TownPostController {
 	public String delectPost(String id) {
 		townpostService.deletePost(id);
 		return "/page/postList";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/api/post/insertreply") //댓글 등록 버튼
+	public ReplyVO insertReply(@RequestBody ReplyVO reply) {
+		ReplyVO vo = new ReplyVO();
+		vo = townpostService.insertReply(reply);
+		townpostService.replyCount(reply.getTownPostId());
+		return vo; 
 	}
 	
 
