@@ -7,8 +7,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
     <!-- 부트스트랩 -->
-<!--     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
- -->    <!-- 부트스트랩 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 부트스트랩 -->
     <link href="../resources/css/signUp.css?after" rel="stylesheet">
     <!-- 사용자 css -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
@@ -121,6 +121,39 @@
       <p class="mb-1">&copy; (주) 공윤배</p>
     </footer>
   </div>
+	
+	
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+  Launch static backdrop modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">이메일 인증</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body row">
+      
+      	<div id="custom-modal-row" class="mb-3" >
+	        <input type="text" id="modal-text-email" class="modal-text" readonly="readonly"/>
+	        <input type="button" id="request-authnum" value="인증 요청">
+        </div>
+        <div id="custom-modal-row" class="mb-3">
+        	<input type="text" id="res-authnum-text" class="modal-text"/>
+        	<input type="button" id="res-authnum" value="인증 확인">
+	       <!--  <input type="text" id="time-limit" value="유효시간" size="6"> -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="submit-email-auth">확인</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+      </div>
+    </div>
+  </div>
+</div>
 	
 </body>
 </html>

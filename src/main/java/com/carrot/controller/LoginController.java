@@ -31,6 +31,7 @@ public class LoginController {
 	@Autowired 
 	BCryptPasswordEncoder encoder;
 	
+	
 	@GetMapping("/page/login")
     public String login() {
 		System.out.println("로그인페이지로 이동");
@@ -51,9 +52,6 @@ public class LoginController {
     	
     	UserVO vo = new UserVO(id, nickname, encodepw, email, loc1, loc2, loc3);
     	AuthVO authVo = new AuthVO(id);
-    	System.out.println(loc1);
-    	System.out.println(loc2);
-    	System.out.println(loc3);
 		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 
 		int result = mapper.signUp(vo);
@@ -112,7 +110,6 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/api/signup/idcheck")
     public int idCheck(@RequestParam String id) {
-    	System.out.println("컨트롤러 왔음");
     	int cnt = 0;
     	cnt = userService.idCheck(id);
     	
@@ -122,10 +119,19 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/api/signup/niccheck")
     public int nicCheck(@RequestParam String nickname) {
-    	System.out.println("컨트롤러 왔음");
     	int cnt = 0;
-    	cnt = userService.idCheck(nickname);
+    	cnt = userService.nicCheck(nickname);
     	
     	return cnt;
     }
+    
+    @ResponseBody
+    @PostMapping("/api/signup/emailcheck")
+    public int emailCheck(@RequestParam String email) {
+    	int cnt = 0;
+    	cnt = userService.emailCheck(email);
+    	
+    	return cnt;
+    }
+
 }

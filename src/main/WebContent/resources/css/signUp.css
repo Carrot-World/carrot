@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 body {
 	min-height: 100vh;
 	
@@ -51,10 +52,20 @@ body {
     margin-right: calc(-.5 * var(--bs-gutter-x));
     margin-left: calc(-.5 * var(--bs-gutter-x));
 }
-
 #btn-myLoc{
 		--bs-btn-padding-y: 0.35rem;
   --bs-btn-padding-x: 0.3rem;
   --bs-btn-font-size: 1.0rem;
   --bs-btn-border-radius: 0.5rem;
+}
+
+.modal-text{
+	width: 250px;
+}
+#modal-text-email{
+	background-color: #80808021;
+}
+#custom-modal-row{
+	display: flex;
+	justify-content: space-around;
 }

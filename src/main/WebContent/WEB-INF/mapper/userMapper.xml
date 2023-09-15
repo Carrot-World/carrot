@@ -24,4 +24,12 @@
 		<select id="idCheck" parameterType="String" resultType="Integer">
       SELECT count(*) FROM user_info WHERE id = #{id}
     </select>
+    
+ 		<select id="nicCheck" parameterType="String" resultType="Integer">
+      SELECT count(*) FROM user_info WHERE nickname = #{nickname}
+    </select>
+    
+ 		<select id="emailCheck" parameterType="String" resultType="Integer">
+      SELECT count(*) FROM user_info WHERE email = #{email}
+    </select>
 </mapper>	

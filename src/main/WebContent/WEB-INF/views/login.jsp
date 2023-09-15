@@ -81,13 +81,11 @@
                 	</div>
                 </button>
               </div>
-
            
           </div>
         </div>
       </div>
     </div>
   </div>
-
 </body>
 </html>
