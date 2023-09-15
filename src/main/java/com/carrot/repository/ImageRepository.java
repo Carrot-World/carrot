@@ -9,4 +9,5 @@ public interface ImageRepository {
     public int insert(ImageVO vo);
     public List<ImageVO> selectById(int id);
     public List<ImageVO> selectAtFirst(List<Integer> list);
+    public void delete(int item_post_id);
 }

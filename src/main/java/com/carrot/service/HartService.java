@@ -25,15 +25,11 @@ public class HartService {
     }
 
     public int minus(HartVO vo) {
-        System.out.println("minus Service");
-        System.out.println(vo);
         int minus = sqlSession.getMapper(ItemPostRepository.class).hartMinus(vo);
-        System.out.println("minus : " + minus);
         if (minus < 1) {
             return -1;
         } else {
             int delete = sqlSession.getMapper(HartRepository.class).delete(vo);
-            System.out.println("delete result : " + delete);
             return delete;
         }
     }

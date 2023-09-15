@@ -7,14 +7,22 @@
     <insert id="insert" parameterType="com.carrot.domain.ItemPostVO"
             useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into item_post values(item_post_id.nextval, #{title}, #{content}, #{loc1}, #{loc2}, #{loc3},
-        #{writer}, 0, #{price}, 0, #{category_id}, #{created_at})
+        #{writer}, 0, #{price}, 0, #{category_id}, #{created_at}, #{hart_cnt})
     </insert>
+
+    <update id="update" parameterType="com.carrot.domain.ItemPostVO">
+        update ITEM_POST set TITLE = #{title}, CONTENT = #{content}, PRICE = #{price}, CATEGORY_ID = #{category_id}
+        where id = #{id}
+    </update>
+
     <select id="selectAll" resultType="com.carrot.domain.ItemPostVO">
         select * from item_post order by CREATED_AT desc offset 0 rows fetch first 8 rows only
     </select>
+
     <select id="selectById" resultType="com.carrot.domain.ItemPostVO" parameterType="int">
         select * from ITEM_POST where id = #{id}
     </select>
+
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
         select * from item_post
         <where>

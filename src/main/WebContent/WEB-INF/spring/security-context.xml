@@ -30,6 +30,10 @@
 				<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
 				<security:intercept-url pattern="/api/item/search" access="permitAll()" />
+				<security:intercept-url pattern="/api/item/update" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/updateForm" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
 
 				<security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"/>

@@ -33,7 +33,8 @@
             </c:if>
             <c:if test="${item.imageList != null}">
                 <c:forEach items="${item.imageList}" var="image" end="0" varStatus="status">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" class="active"
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}"
+                            class="active"
                             aria-current="true" aria-label="Slide ${status.count}"></button>
                 </c:forEach>
                 <c:forEach items="${item.imageList}" var="image" begin="1" varStatus="status">
@@ -45,7 +46,7 @@
         <div class="carousel-inner">
             <c:if test="${item.imageList == null}">
                 <div class="carousel-item active">
-                    <img src="../../resources/image/noImage.png" class="d-block w-100" alt="...">
+                    <img src="${pageContext.request.contextPath}/resources/image/noImage.png" class="d-block w-100" alt="...">
                 </div>
             </c:if>
             <c:if test="${item.imageList != null}">
@@ -85,10 +86,20 @@
     </div>
     <hr>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end btnDetail">
-        ${item.writer}님 에게
-        <button class="btn btn-primary" type="button">채팅하기</button>
-        <button class="btn btn-primary" type="button" id="hartBtn" value="${item.id}" value1="${item.hart_cnt}" name="${isHart == null ? "plus" : "minus"}" onclick="hartBtnHandler()">${isHart == null ? "찜하기" : "찜 취소"}</button>
-        <button class="btn btn-primary" type="button">신고하기</button>
+            <c:if test="${item.writer == user.nickname}">
+                내가 작성한 글~
+                <button class="btn btn-primary" type="button">판매완료</button>
+                <button class="btn btn-primary" type="button">삭제</button>
+                <button class="btn btn-primary" type="button" onclick="location.href='${pageContext.request.contextPath}/page/updateForm?item_id=${item.id}&user_id=${user.id}'">수정</button>
+            </c:if>
+            <c:if test="${item.writer != user.nickname}">
+                ${item.writer}님 에게
+                <button class="btn btn-primary" type="button">채팅하기</button>
+                <button class="btn btn-primary" type="button" id="hartBtn" value="${item.id}" value1="${item.hart_cnt}"
+                        name="${isHart == null ? "plus" : "minus"}"
+                        onclick="hartBtnHandler()">${isHart == null ? "찜하기" : "찜 취소"}</button>
+                <button class="btn btn-primary" type="button">신고하기</button>
+            </c:if>
     </div>
 </div>
 </body>

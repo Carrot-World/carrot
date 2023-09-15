@@ -17,7 +17,9 @@ public class UserService {
     private SqlSession sqlSession;
 
     public UserVO getUserInfo() {
-        return sqlSession.getMapper(UserRepository.class).selectById(SecurityContextHolder.getContext().getAuthentication().getName());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CustomUser customuser = (CustomUser) principal;
+        return customuser.getUser();
     }
 
     public boolean isAuthenticated() {

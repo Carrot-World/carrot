@@ -24,6 +24,10 @@ public class ImageService {
         return sqlSession.getMapper(ImageRepository.class).selectById(id);
     }
 
+    public void delete(int id) {
+        sqlSession.getMapper(ImageRepository.class).delete(id);
+    }
+
     public List<ItemPostVO> setFirstImage(List<ItemPostVO> itemPostList) {
         List<Integer> idArray = new ArrayList<>();
         for (ItemPostVO itemPost : itemPostList) {
@@ -41,6 +45,16 @@ public class ImageService {
             }
         }
         return itemPostList;
+    }
+
+    public List<String> getImageFileName(int id) {
+        List<ImageVO> imageList = sqlSession.getMapper(ImageRepository.class).selectById(id);
+        List<String> fileNames = new ArrayList<>();
+        for (ImageVO image : imageList) {
+            String[] url = image.getUrl().split("/");
+            fileNames.add(url[url.length - 1]);
+        }
+        return fileNames;
     }
 
 }
