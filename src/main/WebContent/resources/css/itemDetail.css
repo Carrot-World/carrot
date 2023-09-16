@@ -1,0 +1,237 @@
+* {
+    box-sizing: border-box;
+}
+
+/* header */
+a.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header {
+    width: 100%;
+    min-width: 1336px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.header > nav {
+    width: 80%;
+    min-width: 1336px;
+    margin: auto;
+}
+
+.min-width {
+    min-width: 1336px;
+}
+
+/* section */
+.section {
+    width: 100%;
+    margin-top: 70px;
+}
+
+.section > div {
+    width: 80%;
+    min-width: 1336px;
+    margin: auto;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* carousel */
+div.carousel {
+    margin: auto;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    margin-top: 16px;
+}
+
+div.carousel-inner,
+div.carousel-item {
+    height: 100%;
+}
+
+div.image-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+div.image-wrapper > img {
+    border-radius: 15px;
+}
+
+button.carousel-control-prev {
+    left: -75px;
+}
+
+span.carousel-control-prev-icon {
+    background-image: url("../image/left-arrow.svg");
+}
+
+button.carousel-control-next {
+    right: -75px;
+}
+
+span.carousel-control-next-icon {
+    background-image: url("../image/right-arrow.svg");
+}
+
+div.carousel-indicators {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    bottom: -30px;
+    gap: 10px;
+}
+
+div.carousel-indicators > button {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 5px;
+    border: 1px solid #fd7e14 !important;
+    background-color: #fd7e14 !important;
+}
+
+/* 유저정보카드 */
+.user-info {
+    margin-top: 56px !important;
+}
+
+.user-info-wrapper {
+    width: 700px;
+    height: 150px;
+    border: 1px solid rgb(248, 249, 250);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f2f5f9;
+    border-radius: 16px;
+    margin: auto;
+}
+
+#username {
+    font-weight: 700;
+    margin-bottom: 5px;
+    font-size: 30px;
+}
+
+#location {
+    display: block;
+    font-size: 20px;
+    padding-bottom: 10px;
+    position: relative;
+    font-weight: 500;
+}
+
+#location:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: #cbd6e9;
+    bottom: 0;
+    left: 0;
+}
+
+#dealCnt {
+    margin: 10px 0 0 0;
+    font-size: 14px;
+}
+
+button.update {
+    background-color: #fd7e14;
+    font-weight: bold;
+    color: #fff;
+}
+
+button.update:hover,
+button.update:active {
+    background-color: #fd7e14 !important;
+    font-weight: bold !important;
+    color: #fff !important;
+}
+
+/* 게시물 내용 */
+.post-wrapper {
+    width: 700px;
+    padding: 10px;
+    margin: auto;
+    margin-top: 16px;
+    margin-bottom: 20px;
+    border-bottom: solid 1px rgb(233, 236, 239);
+    border-top: solid 1px rgb(233, 236, 239);
+}
+
+.post-title {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.post-category,
+.post-like {
+    margin-top: 6px;
+    font-size: 16px;
+    color: rgb(134, 142, 150);
+}
+
+.post-content {
+    margin: 16px 0px;
+    line-height: 1.6;
+    font-size: 24px;
+}
+
+/* 가격 및 버튼 */
+div.price-card {
+    width: 700px;
+    height: 80px;
+    background-color: #f2f5f9;
+    border: 1px solid rgb(248, 249, 250);
+    padding: 20px;
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.button-wrapper {
+    display: flex;
+    height: 100%;
+    align-items: end;
+    gap: 12px;
+}
+
+.button-wrapper > button {
+    background-color: #fd7e14;
+    border: 1px solid #fd7e14;
+    color: #fff !important;
+}
+
+.button-wrapper > button:hover,
+.button-wrapper > button:active {
+    background-color: #fd7e14 !important;
+    color: #fff !important;
+}
+
+button.disabled {
+    background-color: #feb272 !important;
+    border: 1px solid #feb272 !important;
+}
+
+.price {
+    font-size: 26px;
+    font-weight: bold;
+}

@@ -1,0 +1,127 @@
+* {
+    box-sizing: border-box;
+}
+
+/* header */
+a.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header {
+    width: 100%;
+    min-width: 1336px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.header > nav {
+    width: 80%;
+    min-width: 1336px;
+    margin: auto;
+}
+
+.min-width {
+    min-width: 1336px;
+}
+
+/* section */
+.section {
+    width: 100%;
+    margin-top: 70px;
+}
+
+.section > div {
+    width: 80%;
+    min-width: 1336px;
+    margin: auto;
+}
+
+.img-wrapper {
+    min-width: 1336px !important;
+}
+
+/* 검색 UI */
+.search > * {
+    margin: 8px 0px;
+}
+
+.search > div {
+    display: flex;
+    justify-content: flex-start;
+    gap: 16px;
+    align-items: center;
+}
+
+select.form-select {
+    width: 150px;
+    display: inline;
+}
+
+.form-control {
+    width: 200px;
+    display: inline;
+}
+
+#currBtn {
+    background-color: #fd7e14;
+    font-weight: bold;
+}
+
+#searchBtn {
+    background-color: #198754;
+    font-weight: bold;
+}
+
+button {
+    color: #fff !important;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+/* 카드리스트 */
+div.items {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 30px;
+    justify-content: space-between;
+}
+
+div.items > div.card {
+    width: 270px;
+}
+
+div.card > img {
+    width: 100%;
+    height: 270px;
+}
+
+div.card p {
+    margin-bottom: 4px;
+}
+
+div.card .card-title {
+    font-size: 19px;
+}
+
+div.card .price {
+    font-weight: bold;
+}
+div.card .location {
+    font-size: 13px;
+}
+div.card .count {
+    font-size: 12px;
+    font-weight: 300;
+    color: #6c757d;
+}
+.section-footer {
+    margin-top: 16px !important;
+    display: flex;
+    justify-content: center;
+}

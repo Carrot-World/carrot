@@ -1,3 +1,7 @@
+$(window).scroll(function(){
+    $('.header').css('left', 0-$(this).scrollLeft());
+});
+
 function hartBtnHandler() {
     var el = $("#hartBtn");
     var id = el.attr("value");

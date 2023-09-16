@@ -1,3 +1,78 @@
+$(window).scroll(function () {
+    $('.header').css('left', 0 - $(this).scrollLeft());
+});
+
+const inputFile = document.querySelector("input#file");
+const uploadBtn = document.querySelector("button#upload");
+const imgContainer = document.querySelector("div.image-container");
+const mainImg = document.querySelector("div.image-wrapper > img");
+const files = [];
+const noImageUrl = "../image/noImage.png";
+
+function getSmallImageWrapper(src, index) {
+    return `
+				<div class="image-wrapper-small">
+						<img src="${src}" onclick="refreshMainImg(${index})"/>
+						<button type="button" class="btn-close btn-close-black" aria-label="Close" onclick="deleteBtnHandler(${index})"></button>
+				</div>
+				`
+}
+
+async function refreshContainer() {
+    let html = "";
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        html += await (getImageContainerHtml(file, i));
+    }
+    imgContainer.innerHTML = html;
+    refreshMainImg(0);
+}
+
+function refreshMainImg(index) {
+    if (files.length === 0 || index === undefined) {
+        mainImg.src = noImageUrl;
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        mainImg.src = e.target.result;
+    }
+    reader.readAsDataURL(files[index]);
+}
+
+function getImageContainerHtml(file, index) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            resolve(getSmallImageWrapper(e.target.result, index));
+        }
+        reader.readAsDataURL(file);
+    })
+}
+
+function uploadBtnHandler() {
+    if (files.length >= 5) {
+        alert("이미지 파일은 5개 까지만 업로드 가능합니다.");
+        return;
+    }
+    inputFile.click();
+}
+
+function inputFileHandler(e) {
+    const file = e.currentTarget.files[0];
+    files.push(file);
+    refreshContainer();
+    e.currentTarget.value = "";
+}
+
+function deleteBtnHandler(index) {
+    files.splice(index, 1);
+    refreshContainer();
+}
+
+inputFile.addEventListener("change", inputFileHandler);
+uploadBtn.addEventListener("click", uploadBtnHandler);
+
 function uploadHandler() {
     const title = document.querySelector("input#title").value;
     const price = document.querySelector("input#price").value;
@@ -10,9 +85,30 @@ function uploadHandler() {
     const content = document.querySelector("textarea#content").value;
     const token = document.querySelector("input#token");
 
+    if (title == null || title === "") {
+        alert("제목 입력 바람");
+        return;
+    }
+    if (price == null) {
+        alert("가격 입력 바람");
+        return;
+    }
+    if (addr1 == null || addr1 === "" || addr2 == null || addr2 === "" || addr3 == null || addr3 === "") {
+        alert("주소 모두 입력 바람");
+        return;
+    }
+    if (categoryId == null || categoryId === 0) {
+        alert("카테고리 입력 바람");
+        return;
+    }
+    if (content == null || content === "") {
+        alert("내용 입력 바람");
+        return;
+    }
+
     const formData = new FormData();
-    const files = document.querySelector("input[type=file]").files;
-    for (const file of uploadFiles) {
+    // const files = document.querySelector("input[type=file]").files;
+    for (const file of files) {
         formData.append("images", file);
     }
     formData.append("title", title);
@@ -47,9 +143,9 @@ function uploadHandler() {
             method: "post",
             success: function () {
                 if (window.confirm("등록 되었습니다.")) {
-                    window.location = '/page/listItem';
+                    window.location = '/page/itemList';
                 } else {
-                    window.location = '/page/listItem';
+                    window.location = '/page/itemList';
                 }
             },
             error: function () {
@@ -71,59 +167,8 @@ function uploadHandler() {
             window.location = result;
         })
     }
-
 }
 
-var imgCnt = 0;
-var uploadFiles = [];
-
-function getImageFiles(e) {
-    const files = e.currentTarget.files;
-    const imagePreview = document.querySelector('.upload');
-    console.log(typeof files, files);
-
-    if ([...files].length >= 6) {
-        alert('이미지는 최대 5개 까지 업로드가 가능합니다.');
-        return;
-    }
-
-    [...files].forEach(file => {
-        if (!file.type.match("image/.*")) {
-            alert('이미지 파일만 업로드가 가능합니다.');
-            return;
-        }
-
-        // 파일 갯수 검사
-        if (imgCnt < 5) {
-            uploadFiles.push(file);
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const preview = createElement(e, file);
-                imagePreview.appendChild(preview);
-            };
-            reader.readAsDataURL(file);
-            imgCnt++;
-        } else {
-            alert('이미지는 최대 5개 까지 업로드가 가능합니다.');
-        }
-    });
-}
-
-function createElement(e, file) {
-    const img = document.createElement('img');
-    img.setAttribute('src', e.target.result);
-    img.setAttribute('data-file', file.name);
-    img.setAttribute('class', 'img-thumbnail');
-    return img;
-}
-
-const realUpload = document.querySelector('.real-upload');
-const btnUpload = document.querySelector('#btnImgUpload');
-
-btnUpload.addEventListener('click', () => realUpload.click());
-realUpload.addEventListener('change', getImageFiles);
-
-//주소값 받아오기
 function changeLoc1Select() {
     var loc1Select = document.getElementById("loc1");
     var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
