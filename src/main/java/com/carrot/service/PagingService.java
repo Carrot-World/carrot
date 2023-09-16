@@ -14,12 +14,7 @@ public class PagingService {
     private SqlSession sqlSession;
 
     private final static int pageSize = 2;
-    private final static int pageBlock = 3;
-
-    public SearchVO setInitPaging(SearchVO vo) {
-        vo.setPageSize(pageSize);
-        return vo;
-    }
+    private final static int pageBlock = 5;
 
     public SearchVO setPaging(SearchVO vo) {
         searchInfoChecker(vo);
@@ -41,6 +36,7 @@ public class PagingService {
         pageVO.setCurrent(vo.getPageNo() == 0 ? 1 : vo.getPageNo());
         pageVO.setSize(pageSize);
         pageVO.setBlock(pageBlock);
+        pageVO.setCurrPageCnt(Math.abs(searchResultCnt - (pageVO.getCurrent() * pageSize)));
         return pageVO;
     }
 
@@ -53,6 +49,9 @@ public class PagingService {
         }
         if (vo.getLoc3() != null && vo.getLoc3().equals("")) {
             vo.setLoc3(null);
+        }
+        if (vo.getTitle() != null && vo.getTitle().equals("")) {
+            vo.setTitle(null);
         }
     }
 }
