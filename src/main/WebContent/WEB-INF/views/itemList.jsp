@@ -24,7 +24,6 @@
     <script defer src="${pageContext.request.contextPath}/resources/js/itemList.js"></script>
 </head>
 <body>
-<!-- <div class="min-width"></div> -->
 <div class="header bg-body-tertiary">
     <nav class="navbar">
         <a class="navbar-brand logo" href="#">

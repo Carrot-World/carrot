@@ -44,32 +44,12 @@
 <div class="section">
     <div class="section-header">
         <div class="image-wrapper">
-            <!-- <img src="../image/img.jpg" id="currImg"/> -->
             <img src="${pageContext.request.contextPath}/resources/image/noImage.png" id="currImg"/>
         </div>
         <input type="file" class="hidden" id="file" accept="image/*"/>
 
         <div class="image-container">
-            <!-- <div class="image-wrapper-small">
-                <img src="../image/img.jpg"/>
-                <button type="button" class="btn-close btn-close-black" aria-label="Close"></button>
-            </div>
-            <div class="image-wrapper-small">
-                <img src="../image/img.jpg"/>
-                <button type="button" class="btn-close btn-close-black" aria-label="Close"></button>
-            </div>
-            <div class="image-wrapper-small">
-                <img src="../image/img.jpg"/>
-                <button type="button" class="btn-close btn-close-black" aria-label="Close"></button>
-            </div>
-            <div class="image-wrapper-small">
-                <img src="../image/img.jpg"/>
-                <button type="button" class="btn-close btn-close-black" aria-label="Close"></button>
-            </div>
-            <div class="image-wrapper-small">
-                <img src="../image/img.jpg"/>
-                <button type="button" class="btn-close btn-close-black" aria-label="Close"></button>
-            </div> -->
+
         </div>
 
         <div class="button-wrapper">
@@ -143,8 +123,8 @@
 
             <label class="form-label">내용</label>
             <textarea class="form-control" id="content" name="content">${item == null ? "" : item.content}</textarea>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="button" class="btn btn-primary" id="insertBtn" value="${item == null ? "" : item.id}"
+            <div class="button-wrapper">
+                <button class="btn orange-btn" id="insertBtn" value="${item == null ? "" : item.id}"
                         name="${item == null ? "insert" : "update"}" onclick="uploadHandler()">
                     물품 ${item == null ? "등록" : "수정"}</button>
             </div>
