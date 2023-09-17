@@ -1,5 +1,7 @@
 package com.carrot.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,25 +19,31 @@ import com.carrot.domain.AuthVO;
 import com.carrot.domain.UserVO;
 import com.carrot.handler.CustomUser;
 import com.carrot.repository.UserRepository;
+import com.carrot.service.NaverLogin;
 import com.carrot.service.UserService;
 
 @Controller
 public class LoginController {
     
 	@Autowired
-	UserService userService; 
+	private UserService userService; 
 	
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSession sqlSession;
 	
 	@Autowired 
-	BCryptPasswordEncoder encoder;
+	private BCryptPasswordEncoder encoder;
 	
+	@Autowired
+	private NaverLogin naverLogin;
 	
 	@GetMapping("/page/login")
-    public String login() {
-		System.out.println("로그인페이지로 이동");
-        return "login";
+    public String login(HttpSession session) {
+		String naverAuthUrl = naverLogin.getAuthorizationUrl(session);
+		session.setAttribute("naverAuthUrl", naverAuthUrl);
+		System.out.println("로그인 회원창");
+		System.out.println("네이버AuthUrl:" + naverAuthUrl);
+		return "login";
     }
 
     @GetMapping("/page/signup")
@@ -47,7 +55,6 @@ public class LoginController {
     @PostMapping("/api/signup")
     public String signUp(String id, String nickname, String password, String email, String loc1, String loc2, String loc3, RedirectAttributes redirectAttr) {
 		
-    	System.out.println("api/signUp");
     	String encodepw = encoder.encode(password);
     	
     	UserVO vo = new UserVO(id, nickname, encodepw, email, loc1, loc2, loc3);
@@ -76,16 +83,30 @@ public class LoginController {
     @GetMapping("/api/success")
     public String success(Model model) {
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
-		UserVO vo = mapper.selectById(authentication.getName());
-		System.out.println("auth: "+authentication);
-		System.out.println("authentication.getAuthorities().getClass():"+authentication.getAuthorities().getClass());
-		System.out.println("authentication.getAuthorities():"+authentication.getAuthorities());
-		model.addAttribute("user",vo);
-		model.addAttribute("msg",authentication.getName()+"님 어서오세요");
-
-        return "listItem";
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
+//		UserVO vo = mapper.selectById(authentication.getName());
+//		System.out.println("auth: "+authentication);
+//		System.out.println("authentication.getAuthorities().getClass():"+authentication.getAuthorities().getClass());
+//		System.out.println("authentication.getAuthorities():"+authentication.getAuthorities());
+//		model.addAttribute("user",vo);
+//		model.addAttribute("msg",authentication.getName()+"님 어서오세요");
+//
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		CustomUser customuser = (CustomUser)principal;
+//		
+//		System.out.println(customuser.getUser().getLoc1());
+//		System.out.println(customuser.getUser().getLoc2());
+//		System.out.println(customuser.getUser().getLoc3());
+//		if(customuser.getUser().getLoc1() == null ||
+//		   customuser.getUser().getLoc2() == null ||
+//		   customuser.getUser().getLoc3() == null) {
+//			model.addAttribute("req_locRegist", "locNull");
+//		}
+//		
+        return "imsiLoginSuccess";
+        
+        
     }
     
     @GetMapping("/access_denied")
@@ -133,5 +154,9 @@ public class LoginController {
     	
     	return cnt;
     }
-
+    
+    @GetMapping("/page/findid")
+    public String findid(String id) {
+		return "findId";
+    }
 }

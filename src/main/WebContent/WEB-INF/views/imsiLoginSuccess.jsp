@@ -3,8 +3,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script>
+	var locRegist = "${req_locRegist}";
+	console.log(locRegist); 
+	
+if('${req_locRegist}' == "loc_isNull"){
+		alert("지역 등록되어있지 않슴다 등록해주세요, 임시로그인석세스거쳐서 인서트아이템으로");
+		window.location.href = "/page/insertItem";
+	}
+	window.location.href = "/page/login"; 
+
+</script>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>임시 로그인 성공페이지</title>
 </head>
 <body>
 	<h3>임시 로그인 성공 페이지입니다.</h3><br/>
@@ -16,5 +28,15 @@
 	시/도: ${user.loc1}<br/>
 	시/군/구: ${user.loc2}<br/>
 	읍/면/동: ${user.loc3}<br/>
+	
+<!-- 	<script>
+	console.log(${req_locRegist});
+	if( ${req_locRegist} == locNull){
+		console.log("qkel영역")
+		alert("지역 등록되어있지 않슴다 등록해주세요");
+		  window.location.href = "/page/listItem";
+	}
+</script>
+	 -->
 </body>
 </html>
