@@ -85,14 +85,15 @@ public class ItemPostController {
         return "itemRegister";
     }
 
+    @ResponseBody
     @RequestMapping("/api/item/insert")
-    public ResponseEntity<Void> insert(ItemPostVO vo,
+    public String insert(ItemPostVO vo,
                                        @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
 
         if (itemPostService.insert(userService.getUserInfo(), vo, imageList) == 1) {
-            return ResponseEntity.ok().build();
+            return "/page/detail?id=" + vo.getId();
         } else {
-            return ResponseEntity.badRequest().build();
+            return "/page/itemRegister#";
         }
     }
 

@@ -133,6 +133,7 @@ function uploadHandler() {
     const insertBtnEl = $("#insertBtn");
     const insertBtnName = insertBtnEl.attr("name");
     console.log("버튼이름: " + insertBtnName);
+
     if (insertBtnName === "insert") {
         $.ajax({
             url: "/api/item/insert",
@@ -141,17 +142,19 @@ function uploadHandler() {
             processData: false,
             contentType: false,
             method: "post",
-            success: function () {
-                if (window.confirm("등록 되었습니다.")) {
-                    window.location = '/page/itemList';
-                } else {
-                    window.location = '/page/itemList';
-                }
-            },
+            dataType: "text",
             error: function () {
                 alert("애러 발생 ㅜㅜ");
             }
-        });
+        }).done((result) => {
+            if (result === "/page/itemRegister#") {
+                alert("문제 발생, 관리자에 문의 바람");
+            } else {
+                alert("등록 성공");
+            }
+            window.location = result;
+        })
+
     } else if (insertBtnName === "update") {
         const id = insertBtnEl.attr("value");
         formData.append("id", id);

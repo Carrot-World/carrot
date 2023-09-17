@@ -33,7 +33,6 @@ public class LocationService {
     }
     public List<String> loc2Set(LocationVO vo) {
         if (loc2Map.containsKey(vo.getLoc1())) {
-            System.out.println("투 동작!");
             return loc2Map.get(vo.getLoc1());
         }
         List<LocationVO> locationList = sqlSession.getMapper(LocationRepository.class).selectByLoc1(vo);
@@ -47,7 +46,6 @@ public class LocationService {
 
     public List<String> loc3Set(LocationVO vo) {
         if (loc3Map.containsKey(vo.getLoc2())) {
-            System.out.println("쓰리 동작!");
             return loc3Map.get(vo.getLoc2());
         }
         List<LocationVO> locationList = sqlSession.getMapper(LocationRepository.class).selectByLoc2(vo);
