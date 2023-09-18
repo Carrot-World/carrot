@@ -30,6 +30,9 @@
             <if test="loc3 != null">
                 and loc3 = #{loc3}
             </if>
+            <if test="title != null">
+                and title like '%' || #{title} || '%'
+            </if>
         </where>
     </select>
 
@@ -51,6 +54,9 @@
             </if>
             <if test="loc3 != null">
                 and loc3 = #{loc3}
+            </if>
+            <if test="title != null">
+                and title like '%' || #{title} || '%'
             </if>
         </where>
         order by id desc offset #{pageStartCnt} rows fetch first #{pageSize} rows only

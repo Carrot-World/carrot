@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 		<context:annotation-config />
-		
+
 		<bean id="customAccessDenied"	class="com.carrot.handler.CustomAccessDeniedHandler" />
 		<bean id="passwordEncoder"	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 		<bean id="loginSuccess" class="com.carrot.handler.CustomLoginSuccessHandler" />
@@ -27,8 +27,7 @@
 				<security:intercept-url pattern="/api/signup/callback/naver" access="permitAll" />
 				
 				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
-				<security:intercept-url pattern="/page/listItem" access="permitAll()" />
-				<security:intercept-url pattern="/page/insertItem" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/itemList" access="permitAll()" />
 				<security:intercept-url pattern="/page/detail" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
@@ -37,8 +36,9 @@
 				<security:intercept-url pattern="/page/updateForm" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
-				
-				
+        <security:intercept-url pattern="/page/itemRegister" access="isAuthenticated()" />
+
+
 				<security:intercept-url pattern="/page/newpost" access="permitAll" />
 				<security:intercept-url pattern="/page/townpost" access="permitAll" />
 				<security:intercept-url pattern="/page/detailpost" access="permitAll" />
@@ -50,20 +50,19 @@
 				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
 				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
 				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />				
-				
 				<security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"/>
-				
+
 				<security:logout logout-success-url="/page/listItem"/>
-				
+
 				<security:access-denied-handler ref="customAccessDenied" />
 		</security:http>
-		
+
 		<security:authentication-manager>
 				<security:authentication-provider user-service-ref="customUserDetails">
-				
+
 				<security:password-encoder ref="passwordEncoder" />
-				
+
 				</security:authentication-provider>
 		</security:authentication-manager>
 

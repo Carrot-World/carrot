@@ -62,5 +62,6 @@
         <url-pattern>*.css</url-pattern>
         <url-pattern>*.js</url-pattern>
         <url-pattern>*.png</url-pattern>
+        <url-pattern>*.jpeg</url-pattern>
     </servlet-mapping>
 </web-app>

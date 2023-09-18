@@ -5,6 +5,7 @@ public class SearchVO {
     private String loc1;
     private String loc2;
     private String loc3;
+    private String title;
     private int pageNo;
     private String category_name;
     private int pageStartCnt;
@@ -83,16 +84,25 @@ public class SearchVO {
         this.pageNo = pageNo;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public String toString() {
         return "SearchVO{" +
                 "category_id=" + category_id +
-                ", category_name='" + category_name + '\'' +
                 ", loc1='" + loc1 + '\'' +
                 ", loc2='" + loc2 + '\'' +
                 ", loc3='" + loc3 + '\'' +
-                ", pageStartCnt=" + pageStartCnt +
+                ", title='" + title + '\'' +
                 ", pageNo=" + pageNo +
+                ", category_name='" + category_name + '\'' +
+                ", pageStartCnt=" + pageStartCnt +
                 ", pageSize=" + pageSize +
                 '}';
     }
