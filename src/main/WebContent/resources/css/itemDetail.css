@@ -76,7 +76,7 @@ button.carousel-control-prev {
 }
 
 span.carousel-control-prev-icon {
-    background-image: url("../image/left-arrow.svg");
+    background-image: url("/resources/image/left-arrow.svg");
 }
 
 button.carousel-control-next {
@@ -84,7 +84,7 @@ button.carousel-control-next {
 }
 
 span.carousel-control-next-icon {
-    background-image: url("../image/right-arrow.svg");
+    background-image: url("/resources/image/right-arrow.svg");
 }
 
 div.carousel-indicators {
