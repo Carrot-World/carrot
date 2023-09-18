@@ -12,6 +12,7 @@ public interface ItemPostRepository {
     public int selectCount(SearchVO vo);
     public ItemPostVO selectById(int id);
     public List<ItemPostVO> search(SearchVO vo);
+    public List<ItemPostVO> selectByWriter(String writer);
     public int hartPlus(HartVO vo);
     public int hartMinus(HartVO vo);
 

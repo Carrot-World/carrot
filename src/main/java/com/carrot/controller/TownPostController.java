@@ -1,17 +1,13 @@
 package com.carrot.controller;
 
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.carrot.domain.LocationVO;
 import com.carrot.domain.ReplyVO;
+import com.carrot.domain.SearchVO;
 import com.carrot.domain.TownPostVO;
 import com.carrot.domain.UserVO;
+import com.carrot.service.LocationService;
+import com.carrot.service.PagingService;
 import com.carrot.service.TownPostService;
 import com.carrot.service.UserService;
 
@@ -29,25 +29,54 @@ import com.carrot.service.UserService;
 public class TownPostController {
 
 	@Autowired
-	SqlSession sqlSession;
-
-	@Autowired
 	private TownPostService townpostService;
 	
 	@Autowired
 	private UserService userService;
 
+    @Autowired
+    private LocationService locationService;
+
+	
+	@Autowired
+    private PagingService pagingService;
+	
 	// 페이지 이동
-	@RequestMapping("/page/postList") // 게시물 목록조회 (전체조회)
-	public String listPost(Model model, String searchCondition, Object searchKeyword) {
-		List<TownPostVO> list = townpostService.listPost();
-		model.addAttribute("postlist", list);
-		return "townpostlist";
+	@RequestMapping("/page/postList") //게시물 조회
+	public String searchPost(SearchVO vo, Model model) {
+		
+		System.out.println("searchvo : " + vo);
+        if (userService.isAuthenticated()) {
+            UserVO user = userService.getUserInfo();
+            model.addAttribute("user", user);
+            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(userService.setUserLocation())));
+            model.addAttribute("loc1List", locationService.loc1Set());
+            model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+            model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+            model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
+        } else {
+            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(new SearchVO())));
+            model.addAttribute("loc1List", locationService.loc1Set());
+            model.addAttribute("page", pagingService.getPagingInfo(new SearchVO()));
+        }
+		return "postList";
 	}
+	
+	 @RequestMapping("/api/post/search") //게시물 검색
+	    public String search(SearchVO vo, Model model) {
+	        model.addAttribute("list", townpostService.searchPost(vo));
+	        model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(vo)));
+	        model.addAttribute("loc1List", locationService.loc1Set());
+	        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
+	        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
+	        model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
+	        model.addAttribute("searchInfo", vo);
+	        return "searchPost";
+	    }
 	
 	@RequestMapping("/page/newpost") // 게시판 글 작성 페이지
 	public String newpost() {
-		return "newpostsummernote";
+		return "postRegister";
 	}
 	
 	@RequestMapping("/page/editpost/{id}") // 게시물 수정 페이지
@@ -55,7 +84,7 @@ public class TownPostController {
 		TownPostVO vo = new TownPostVO();
 		vo = townpostService.detailPost(id);
 		model.addAttribute("postdetail", vo);
-		return "editpostsummernote";
+		return "postEdit";
 	}	
 
 	
@@ -88,6 +117,8 @@ public class TownPostController {
 	@RequestMapping("/api/post/delete") //게시물 삭제 버튼
 	public String delectPost(String id) {
 		townpostService.deletePost(id);
+//		3. 게시글 삭제 시 댓글 모두 삭제
+		townpostService.deleteAllReply(id);
 		return "/page/postList";
 	}
 	
@@ -96,11 +127,23 @@ public class TownPostController {
 	public ReplyVO insertReply(@RequestBody ReplyVO reply) {
 		ReplyVO vo = new ReplyVO();
 		vo = townpostService.insertReply(reply);
-		townpostService.replyCount(reply.getTownPostId());
+		//댓글 수 증가
+		
 		return vo; 
 	}
 	
-
+	@ResponseBody
+	@RequestMapping("/api/post/deletereply") //댓글 삭제 버튼
+	public boolean deleteReply(@RequestBody String id) {
+		
+//		1. 댓글 삭제
+		townpostService.deleteReply(id);
+//		2. 원댓글 삭제 시 대댓글 함께 삭제
+		townpostService.deleteReReply(id);
+		
+		return true;
+	}
+	
 	@ResponseBody
 	@RequestMapping("/api/image/image") // summernote에서 이미지 업로드시 img태그로 변환 (base64 -> url)
 	public String SummerNoteImageFile(@RequestParam("file") MultipartFile file) {

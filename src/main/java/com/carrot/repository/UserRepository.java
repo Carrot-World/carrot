@@ -1,5 +1,6 @@
 package com.carrot.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.carrot.domain.AuthVO;
@@ -14,5 +15,9 @@ public interface UserRepository {
 	public int nicCheck(String nickname);
 	public int emailCheck(String email);
 	public UserVO selectById(String id);
+	
+	public int updateUser(UserVO vo); //회원정보수정
+	public int updatePwd(HashMap<String, String> map); //비밀번호 변경
+	public int withdrawSignUp(String id); //회원 탈퇴
 
 }

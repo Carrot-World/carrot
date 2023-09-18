@@ -5,10 +5,11 @@ import java.util.List;
 public class UserVO {
 	private String id, nickname, password, email, loc1, loc2, loc3;
 	private List<AuthVO> authList;
+	private int completed_cnt;
 	
 	
 	public UserVO(String id, String nickname, String password, String email, String loc1, String loc2, String loc3,
-			List<AuthVO> authList) {
+			List<AuthVO> authList, int completed_cnt) {
 		this.id = id;
 		this.nickname = nickname;
 		this.password = password;
@@ -17,6 +18,7 @@ public class UserVO {
 		this.loc2 = loc2;
 		this.loc3 = loc3;
 		this.authList = authList;
+		this.completed_cnt = completed_cnt;
 	}
 	
 	public UserVO(String id, String nickname, String password, String email, String loc1, String loc2, String loc3) {
@@ -111,13 +113,20 @@ public class UserVO {
 	public void setAuthList(List<AuthVO> authList) {
 		this.authList = authList;
 	}
+	
+	public int getCompleted_cnt() {
+		return completed_cnt;
+	}
 
+	public void setCompleted_cnt(int completed_cnt) {
+		this.completed_cnt = completed_cnt;
+	}
 
 	@Override
 	public String toString() {
-		return "userVO [id=" + id + ", nickname=" + nickname + ", password=" + password + ", email=" + email + ", loc1="
-				+ loc1 + ", loc2=" + loc2 + ", loc3=" + loc3 + ", authList=" + authList + "]";
+		return "UserVO [id=" + id + ", nickname=" + nickname + ", password=" + password + ", email=" + email + ", loc1="
+				+ loc1 + ", loc2=" + loc2 + ", loc3=" + loc3 + ", authList=" + authList + ", completed_cnt="
+				+ completed_cnt + "]";
 	}
-
 	
 }
