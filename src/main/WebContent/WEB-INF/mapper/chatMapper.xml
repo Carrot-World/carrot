@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.repository.ChatRepository">
+    <resultMap id="chatRoom" type="com.carrot.domain.ChatRoomVO">
+        <id property="id" column="id"/>
+        <result property="itemPostId" column="item_post_id"/>
+        <result property="buyer" column="buyer"/>
+        <result property="buyerName" column="buyer_name"/>
+        <result property="seller" column="seller"/>
+        <result property="sellerName" column="seller_name"/>
+        <result property="status" column="status"/>
+        <collection property="lastMessage" ofType="com.carrot.domain.ChatMessageVO">
+            <id property="id" column="chat_id"/>
+            <result property="writer" column="writer"/>
+            <result property="writerName" column="writer_name"/>
+            <result property="content" column="content"/>
+            <result property="createdAt" column="created_at"/>
+            <result property="roomId" column="chatting_room_id"/>
+            <result property="isRead" column="is_read"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="chatMessage" type="com.carrot.domain.ChatMessageVO">
+        <id property="id" column="id"/>
+        <result property="writer" column="writer"/>
+        <result property="writerName" column="writer_name"/>
+        <result property="content" column="content"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="roomId" column="chatting_room_id"/>
+        <result property="isRead" column="is_read"/>
+    </resultMap>
+
+    <select id="getAllChatRooms" resultMap="chatRoom" parameterType="java.lang.String">
+        select r.*, c.*, c.id as chat_id
+        from chatting_room r, chatting_content c
+        where r.last_message=c.id and (r.buyer = #{userId} or r.seller = #{userId})
+    </select>
+
+    <select id="getChatMessages" resultMap="chatMessage">
+        select * from chatting_content where chatting_room_id = #{id} order by created_at
+    </select>
+
+    <insert id="insertChatMessage" parameterType="com.carrot.domain.ChatMessageVO">
+        insert into chatting_content values (chatting_content_id.nextval, #{writer}, #{writerName}, #{content}, #{createdAt}, #{roomId}, ${isRead})
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select chatting_content_id.currval from dual
+        </selectKey>
+    </insert>
+
+    <update id="updateLastMessage" parameterType="hashMap">
+        update chatting_room set last_message=#{messageId} where id=#{roomId}
+    </update>
+</mapper>

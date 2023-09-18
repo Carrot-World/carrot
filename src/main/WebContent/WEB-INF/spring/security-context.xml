@@ -17,8 +17,6 @@
 		<bean id="customUserDetails"	class="com.carrot.handler.CustomUserDetails" />
 
 		<security:http>
-
-<!--				 <security:csrf disabled="true"/>-->
 				<security:intercept-url pattern="/page/login" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/signup" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/signup_res" access="isAnonymous()" />
@@ -49,8 +47,12 @@
 				<security:intercept-url pattern="/api/image/image" access="permitAll" />
 				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
 				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
-				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />				
-				<security:form-login login-page= "/page/login" 
+				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />
+      
+        <security:intercept-url pattern="/page/chat" access="isAuthenticated()"/>
+			  <security:intercept-url pattern="/api/conn" access="isAuthenticated()"/>
+				
+        <security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"/>
 
 				<security:logout logout-success-url="/page/listItem"/>
