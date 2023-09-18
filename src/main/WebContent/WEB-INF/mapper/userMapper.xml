@@ -34,6 +34,10 @@
  		<select id="emailCheck" parameterType="String" resultType="Integer">
       SELECT count(*) FROM user_info WHERE email = #{email}
     </select>
+    
+    <update id="updateUser" parameterType="com.carrot.domain.UserVO">
+    	update user_info set email=#{email}, nickname=#{nickname}, loc1=#{loc1}, loc2=#{loc2}, loc3=#{loc3} where id=#{id}
+    </update>
 
     <delete id="withdrawSignUp">
     	delete from user_info where id=#{id} and password=#{password}

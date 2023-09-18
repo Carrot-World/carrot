@@ -63,6 +63,10 @@ public class UserService {
     	return sqlSession.getMapper(UserRepository.class).signUp_auth(authVo);
     	
     }
+    
+    public int updateUser(UserVO vo) { //회원정보수정
+    	return sqlSession.getMapper(UserRepository.class).updateUser(vo);
+    }
 
     public boolean withdrawSignUp(String id, String password) { //회원탈퇴
     	String encodepw = encoder.encode(password);

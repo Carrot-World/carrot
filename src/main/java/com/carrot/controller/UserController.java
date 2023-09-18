@@ -41,6 +41,18 @@ public class UserController {
 	//페이징 이동
 	
 	
+	
+	
+	//기능
+	@ResponseBody
+	@RequestMapping("api/myPage/updateinfo") //회원 정보 수정
+	public boolean updateInfo(UserVO vo) {
+		System.out.println("update : " + vo);
+		userService.updateUser(vo);
+		return true;
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping("api/myPage/withdraw") //회원탈퇴
 	public String withdraw(@RequestBody HashMap<String, String> map) {

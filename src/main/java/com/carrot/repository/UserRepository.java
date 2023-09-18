@@ -15,6 +15,7 @@ public interface UserRepository {
 	public int emailCheck(String email);
 	public UserVO selectById(String id);
 	
+	public int updateUser(UserVO vo); //회원정보수정
 	public int withdrawSignUp(String id, String password); //회원 탈퇴
 
 }
