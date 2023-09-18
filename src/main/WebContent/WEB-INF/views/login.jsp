@@ -98,7 +98,7 @@ pageEncoding="UTF-8"%>
               <div class="d-grid mb-2">
                 <button class="btn btn-kakao btn-loginType fw-bold" 
                 onclick='location.href=
-                	"https://kauth.kakao.com/oauth/authorize?client_id=oDoWlZbhDhyangfu4Ln2gcW52Bm47iv1&redirect_uri=http://localhost:8080/api/callback/sns/kakao&response_type=code"'>
+                	"https://kauth.kakao.com/oauth/authorize?client_id=f79a580a7852275495f6384ff13085b4&redirect_uri=http://localhost:8080/api/signup/callback/kakao&response_type=code"'>
                   <div>
                     <img
                       class="btn-logo-size"

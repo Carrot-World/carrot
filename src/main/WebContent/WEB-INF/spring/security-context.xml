@@ -23,6 +23,7 @@
 				<security:intercept-url pattern="/api/success" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/signup" access="permitAll" />
 				<security:intercept-url pattern="/api/signup/callback/naver" access="permitAll" />
+				<security:intercept-url pattern="/api/signup/callback/google" access="permitAll" />
 				
 				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/itemList" access="permitAll()" />
@@ -55,7 +56,7 @@
         <security:form-login login-page= "/page/login" 
 				authentication-success-handler-ref="loginSuccess"/>
 
-				<security:logout logout-success-url="/page/listItem"/>
+				<security:logout logout-success-url="/page/itemList"/>
 
 				<security:access-denied-handler ref="customAccessDenied" />
 		</security:http>
