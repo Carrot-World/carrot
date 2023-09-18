@@ -19,15 +19,14 @@ public class EmailController {
 	@Autowired
 	private JavaMailSender mailSender;
 	
+
+	
 	@ResponseBody
 	@PostMapping("/api/sendemail")
 	public String emailAuth(@RequestParam String email) {		
-		
 		Random random = new Random();
 		int checkNum = random.nextInt(888889) + 111111;
 		
-		System.out.println(email+" 로 이메일 발송했음.");
-		/* 이메일 보내기 */
         String setFrom = "ssobuilt@gmail.com";
         String toMail = email;
         String title = "당근나라 회원가입 인증 이메일 입니다.";

@@ -7,6 +7,7 @@ public class PageVO {
     private int size;
     private int block;
     private int total;
+    private int currPageCnt;
 
     public PageVO() {
     }
@@ -59,6 +60,14 @@ public class PageVO {
         this.total = total;
     }
 
+    public int getCurrPageCnt() {
+        return currPageCnt;
+    }
+
+    public void setCurrPageCnt(int currPageCnt) {
+        this.currPageCnt = currPageCnt;
+    }
+
     @Override
     public String toString() {
         return "PageVO{" +
@@ -68,6 +77,7 @@ public class PageVO {
                 ", size=" + size +
                 ", block=" + block +
                 ", total=" + total +
+                ", currPageCnt=" + currPageCnt +
                 '}';
     }
 }

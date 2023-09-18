@@ -28,7 +28,7 @@ public class ItemPostService {
     private static boolean isSetCategory;
 
     public int insert(UserVO user, ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
-        vo.setWriter(user.getNickname());
+        vo.setWriter(user.getId());
         vo.setCreated_at(new Date(System.currentTimeMillis()));
         if (sqlSession.getMapper(ItemPostRepository.class).insert(vo) > 0) {
             return setImage(vo, imageList);

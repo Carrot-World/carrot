@@ -3,66 +3,68 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/security/oauth2 https://www.springframework.org/schema/security/spring-security-oauth2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 		<context:annotation-config />
-		
+
 		<bean id="customAccessDenied"	class="com.carrot.handler.CustomAccessDeniedHandler" />
 		<bean id="passwordEncoder"	class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 		<bean id="loginSuccess" class="com.carrot.handler.CustomLoginSuccessHandler" />
 		<bean id="customUserDetails"	class="com.carrot.handler.CustomUserDetails" />
 
 		<security:http>
-			<security:intercept-url pattern="/page/login" access="isAnonymous()" />
-			<security:intercept-url pattern="/page/signUp" access="isAnonymous()" />
-			<security:intercept-url pattern="/page/signUpResult" access="isAnonymous()" />
-			<security:intercept-url pattern="/page/success" access="hasRole('ROLE_ADMIN')" />
-			<security:intercept-url pattern="/api/signUp" access="permitAll" />
-			<security:intercept-url pattern="/api/join" access="permitAll" />
-			<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
-			<security:intercept-url pattern="/page/listItem" access="permitAll()" />
-			<security:intercept-url pattern="/page/insertItem" access="isAuthenticated()" />
-			<security:intercept-url pattern="/page/detail" access="permitAll()" />
-			<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
-			<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
-			<security:intercept-url pattern="/api/item/search" access="permitAll()" />
-			<security:intercept-url pattern="/api/item/update" access="isAuthenticated()" />
-			<security:intercept-url pattern="/page/updateForm" access="isAuthenticated()" />
-			<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
-			<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
+				<security:intercept-url pattern="/page/login" access="isAnonymous()" />
+				<security:intercept-url pattern="/page/signup" access="isAnonymous()" />
+				<security:intercept-url pattern="/page/signup_res" access="isAnonymous()" />
+				<security:intercept-url pattern="/api/success" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/signup" access="permitAll" />
+				<security:intercept-url pattern="/api/signup/callback/naver" access="permitAll" />
+				
+				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/itemList" access="permitAll()" />
+				<security:intercept-url pattern="/page/detail" access="permitAll()" />
+				<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
+				<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
+				<security:intercept-url pattern="/api/item/search" access="permitAll()" />
+				<security:intercept-url pattern="/api/item/update" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/updateForm" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
+        <security:intercept-url pattern="/page/itemRegister" access="isAuthenticated()" />
 
 
-			<security:intercept-url pattern="/page/newpost" access="permitAll" />
-			<security:intercept-url pattern="/page/townpost" access="permitAll" />
-			<security:intercept-url pattern="/page/detailpost" access="permitAll" />
-			<security:intercept-url pattern="/page/editpost" access="permitAll" />
-			<security:intercept-url pattern="/page/postList" access="permitAll" />
-			<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
-			<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
-			<security:intercept-url pattern="/api/image/image" access="permitAll" />
-			<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />
-			<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />
-			<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />
+				<security:intercept-url pattern="/page/newpost" access="permitAll" />
+				<security:intercept-url pattern="/page/townpost" access="permitAll" />
+				<security:intercept-url pattern="/page/detailpost" access="permitAll" />
+				<security:intercept-url pattern="/page/editpost" access="permitAll" />
+				<security:intercept-url pattern="/page/postList" access="permitAll" />
+				<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
+				<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
+				<security:intercept-url pattern="/api/image/image" access="permitAll" />
+				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
+				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
+				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />
+      
+        <security:intercept-url pattern="/page/chat" access="isAuthenticated()"/>
+			  <security:intercept-url pattern="/api/conn" access="isAuthenticated()"/>
+				
+        <security:form-login login-page= "/page/login" 
+				authentication-success-handler-ref="loginSuccess"/>
 
-			<security:intercept-url pattern="/page/chat" access="isAuthenticated()"/>
-			<security:intercept-url pattern="/api/conn" access="isAuthenticated()"/>
+				<security:logout logout-success-url="/page/listItem"/>
 
-
-			<security:form-login login-page= "/page/login"
-			authentication-success-handler-ref="loginSuccess"/>
-
-			<security:logout logout-success-url="/page/listItem"/>
-
-			<security:access-denied-handler ref="customAccessDenied" />
+				<security:access-denied-handler ref="customAccessDenied" />
 		</security:http>
-		
+
 		<security:authentication-manager>
 				<security:authentication-provider user-service-ref="customUserDetails">
-				
+
 				<security:password-encoder ref="passwordEncoder" />
-				
+
 				</security:authentication-provider>
 		</security:authentication-manager>
 
