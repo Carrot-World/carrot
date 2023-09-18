@@ -1,17 +1,19 @@
 package com.carrot.service;
 
+import java.util.HashMap;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.carrot.domain.AuthVO;
 import com.carrot.domain.SearchVO;
 import com.carrot.domain.UserVO;
 import com.carrot.handler.CustomUser;
 import com.carrot.repository.UserRepository;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -21,6 +23,7 @@ public class UserService {
     
     @Autowired 
 	BCryptPasswordEncoder encoder;
+    
 
     public UserVO getUserInfo() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -65,27 +68,42 @@ public class UserService {
     }
     
     public int updateUser(UserVO vo) { //회원정보수정
-    	return sqlSession.getMapper(UserRepository.class).updateUser(vo);
+    	int cnt = sqlSession.getMapper(UserRepository.class).updateUser(vo);
+    	UserVO savedvo = getUserInfo();
+    	savedvo.setNickname(vo.getNickname());
+    	savedvo.setEmail(vo.getEmail());
+    	savedvo.setLoc1(vo.getLoc1());
+    	savedvo.setLoc2(vo.getLoc2());
+    	savedvo.setLoc3(vo.getLoc3());
+    	return cnt;
     }
     
-    public int updatePwd(String newpassword) { //비밀번호 변경
+    public int updatePwd(String newpassword, String id) { //비밀번호 변경
     	String encodepw = encoder.encode(newpassword);
-    	return sqlSession.getMapper(UserRepository.class).updatePwd(encodepw);
+    	HashMap<String, String> map = new HashMap<>();
+    	map.put("encodepw", encodepw);
+    	map.put("id", id);
+    	return sqlSession.getMapper(UserRepository.class).updatePwd(map);
     }
     
     public boolean pwdCheck(String id, String password) { //비밀번호 확인
     	UserVO vo = sqlSession.getMapper(UserRepository.class).selectById(id);
     	String encodepw = encoder.encode(password);
-    	if ( vo.getPassword() == encodepw ) {
+    	String beforepwd = vo.getPassword();
+    	System.out.println("beforepwd : " + beforepwd);
+    	
+    	if ( encoder.matches(password, beforepwd) ) {
+    		System.out.println("비밀번호 맞음!");
     		return true;
     	} else {
+    		System.out.println("비밀번호 틀림!");
     		return false;
     	}
     }
 
-    public boolean withdrawSignUp(String id, String password) { //회원탈퇴
-    	String encodepw = encoder.encode(password);
-    	int result = sqlSession.getMapper(UserRepository.class).withdrawSignUp(id, encodepw);
+    public boolean withdrawSignUp(String id) { //회원탈퇴
+//    	String encodepw = encoder.encode(password);
+    	int result = sqlSession.getMapper(UserRepository.class).withdrawSignUp(id);
     	if (result <= 0) {
     		return false;
     	}

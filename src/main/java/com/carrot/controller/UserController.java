@@ -74,7 +74,6 @@ public class UserController {
 		return true;
 	}
 	
-	
 	@ResponseBody
 	@RequestMapping("api/myPage/updatepassword") //비밀번호 변경
 	public boolean updatePassword(@RequestBody HashMap<String, String> map) {
@@ -94,6 +93,7 @@ public class UserController {
 		}
 		return true;
 	}
+	
 	
 	@ResponseBody
 	@RequestMapping("api/myPage/withdraw") //회원탈퇴

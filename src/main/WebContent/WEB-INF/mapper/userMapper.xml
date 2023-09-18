@@ -44,7 +44,7 @@
     </update>
 
     <delete id="withdrawSignUp">
-    	delete from user_info where id=#{id} and password=#{password}
+    	delete from user_info where id=#{id}
     </delete>
     
 </mapper>	
