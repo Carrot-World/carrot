@@ -13,7 +13,7 @@ public class PagingService {
     @Autowired
     private SqlSession sqlSession;
 
-    private final static int pageSize = 2;
+    private final static int pageSize = 16;
     private final static int pageBlock = 5;
 
     public SearchVO setPaging(SearchVO vo) {
