@@ -34,4 +34,9 @@
  		<select id="emailCheck" parameterType="String" resultType="Integer">
       SELECT count(*) FROM user_info WHERE email = #{email}
     </select>
+
+    <delete id="withdrawSignUp">
+    	delete from user_info where id=#{id} and password=#{password}
+    </delete>
+    
 </mapper>	

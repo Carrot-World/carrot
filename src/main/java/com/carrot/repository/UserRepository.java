@@ -14,5 +14,7 @@ public interface UserRepository {
 	public int nicCheck(String nickname);
 	public int emailCheck(String email);
 	public UserVO selectById(String id);
+	
+	public int withdrawSignUp(String id, String password); //회원 탈퇴
 
 }

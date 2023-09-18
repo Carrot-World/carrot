@@ -145,6 +145,13 @@ public class TownPostService {
 		return selectReplyList;
 	}
 	
+	public int withdrawPost(String writer) { //회원탈퇴시 게시글 모두 삭제
+		return sqlSession.getMapper(TownPostRepository.class).withdrawPost(writer);
+	}
+	public int withdrawReply(String writer) { //회원탈퇴시 게시글 댓글 모두 삭제
+		return sqlSession.getMapper(TownPostRepository.class).withdrawReply(writer);
+	}
+	
 	
 	
 	public String imgTag(MultipartFile file) { //imgTag 변환
