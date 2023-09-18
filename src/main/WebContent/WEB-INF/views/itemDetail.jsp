@@ -129,14 +129,14 @@
             <span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###"/>원</span>
             <div class="button-wrapper">
                 <!-- 다른 사람 -->
-                <c:if test="${item.writer != user.nickname}">
+                <c:if test="${item.writer != user.id}">
                     <button class="btn" type="button" id="hartBtn" value="${item.id}" value1="${item.hart_cnt}"
                             name="${isHart == null ? "plus" : "minus"}"
                             onclick="hartBtnHandler()">${isHart == null ? "찜하기" : "찜 취소"}</button>
                     <button class="btn">채팅하기</button>
                 </c:if>
                 <!-- 등록한 사람 -->
-                <c:if test="${item.writer == user.nickname}">
+                <c:if test="${item.writer == user.id}">
                     <c:if test="${item.number == 0}">
                         <button class="btn">판매완료하기</button>
                         <button class="btn">삭제</button>
