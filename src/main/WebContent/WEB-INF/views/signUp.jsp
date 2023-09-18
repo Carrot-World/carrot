@@ -11,6 +11,7 @@
     <!-- 부트스트랩 -->
     <link href="../resources/css/signUp.css?after" rel="stylesheet">
     <!-- 사용자 css -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7551008ffbd30aac5abaffdcc5a33d7f&libraries=services"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
     <script defer src="../resources/js/signUp.js" ></script>
     
@@ -100,7 +101,7 @@
             	</select>
             </div>
             <div class="col-md-2 mb-3 button-row">
-           		<input type="button" id="btn-myLoc" class="btn btn-primary btn-block" value="내 위치"/>
+           		<input type="button" id="btn-myLoc" class="btn btn-primary btn-block" value="내 위치" onclick="currLocBtnHandler()"/>
             </div>
           </div>
           
@@ -154,6 +155,6 @@
     </div>
   </div>
 </div>
-	
+<script src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
 </body>
 </html>

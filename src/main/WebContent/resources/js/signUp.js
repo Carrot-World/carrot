@@ -44,8 +44,6 @@ $("#btn-nicCheck").click(function (e) {
   var data = { nickname: nickname };
   data[tokenInput.attr("name")] = tokenInput.val();
 
-  console.log("ajax이전");
-  //alert("Button 아이디체크 Clicked!");
   if (nickname.search(/\s/) != -1) {
     alert("닉네임에는 공백이 들어갈 수 없습니다.");
   } else {
@@ -81,14 +79,11 @@ $("#btn-nicCheck").click(function (e) {
 $("#btn-emailCheck").click(function (e) {
   e.preventDefault();
 
-  // alert("Button 이메일 인증버튼 Clicked!");
 
   var email = $("#email").val();
   var tokenInput = $("#token");
   var data = { email: email };
   data[tokenInput.attr("name")] = tokenInput.val();
-  //   var str = email;
-  //   str += "은 사용 가능합니다.";
 
   $.ajax({
     async: true,
@@ -166,7 +161,6 @@ function sendEmail() {
 
 //DB 주소값 받아오기
 function changeLoc1Select() {
-  console.log("change");
   var loc1Select = document.getElementById("loc1");
   var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
 
@@ -178,7 +172,6 @@ function changeLoc1Select() {
     method: "get",
     dataType: "json",
   }).done((data) => {
-    console.log(data);
     var selectEl = document.querySelector("#loc2");
     selectEl.innerHTML = "";
     data.forEach((loc) => {
@@ -201,7 +194,6 @@ function changeLoc2Select() {
     method: "get",
     dataType: "json",
   }).done((data) => {
-    console.log(data);
     var selectEl = document.querySelector("#loc3");
     selectEl.innerHTML = "";
     data.forEach((loc) => {
@@ -216,10 +208,8 @@ function optionEl(loc) {
 
 $("#btn-myLoc").click(function (e) {
   e.preventDefault();
-  alert("Button 내 위치 불러오기 버튼 Clicked!");
 });
 
 $("#btn-cancel").click(function (e) {
   e.preventDefault();
-  alert("Button 아이디 취소버튼 Clicked!");
 });

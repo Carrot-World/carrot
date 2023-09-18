@@ -84,7 +84,10 @@ pageEncoding="UTF-8"%>
                 </button>
               </div>
               <div class="d-grid mb-2">
-                <button class="btn btn-google btn-loginType fw-bold">
+                <button class="btn btn-google btn-loginType fw-bold"
+                onclick='location.href=
+                "https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleID}&redirect_uri=${googleURI}&response_type=code&scope=profile email"
+                '>
                   <div>
                     <img
                       class="btn-logo-size"
@@ -98,7 +101,7 @@ pageEncoding="UTF-8"%>
               <div class="d-grid mb-2">
                 <button class="btn btn-kakao btn-loginType fw-bold" 
                 onclick='location.href=
-                	"https://kauth.kakao.com/oauth/authorize?client_id=f79a580a7852275495f6384ff13085b4&redirect_uri=http://localhost:8080/api/signup/callback/kakao&response_type=code"'>
+                	"https://kauth.kakao.com/oauth/authorize?client_id=${kakaoID}&redirect_uri=${kakaoURI}&response_type=code"'>
                   <div>
                     <img
                       class="btn-logo-size"
