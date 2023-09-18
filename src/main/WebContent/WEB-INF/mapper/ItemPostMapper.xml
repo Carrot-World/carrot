@@ -39,6 +39,10 @@
     <select id="selectById" resultType="com.carrot.domain.ItemPostVO" parameterType="int">
         select * from ITEM_POST where id = #{id}
     </select>
+    
+    <select id="selectByWriter" resultType="com.carrot.domain.ItemPostVO">
+        select * from ITEM_POST where writer = #{writer}
+    </select>
 
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
         select * from item_post

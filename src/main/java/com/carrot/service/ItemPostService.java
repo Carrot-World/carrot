@@ -1,17 +1,23 @@
 package com.carrot.service;
 
-import com.carrot.domain.*;
-import com.carrot.repository.CategoryRepository;
-import com.carrot.repository.ItemPostRepository;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import com.carrot.domain.CategoryVO;
+import com.carrot.domain.ImageVO;
+import com.carrot.domain.ItemPostVO;
+import com.carrot.domain.SearchVO;
+import com.carrot.domain.UserVO;
+import com.carrot.repository.CategoryRepository;
+import com.carrot.repository.ItemPostRepository;
 
 @Service
 public class ItemPostService {
@@ -68,6 +74,12 @@ public class ItemPostService {
             return null;
         }
         return imageService.setFirstImage(itemPostList);
+    }
+    
+    public List<ItemPostVO> selectByWriter(String writer) {
+    	List<ItemPostVO> list = sqlSession.getMapper(ItemPostRepository.class).selectByWriter(writer);
+    	System.out.println("list : " + list);
+    	return list;
     }
 
     public ItemPostVO detail(int id) {
