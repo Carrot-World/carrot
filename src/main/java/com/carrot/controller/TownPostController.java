@@ -19,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.carrot.domain.LocationVO;
 import com.carrot.domain.ReplyVO;
+import com.carrot.domain.SearchVO;
 import com.carrot.domain.TownPostVO;
 import com.carrot.domain.UserVO;
+import com.carrot.service.LocationService;
+import com.carrot.service.PagingService;
 import com.carrot.service.TownPostService;
 import com.carrot.service.UserService;
 
@@ -29,25 +33,42 @@ import com.carrot.service.UserService;
 public class TownPostController {
 
 	@Autowired
-	SqlSession sqlSession;
-
-	@Autowired
 	private TownPostService townpostService;
 	
 	@Autowired
 	private UserService userService;
 
+    @Autowired
+    private LocationService locationService;
+
+	
+	@Autowired
+    private PagingService pagingService;
+	
 	// 페이지 이동
-	@RequestMapping("/page/postList") // 게시물 목록조회 (전체조회)
-	public String listPost(Model model, String searchCondition, Object searchKeyword) {
-		List<TownPostVO> list = townpostService.listPost();
-		model.addAttribute("postlist", list);
-		return "townpostlist";
+	@RequestMapping("/page/postList") //게시물 조회
+	public String searchPost(SearchVO vo, Model model) {
+		
+		System.out.println("searchvo : " + vo);
+        if (userService.isAuthenticated()) {
+            UserVO user = userService.getUserInfo();
+            model.addAttribute("user", user);
+            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(userService.setUserLocation())));
+            model.addAttribute("loc1List", locationService.loc1Set());
+            model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+            model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+            model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
+        } else {
+            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(new SearchVO())));
+            model.addAttribute("loc1List", locationService.loc1Set());
+            model.addAttribute("page", pagingService.getPagingInfo(new SearchVO()));
+        }
+		return "postList";
 	}
 	
 	@RequestMapping("/page/newpost") // 게시판 글 작성 페이지
 	public String newpost() {
-		return "newpostsummernote";
+		return "postRegister";
 	}
 	
 	@RequestMapping("/page/editpost/{id}") // 게시물 수정 페이지
@@ -55,7 +76,7 @@ public class TownPostController {
 		TownPostVO vo = new TownPostVO();
 		vo = townpostService.detailPost(id);
 		model.addAttribute("postdetail", vo);
-		return "editpostsummernote";
+		return "postEdit";
 	}	
 
 	
@@ -96,7 +117,8 @@ public class TownPostController {
 	public ReplyVO insertReply(@RequestBody ReplyVO reply) {
 		ReplyVO vo = new ReplyVO();
 		vo = townpostService.insertReply(reply);
-		townpostService.replyCount(reply.getTownPostId());
+		//댓글 수 증가
+		
 		return vo; 
 	}
 	

@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.TransactionSuspensionNotSupportedException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.domain.CategoryVO;
 import com.carrot.domain.ReplyVO;
+import com.carrot.domain.SearchVO;
 import com.carrot.domain.TownPostVO;
 import com.carrot.domain.UserVO;
 import com.carrot.repository.CategoryRepository;
@@ -51,9 +51,27 @@ public class TownPostService {
 		return list;
 	}
 	
+	public ArrayList<TownPostVO> searchPost(SearchVO vo){ //게시글 검색 조회
+		
+		System.out.println("service searchvo : " + vo);
+		
+		if (!isSetCategory) {
+			setCategoryName();
+        }
+		
+		ArrayList<TownPostVO> list = sqlSession.getMapper(TownPostRepository.class).listBySearch(vo);
+		
+		for ( TownPostVO townpostvo : list ) {
+			townpostvo.setCategoryName(categoryNameMap.get(townpostvo.getId()));
+		}
+		
+		return list;
+	}
+	
 
 	public int insertPost(MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws Exception { //게시글 등록
 		TownPostVO vo = new TownPostVO();
+		System.out.println(request.getParameter("category_id"));
 		vo.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
 		UserVO user = userService.getUserInfo();
 		Date created_at = new Date(System.currentTimeMillis());
@@ -111,8 +129,8 @@ public class TownPostService {
 		vo.setWriter(writerId);
 		vo.setNickname(writerNickname);
 		vo.setCreated_at(created_at);
-		
-		int result = sqlSession.getMapper(TownPostRepository.class).insertReply(vo);
+		vo.setParent("");
+		sqlSession.getMapper(TownPostRepository.class).insertReply(vo);
 		
 		ReplyVO reply = new ReplyVO();
 		UserVO user = userService.selectById(writerId);
@@ -134,7 +152,6 @@ public class TownPostService {
 		String fileName;
 		try {
 			fileName = AWSS3.getImgTag(file);
-			System.out.println(fileName);
 			if (fileName != null) {
 				String url = "https://carrot-world.s3.ap-northeast-2.amazonaws.com/";
 				return url + fileName;

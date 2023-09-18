@@ -5,8 +5,26 @@
 
 <mapper namespace="com.carrot.repository.TownPostRepository">
 
-<select id="listByALL" resultType="com.carrot.domain.TownPostVO">
-	select * from town_post order by id desc  
+<select id="listBySearch" parameterType="com.carrot.domain.SearchVO" resultType="com.carrot.domain.TownPostVO" >
+	select * from town_post
+	     <where>
+            <if test="category_id != 0">
+                category_id = #{category_id} 
+            </if>
+            <if test="loc1 != null">
+                and loc1 = #{loc1}
+            </if>
+            <if test="loc2 != null">
+                and loc2 = #{loc2}
+            </if>
+            <if test="loc3 != null">
+                and loc3 = #{loc3}
+            </if>
+            <if test="title != title">
+            	and title LIKE '%${title}%' 
+            </if>
+        </where>
+        order by id desc
 </select>
 
 <insert id="insertPost" parameterType="com.carrot.domain.TownPostVO">
@@ -30,17 +48,21 @@
 	delete from town_post where id=#{id}
 </delete>
 
-<insert id="insertReply" parameterType="com.carrot.domain.ReplyVO" >
-	insert into reply (id, town_post_id, content, created_at, writer, nickname )
-	values ( reply_id.nextval, #{townPostId}, #{content}, #{created_at}, #{writer}, #{nickname} )
+<insert id="insertReply" parameterType="com.carrot.domain.ReplyVO" useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+	insert into reply (id, town_post_id, parent, content, created_at, writer, nickname )
+	values ( reply_id.nextval, #{townPostId}, #{parent}, #{content}, #{created_at}, #{writer}, #{nickname} )
 </insert>
 
-<update id="replyCount">
-	update town_post set reply_cnt = reply_cnt + 1 where id = #{id}
+<update id="updateReplyCount">
+	update town_post set reply_cnt = #{replycnt} where id = #{id}
 </update>
 
+<select id="replyCount" resultType="Integer">
+	select (*)count from reply where town_post_id = #{postid}
+</select>
+
 <select id="replList" resultType="com.carrot.domain.ReplyVO">
-	select TOWN_POST_ID as townPostId, PARENT, CONTENT, CREATED_AT, WRITER, NICKNAME from reply where town_post_id=#{id}
+	select id, TOWN_POST_ID as townPostId, PARENT, CONTENT, CREATED_AT, WRITER, NICKNAME from reply where town_post_id=#{id} order by id asc
 </select>
 
 </mapper>
