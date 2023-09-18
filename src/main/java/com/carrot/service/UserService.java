@@ -67,6 +67,21 @@ public class UserService {
     public int updateUser(UserVO vo) { //회원정보수정
     	return sqlSession.getMapper(UserRepository.class).updateUser(vo);
     }
+    
+    public int updatePwd(String newpassword) { //비밀번호 변경
+    	String encodepw = encoder.encode(newpassword);
+    	return sqlSession.getMapper(UserRepository.class).updatePwd(encodepw);
+    }
+    
+    public boolean pwdCheck(String id, String password) { //비밀번호 확인
+    	UserVO vo = sqlSession.getMapper(UserRepository.class).selectById(id);
+    	String encodepw = encoder.encode(password);
+    	if ( vo.getPassword() == encodepw ) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 
     public boolean withdrawSignUp(String id, String password) { //회원탈퇴
     	String encodepw = encoder.encode(password);

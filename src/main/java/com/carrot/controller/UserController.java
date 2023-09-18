@@ -54,6 +54,26 @@ public class UserController {
 	
 	
 	@ResponseBody
+	@RequestMapping("api/myPage/updatepassword") //비밀번호 변경
+	public boolean updatePassword(@RequestBody HashMap<String, String> map) {
+		UserVO vo = new UserVO();
+		vo = userService.getUserInfo();
+		String id = vo.getId();
+		String password = map.get("password");
+		String newpassword = map.get("newapssword");
+		System.out.println("password : " + password);
+		System.out.println("newpassword : " + newpassword);
+		System.out.println("id : " + id);
+		
+		if ( userService.pwdCheck(id, password) ) {
+			userService.updatePwd(newpassword);
+		} else {
+			return false;
+		}
+		return true;
+	}
+	
+	@ResponseBody
 	@RequestMapping("api/myPage/withdraw") //회원탈퇴
 	public String withdraw(@RequestBody HashMap<String, String> map) {
 		String id = getId();
