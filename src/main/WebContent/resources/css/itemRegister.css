@@ -133,6 +133,10 @@ a.logo {
     font-weight: bold;
 }
 
+.input-wrapper > .button-wrapper {
+    width: 700px;
+}
+
 /* .form-control {
   width: 80%;
 } */
