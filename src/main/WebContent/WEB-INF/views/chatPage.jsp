@@ -22,23 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   </head>
   <body>
-    <div class="header bg-body-tertiary">
-      <nav class="navbar">
-        <a class="navbar-brand logo" href="#">
-          <img src="../image/carrot.jpeg" width="40" height="35" class="align-text-top" />
-          당근나라
-        </a>
-        <div class="nav-button-wrapper">
-          <a class="navbar-brand" href="#">물품등록</a>
-          <a class="navbar-brand" href="#">물품목록</a>
-          <a class="navbar-brand" href="#">동네생활</a>
-          <a class="navbar-brand" href="#">채팅</a>
-          <a class="navbar-brand" href="#">마이페이지</a>
-          <a class="navbar-brand" href="#">로그인</a>
-        </div>
-
-      </nav>
-    </div>
+  <jsp:include page="/WEB-INF/views/header.jsp"/>
     <div class="section">
       <div class="room-container" id="roomArea">
         <h2 class="username" id="userName">${username}</h2>
