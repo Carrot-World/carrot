@@ -9,6 +9,7 @@ public class ChatMessageVO {
     private Date createdAt;
     private int roomId;
     private int isRead;
+    private String time;
 
     public ChatMessageVO() {
     }
@@ -59,6 +60,14 @@ public class ChatMessageVO {
 
     public void setIsRead(int isRead) {
         this.isRead = isRead;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     @Override

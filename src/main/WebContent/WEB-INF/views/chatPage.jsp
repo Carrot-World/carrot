@@ -12,13 +12,14 @@
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
     crossorigin="anonymous"
     />
-    <link href="/resources/css/chatPage.css" rel="stylesheet" />
+    <link href="${pageContext.request.contextPath}/resources/css/chatPage.css" rel="stylesheet" />
     <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
     crossorigin="anonymous"
     ></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   </head>
   <body>
     <div class="header bg-body-tertiary">
@@ -39,8 +40,8 @@
       </nav>
     </div>
     <div class="section">
-      <div class="room-container">
-        <h2 class="username">${username}</h2>
+      <div class="room-container" id="roomArea">
+        <h2 class="username" id="userName">${username}</h2>
         <c:forEach items="${rooms}" var="room">
           <div class="chat-room" roomId="${room.id}">
             <div class="chat-room-header">
@@ -56,12 +57,14 @@
             </div>
             <div class="chat-room-content">
               <span class="last-message">${room.lastMessage.content}</span>
-              <span class="badge bg-danger float-end">${room.unReadCnt}</span>
+              <c:if test="${room.unReadCnt != 0}">
+                <span class="badge bg-danger float-end">${room.unReadCnt}</span>
+              </c:if>
             </div>
           </div>
         </c:forEach>
       </div>
-      <div class="chat-container">
+      <div class="chat-container" roomId="${rooms[0].id}">
         <div class="chat-header">
           <h2>
             <c:choose>
@@ -72,7 +75,7 @@
           <button class="btn red-btn">나가기</button>
         </div>
 
-        <div class="chat-content">
+        <div class="chat-content" id="messageArea">
           <c:forEach items="${messages}" var="message">
             <c:choose>
               <c:when test="${username eq message.writer}">
@@ -97,16 +100,18 @@
         </div>
 
         <div class="chat-input">
-          <textarea class="form-control"></textarea>
-          <button class="btn orange-btn">전송</button>
+          <textarea class="form-control" id="chatInput"></textarea>
+          <button class="btn orange-btn" id="send">전송</button>
         </div>
       </div>
+    </div>
     </div>
     <script>
       $(window).scroll(function(){
         $('.header').css('left', 0-$(this).scrollLeft());
       });
     </script>
+    <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
   </body>
 </html>
 
