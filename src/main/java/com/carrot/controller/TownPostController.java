@@ -1,17 +1,13 @@
 package com.carrot.controller;
 
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -121,6 +117,8 @@ public class TownPostController {
 	@RequestMapping("/api/post/delete") //게시물 삭제 버튼
 	public String delectPost(String id) {
 		townpostService.deletePost(id);
+//		3. 게시글 삭제 시 댓글 모두 삭제
+		townpostService.deleteAllReply(id);
 		return "/page/postList";
 	}
 	
@@ -132,6 +130,18 @@ public class TownPostController {
 		//댓글 수 증가
 		
 		return vo; 
+	}
+	
+	@ResponseBody
+	@RequestMapping("/api/post/deletereply") //댓글 삭제 버튼
+	public boolean deleteReply(@RequestBody String id) {
+		
+//		1. 댓글 삭제
+		townpostService.deleteReply(id);
+//		2. 원댓글 삭제 시 대댓글 함께 삭제
+		townpostService.deleteReReply(id);
+		
+		return true;
 	}
 	
 	@ResponseBody

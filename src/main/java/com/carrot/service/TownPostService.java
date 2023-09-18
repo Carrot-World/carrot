@@ -145,6 +145,18 @@ public class TownPostService {
 		return selectReplyList;
 	}
 	
+	public int deleteReply(String id) { //댓글 삭제
+		return sqlSession.getMapper(TownPostRepository.class).deleteReply(id);
+	}
+	
+	public int deleteReReply(String parent) { //원댓글 삭제시 대댓글 함께 삭제
+		return sqlSession.getMapper(TownPostRepository.class).deleteReReply(parent);
+	}
+	
+	public int deleteAllReply(String postid) { //게시글 삭제 시 댓글 전체 삭제
+		return sqlSession.getMapper(TownPostRepository.class).deleteAllReply(postid);
+	}
+	
 	public int withdrawPost(String writer) { //회원탈퇴시 게시글 모두 삭제
 		return sqlSession.getMapper(TownPostRepository.class).withdrawPost(writer);
 	}

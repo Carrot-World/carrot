@@ -42,7 +42,7 @@ public interface TownPostRepository {
 	public int deleteReply(String id);
 	//게시글 삭제 시 -> 댓글 전체 삭제
 	public int deleteAllReply(String postid);
-	//댓글 삭제시 -> 대댓글 삭제
+	//원댓글 삭제시 -> 대댓글 삭제
 	public int deleteReReply(String parent);
 	
 	//조회수 증가

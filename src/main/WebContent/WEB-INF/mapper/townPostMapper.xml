@@ -61,6 +61,18 @@
 	select id, TOWN_POST_ID as townPostId, PARENT, CONTENT, CREATED_AT, WRITER, NICKNAME from reply where town_post_id=#{id} order by id asc
 </select>
 
+<delete id="deleteReply">
+	delete from reply where id=#{id}
+</delete>
+
+<delete id="deleteReReply">
+	delete from reply where parent=#{parent}
+</delete>
+
+<delete id="deleteAllReply">
+	delete from reply where town_post_id=#{postid}
+</delete>
+
 <delete id="withdrawPost">
 	delete from town_post where writer=#{writer}
 </delete>
