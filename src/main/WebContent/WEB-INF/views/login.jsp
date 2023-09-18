@@ -79,7 +79,7 @@ pageEncoding="UTF-8"%>
                       class="btn-logo-size"
                       src="../resources/image/email.png"
                     />
-                    <span> 이메일로 시작하기</span>
+                    <span> 이메일로 회원가입</span>
                   </div>
                 </button>
               </div>
