@@ -6,7 +6,9 @@ public class ChatRoomVO {
     private int id;
     private int itemPostId;
     private String buyer;
+    private String buyerName;
     private String seller;
+    private String sellerName;
     private int status;
     private ChatMessageVO lastMessage;
     private int unReadCnt;
@@ -69,6 +71,22 @@ public class ChatRoomVO {
 
     public void setUnReadCnt(int unReadCnt) {
         this.unReadCnt = unReadCnt;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public void setBuyerName(String buyerName) {
+        this.buyerName = buyerName;
+    }
+
+    public String getSellerName() {
+        return sellerName;
+    }
+
+    public void setSellerName(String sellerName) {
+        this.sellerName = sellerName;
     }
 
     @Override

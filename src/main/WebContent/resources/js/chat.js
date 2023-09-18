@@ -55,9 +55,9 @@ sendBtn.onclick = sendBtnHandler;
 
 
 const onRecieve = (m) => {
-  const {roomId, writer, content, time} = JSON.parse(m.body);
+  const {roomId, writerName, content, time} = JSON.parse(m.body);
   if (currRoomId === roomId) {
-    messageArea.innerHTML += getMessageHtml( writer, content, time);
+    messageArea.innerHTML += getMessageHtml(writerName, content, time);
     messageArea.scrollTop = messageArea.scrollHeight;
     chatRooms.get(roomId).lastMessage = content;
     chatRooms.get(roomId).lastTime = time;
@@ -104,7 +104,7 @@ function getRoomHtml(room) {
           ${room.userName}
         </span>
         <span class="last-message-time">
-          ${room.time}
+          ${room.lastTime}
         </span>
       </div>
       <div class="chat-room-content">
@@ -116,6 +116,9 @@ function getRoomHtml(room) {
 }
 
 function sendBtnHandler() {
-  client.send("/socket/send/"+currRoomId, {}, JSON.stringify({content: input.value}));
-  input.value = '';
+  const content = input.value;
+  if (content.trim().length > 0) {
+    client.send("/socket/send/"+currRoomId, {}, JSON.stringify({content: input.value}));
+    input.value = '';
+  }
 }

@@ -7,11 +7,14 @@
         <id property="id" column="id"/>
         <result property="itemPostId" column="item_post_id"/>
         <result property="buyer" column="buyer"/>
+        <result property="buyerName" column="buyer_name"/>
         <result property="seller" column="seller"/>
+        <result property="sellerName" column="seller_name"/>
         <result property="status" column="status"/>
         <collection property="lastMessage" ofType="com.carrot.domain.ChatMessageVO">
             <id property="id" column="chat_id"/>
             <result property="writer" column="writer"/>
+            <result property="writerName" column="writer_name"/>
             <result property="content" column="content"/>
             <result property="createdAt" column="created_at"/>
             <result property="roomId" column="chatting_room_id"/>
@@ -22,6 +25,7 @@
     <resultMap id="chatMessage" type="com.carrot.domain.ChatMessageVO">
         <id property="id" column="id"/>
         <result property="writer" column="writer"/>
+        <result property="writerName" column="writer_name"/>
         <result property="content" column="content"/>
         <result property="createdAt" column="created_at"/>
         <result property="roomId" column="chatting_room_id"/>
@@ -39,7 +43,7 @@
     </select>
 
     <insert id="insertChatMessage" parameterType="com.carrot.domain.ChatMessageVO">
-        insert into chatting_content values (chatting_content_id.nextval,#{writer}, #{content}, #{createdAt}, #{roomId}, ${isRead})
+        insert into chatting_content values (chatting_content_id.nextval, #{writer}, #{writerName}, #{content}, #{createdAt}, #{roomId}, ${isRead})
         <selectKey keyProperty="id" resultType="int" order="AFTER">
             select chatting_content_id.currval from dual
         </selectKey>

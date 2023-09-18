@@ -5,6 +5,7 @@ import java.util.Date;
 public class ChatMessageVO {
     private int id;
     private String writer;
+    private String writerName;
     private String content;
     private Date createdAt;
     private int roomId;
@@ -68,6 +69,14 @@ public class ChatMessageVO {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getWriterName() {
+        return writerName;
+    }
+
+    public void setWriterName(String writerName) {
+        this.writerName = writerName;
     }
 
     @Override

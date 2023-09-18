@@ -31,21 +31,21 @@ public class ChatService {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd hh:mm");
 
 
-    public List<ChatRoomVO> getAllChatRooms(String userName) {
-        List<ChatRoomVO> rooms =  session.getMapper(ChatRepository.class).getAllChatRooms(userName);
+    public List<ChatRoomVO> getAllChatRooms(String userId) {
+        List<ChatRoomVO> rooms =  session.getMapper(ChatRepository.class).getAllChatRooms(userId);
         rooms.sort(comparator);
-        fillUnReadCnt(rooms, userName);
+        fillUnReadCnt(rooms, userId);
         return rooms;
     }
 
-    private void fillUnReadCnt(List<ChatRoomVO> rooms, String userName) {
+    private void fillUnReadCnt(List<ChatRoomVO> rooms, String userId) {
         for (ChatRoomVO room : rooms) {
             ChatMessageVO message = room.getLastMessage();
-            if (!message.getWriter().equals(userName) && message.getIsRead() == 1) {
+            if (!message.getWriter().equals(userId) && message.getIsRead() == 1) {
                 int cnt = 0;
                 List<ChatMessageVO> messages = getMessages(room.getId());
                 int index = messages.size() - 1;
-                while (index >= 0 && (!messages.get(index).getWriter().equals(userName) && message.getIsRead() == 1)) {
+                while (index >= 0 && (!messages.get(index).getWriter().equals(userId) && message.getIsRead() == 1)) {
                     index--;
                     cnt++;
                 }
@@ -59,9 +59,10 @@ public class ChatService {
         return messages;
     }
 
-    public ChatMessageVO sendMessage(ChatMessageVO message, int id, String userName) {
+    public ChatMessageVO sendMessage(ChatMessageVO message, int id, String userId, String userName) {
         message.setRoomId(id);
-        message.setWriter(userName);
+        message.setWriter(userId);
+        message.setWriterName(userName);
         message.setIsRead(1);
         message.setCreatedAt(new Date(System.currentTimeMillis()));
         session.getMapper(ChatRepository.class).insertChatMessage(message);

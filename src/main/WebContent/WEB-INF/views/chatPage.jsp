@@ -47,8 +47,8 @@
             <div class="chat-room-header">
               <span class="chat-user">
                 <c:choose>
-                  <c:when test="${username eq room.buyer}">${room.seller}</c:when>
-                  <c:when test="${username eq room.seller}">${room.buyer}</c:when>
+                  <c:when test="${username eq room.buyerName}">${room.sellerName}</c:when>
+                  <c:when test="${username eq room.sellerName}">${room.buyerName}</c:when>
                 </c:choose>
               </span>
               <span class="last-message-time">
@@ -68,8 +68,8 @@
         <div class="chat-header">
           <h2>
             <c:choose>
-              <c:when test="${username eq rooms[0].seller}">${rooms[0].buyer}</c:when>
-              <c:when test="${username eq rooms[0].buyer}">${rooms[0].seller}</c:when>
+              <c:when test="${username eq rooms[0].sellerName}">${rooms[0].buyerName}</c:when>
+              <c:when test="${username eq rooms[0].buyerName}">${rooms[0].sellerName}</c:when>
             </c:choose>
           </h2>
           <button class="btn red-btn">나가기</button>
@@ -78,16 +78,16 @@
         <div class="chat-content" id="messageArea">
           <c:forEach items="${messages}" var="message">
             <c:choose>
-              <c:when test="${username eq message.writer}">
+              <c:when test="${username eq message.writerName}">
                 <div class="message-wrapper my">
               </c:when>
-              <c:when test="${username ne message.writer}">
+              <c:when test="${username ne message.writerName}">
                 <div class="message-wrapper">
               </c:when>
             </c:choose>
               <div class="card">
                 <div class="card-body">
-                  <div class="card-title">${message.writer}</div>
+                  <div class="card-title">${message.writerName}</div>
                   <div class="card-text">${message.content}</div>
                   <div class="card-time">
                     <fmt:formatDate pattern="MM/dd hh:mm" value="${message.createdAt}"/>

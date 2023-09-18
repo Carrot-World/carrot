@@ -31,7 +31,7 @@ public class ChatController {
     @GetMapping("/page/chat")
     public String chatPage(Model model) {
         UserVO user = userService.getUserInfo();
-        List<ChatRoomVO> rooms = chatService.getAllChatRooms(user.getNickname());
+        List<ChatRoomVO> rooms = chatService.getAllChatRooms(user.getId());
         model.addAttribute("username", user.getNickname());
         model.addAttribute("rooms", rooms);
         if (rooms.size() > 0) {
@@ -44,7 +44,8 @@ public class ChatController {
     public void chat(ChatMessageVO message, @DestinationVariable String roomId, java.security.Principal principal) {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
         UserVO user = ((CustomUser)token.getPrincipal()).getUser();
-        template.convertAndSend("/socket/message/"+roomId, chatService.sendMessage(message, Integer.parseInt(roomId), user.getNickname()));
+        template.convertAndSend("/socket/message/"+roomId,
+                chatService.sendMessage(message, Integer.parseInt(roomId), user.getId(), user.getNickname()));
     }
 
 
