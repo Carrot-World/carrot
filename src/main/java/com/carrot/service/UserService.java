@@ -78,11 +78,12 @@ public class UserService {
     	return cnt;
     }
     
-    public int updatePwd(String newpassword, String id) { //비밀번호 변경
+    public int updatePwd(String id, String newpassword) { //비밀번호 변경
     	String encodepw = encoder.encode(newpassword);
     	HashMap<String, String> map = new HashMap<>();
-    	map.put("encodepw", encodepw);
     	map.put("id", id);
+    	map.put("encodepw", encodepw);
+    	
     	return sqlSession.getMapper(UserRepository.class).updatePwd(map);
     }
     
@@ -90,7 +91,6 @@ public class UserService {
     	UserVO vo = sqlSession.getMapper(UserRepository.class).selectById(id);
     	String encodepw = encoder.encode(password);
     	String beforepwd = vo.getPassword();
-    	System.out.println("beforepwd : " + beforepwd);
     	
     	if ( encoder.matches(password, beforepwd) ) {
     		System.out.println("비밀번호 맞음!");
