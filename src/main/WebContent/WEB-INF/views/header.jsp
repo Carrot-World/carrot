@@ -11,7 +11,7 @@
             <a class="navbar-brand" href="${pageContext.request.contextPath}/page/itemList">물품목록</a>
             <a class="navbar-brand" href="${pageContext.request.contextPath}/page/postList">동네생활</a>
             <a class="navbar-brand" href="${pageContext.request.contextPath}/page/chat">채팅</a>
-            <a class="navbar-brand" href="${pageContext.request.contextPath}">마이페이지</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/page/mypage">마이페이지</a>
             <a class="navbar-brand" href="${pageContext.request.contextPath}/page/login">로그인</a>
         </div>
     </nav>
