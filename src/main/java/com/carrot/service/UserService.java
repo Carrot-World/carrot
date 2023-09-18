@@ -1,5 +1,6 @@
 package com.carrot.service;
 
+import com.carrot.domain.AuthVO;
 import com.carrot.domain.SearchVO;
 import com.carrot.domain.UserVO;
 import com.carrot.handler.CustomUser;
@@ -50,4 +51,11 @@ public class UserService {
     	return sqlSession.getMapper(UserRepository.class).selectById(id);
     }
     
+    public int signUp(UserVO vo) {
+    	return sqlSession.getMapper(UserRepository.class).signUp(vo);
+    }
+    public int signUp_auth(AuthVO authVo) {
+    	return sqlSession.getMapper(UserRepository.class).signUp_auth(authVo);
+    	
+    }
 }

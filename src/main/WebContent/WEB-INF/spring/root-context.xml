@@ -53,4 +53,6 @@
             </props>
         </property>
       </bean>  
+      
+			<bean id="naverLogin" class="com.carrot.service.NaverLogin" />
 </beans>
