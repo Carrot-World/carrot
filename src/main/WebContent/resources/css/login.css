@@ -51,3 +51,14 @@ body {
 	height: 20px;
 	margin-right: 10px;
 }
+.div-finder {
+ 	text-decoration-line: none;
+	font-size: small;
+	color: gray;
+	text-align: -webkit-right;
+}
+div.div-finder a.atag-finder {
+ 	text-decoration-line: none;
+	font-size: small;
+	color:gray;
+}
