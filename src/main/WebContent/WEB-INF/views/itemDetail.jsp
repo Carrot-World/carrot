@@ -77,7 +77,7 @@
                         </div>
                     </c:forEach>
                     <c:forEach items="${item.imageList}" var="image" begin="1">
-                        <div class="carousel-item active">
+                        <div class="carousel-item">
                             <img src="${image.url}" class="d-block w-100" alt="..."/>
                         </div>
                     </c:forEach>
