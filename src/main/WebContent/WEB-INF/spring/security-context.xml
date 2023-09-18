@@ -16,7 +16,7 @@
 		<bean id="loginSuccess" class="com.carrot.handler.CustomLoginSuccessHandler" />
 		<bean id="customUserDetails"	class="com.carrot.handler.CustomUserDetails" />
 
-		<security:http>
+		<security:http use-expressions="true">
 				<security:intercept-url pattern="/page/login" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/signup" access="isAnonymous()" />
 				<security:intercept-url pattern="/page/signup_res" access="isAnonymous()" />
