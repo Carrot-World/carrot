@@ -72,7 +72,6 @@ public class LoginController {
     	redirectAttr.addFlashAttribute("msg", "fail");
     	return "redirect:/page/signup_res";
     }
-    
 	
 	@GetMapping("/page/signup_res")
 	public String loginResult() {
