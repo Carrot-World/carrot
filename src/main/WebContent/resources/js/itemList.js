@@ -35,7 +35,6 @@ window.addEventListener("resize", throttle(rescaleCard, 100))
 function changeLoc1Select() {
     var loc1Select = document.getElementById("loc1");
     var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
-
     $.ajax({
         url: "/api/loc/get2",
         data: {
@@ -44,7 +43,6 @@ function changeLoc1Select() {
         method: "get",
         dataType: "json"
     }).done((data) => {
-        console.log(data);
         var selectLoc2El = document.querySelector("#loc2");
         var selectLoc3El = document.querySelector("#loc3");
         selectLoc2El.innerHTML = "<option></option>";
@@ -70,7 +68,6 @@ function changeLoc2Select() {
         method: "get",
         dataType: "json"
     }).done((data) => {
-        console.log(data);
         var selectEl = document.querySelector("#loc3");
         selectEl.innerHTML = "<option></option>";
         data.forEach((loc) => {
