@@ -45,15 +45,19 @@ public class LocationService {
     }
 
     public List<String> loc3Set(LocationVO vo) {
-        if (loc3Map.containsKey(vo.getLoc2())) {
-            return loc3Map.get(vo.getLoc2());
+        if (loc3Map.containsKey(createLoc3Key(vo))) {
+            return loc3Map.get(createLoc3Key(vo));
         }
         List<LocationVO> locationList = sqlSession.getMapper(LocationRepository.class).selectByLoc2(vo);
         List<String> loc3 = new ArrayList<>();
         for (LocationVO locationVO : locationList) {
             loc3.add(locationVO.getLoc3());
         }
-        loc3Map.put(vo.getLoc2(), loc3);
+        loc3Map.put(createLoc3Key(vo), loc3);
         return loc3;
+    }
+
+    public String createLoc3Key(LocationVO vo) {
+        return vo.getLoc1() + " " + vo.getLoc2();
     }
 }
