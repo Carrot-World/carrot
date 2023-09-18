@@ -66,6 +66,18 @@ public class TownPostController {
 		return "postList";
 	}
 	
+	 @RequestMapping("/api/post/search") //게시물 검색
+	    public String search(SearchVO vo, Model model) {
+	        model.addAttribute("list", townpostService.searchPost(vo));
+	        model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(vo)));
+	        model.addAttribute("loc1List", locationService.loc1Set());
+	        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
+	        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
+	        model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
+	        model.addAttribute("searchInfo", vo);
+	        return "searchPost";
+	    }
+	
 	@RequestMapping("/page/newpost") // 게시판 글 작성 페이지
 	public String newpost() {
 		return "postRegister";
@@ -122,7 +134,6 @@ public class TownPostController {
 		return vo; 
 	}
 	
-
 	@ResponseBody
 	@RequestMapping("/api/image/image") // summernote에서 이미지 업로드시 img태그로 변환 (base64 -> url)
 	public String SummerNoteImageFile(@RequestParam("file") MultipartFile file) {
