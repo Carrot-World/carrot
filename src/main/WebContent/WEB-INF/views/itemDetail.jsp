@@ -137,12 +137,12 @@
                 </c:if>
                 <!-- 등록한 사람 -->
                 <c:if test="${item.writer == user.id}">
-                    <c:if test="${item.number == 0}">
+                    <c:if test="${item.status == 0}">
                         <button class="btn">판매완료하기</button>
                         <button class="btn">삭제</button>
                     </c:if>
                     <!-- 판매완료 -->
-                    <c:if test="${item.number == 1}">
+                    <c:if test="${item.status == 1}">
                         <button class="btn disabled">판매완료</button>
                     </c:if>
                 </c:if>
