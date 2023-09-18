@@ -13,7 +13,7 @@ public class ItemPostVO {
     private String writer;
     private int chat_cnt;
     private int price;
-    private int number;
+    private int status;
     private int category_id;
     private Date created_at;
     private List<ImageVO> imageList;
@@ -95,15 +95,15 @@ public class ItemPostVO {
         this.price = price;
     }
 
-    public int getNumber() {
-        return number;
-    }
+    public int getStatus() {
+		return status;
+	}
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
-    public int getCategory_id() {
+	public int getCategory_id() {
         return category_id;
     }
 
@@ -155,7 +155,7 @@ public class ItemPostVO {
                 ", writer='" + writer + '\'' +
                 ", chat_cnt=" + chat_cnt +
                 ", price=" + price +
-                ", number=" + number +
+                ", status=" + status +
                 ", category_id=" + category_id +
                 ", created_at=" + created_at +
                 ", imageList=" + imageList +
