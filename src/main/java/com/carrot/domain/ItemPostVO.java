@@ -19,6 +19,7 @@ public class ItemPostVO {
     private List<ImageVO> imageList;
     private String category_name;
     private int hart_cnt;
+    private String writer_nickname;
 
     public ItemPostVO() {
     }
@@ -143,6 +144,14 @@ public class ItemPostVO {
         this.hart_cnt = hart_cnt;
     }
 
+    public String getWriter_nickname() {
+        return writer_nickname;
+    }
+
+    public void setWriter_nickname(String writer_nickname) {
+        this.writer_nickname = writer_nickname;
+    }
+
     @Override
     public String toString() {
         return "ItemPostVO{" +
@@ -161,6 +170,7 @@ public class ItemPostVO {
                 ", imageList=" + imageList +
                 ", category_name='" + category_name + '\'' +
                 ", hart_cnt=" + hart_cnt +
+                ", writerNickName='" + writer_nickname + '\'' +
                 '}';
     }
 }
