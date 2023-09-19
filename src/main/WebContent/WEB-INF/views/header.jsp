@@ -20,7 +20,7 @@
             <a class="navbar-brand" href="${pageContext.request.contextPath}/page/chat">채팅</a>
             <a class="navbar-brand" href="${pageContext.request.contextPath}/page/mypageSell">마이페이지</a>
             <sec:authorize access="isAuthenticated()">
-               <a class="navbar-brand" href="" onclick="pageLogout()">로그아웃</a>
+               <a class="navbar-brand" onclick="pageLogout()">로그아웃</a>
             </sec:authorize>
             <sec:authorize access="isAnonymous()">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/page/login">로그인</a>
@@ -40,6 +40,8 @@ function pageLogout() {
 			xhr.setRequestHeader("content-type","application/json");
 			xhr.setRequestHeader(header, token);
 		}
-	})
+	}).done(() => {
+        window.location = "/";
+    })
 }	
 </script>
