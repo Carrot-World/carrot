@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="header bg-body-tertiary">
     <nav class="navbar">
-        <a class="navbar-brand logo" href="${pageContext.request.contextPath}/page/itemList">
+        <a class="navbar-brand logo" href="${pageContext.request.contextPath}/index.jsp">
             <img src="${pageContext.request.contextPath}/resources/image/carrot.jpeg" width="40" height="35"
                  class="align-text-top"/>
             당근나라
