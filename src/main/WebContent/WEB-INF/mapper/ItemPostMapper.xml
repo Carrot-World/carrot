@@ -37,9 +37,26 @@
     </select>
 
     <select id="selectById" resultType="com.carrot.domain.ItemPostVO" parameterType="int">
-        select * from ITEM_POST where id = #{id}
+        select item.id,
+        item.title,
+        item.content,
+        item.loc1,
+        item.loc2,
+        item.loc3,
+        item.writer,
+        item.chat_cnt,
+        item.price,
+        item.status,
+        item.category_id,
+        item.created_at,
+        item.hart_cnt,
+        writer.NICKNAME as writer_nickname
+        from item_post item,
+        USER_INFO writer
+        where item.Writer = writer.ID
+        and item.id = #{id}
     </select>
-    
+
     <select id="selectByWriter" resultType="com.carrot.domain.ItemPostVO">
         select * from ITEM_POST where writer = #{writer}
     </select>
