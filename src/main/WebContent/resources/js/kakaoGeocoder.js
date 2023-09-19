@@ -17,8 +17,8 @@ async function render(result) {
   const loc2List = await getChildLoc("/api/loc/get2", {loc1})
   const loc3List = await getChildLoc("/api/loc/get3", {loc1, loc2});
 
-  let html2 = "<option></option>";
-  let html3 = "<option></option>";
+  let html2 = `<option value="지역 선택">지역 선택</option>`;
+  let html3 = `<option value="동네 선택">동네 선택</option>`;
   loc2List.forEach(loc => html2 += `<option value="${loc}">${loc}</option>`);
   loc3List.forEach(loc => html3 += `<option value="${loc}">${loc}</option>`);
 
@@ -29,6 +29,8 @@ async function render(result) {
   document.querySelector("#loc2").value = loc2;
   document.querySelector("#loc3").value = loc3;
 
+  $("#loc2").prop("disabled", false);
+  $("#loc3").prop("disabled", false);
 
 }
 

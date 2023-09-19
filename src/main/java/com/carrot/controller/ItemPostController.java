@@ -3,7 +3,6 @@ package com.carrot.controller;
 import com.carrot.domain.*;
 import com.carrot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -117,28 +115,6 @@ public class ItemPostController {
         vo.setUser_id(userService.getUserInfo().getId());
         if (hartService.minus(vo) > 0) {
             return "/page/detail?id=" + vo.getItem_post_id();
-        } else {
-            return "accessDenied";
-        }
-    }
-
-    @RequestMapping("/page/updateForm")
-    public String updateForm(int item_id, String user_id, RedirectAttributes re) {
-        if (user_id.equals(userService.getUserInfo().getId())) {
-            re.addAttribute("itemId", String.valueOf(item_id));
-            return "redirect:/page/insertItem";
-        } else {
-            return "accessDenied";
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping("/api/item/update")
-    public String update(ItemPostVO vo,
-                         @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
-
-        if (itemPostService.update(vo, imageList) == 1) {
-            return "/page/detail?id=" + vo.getId();
         } else {
             return "accessDenied";
         }
