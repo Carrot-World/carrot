@@ -55,4 +55,15 @@
     <update id="updateLastMessage" parameterType="hashMap">
         update chatting_room set last_message=#{messageId} where id=#{roomId}
     </update>
+
+    <select id="search" parameterType="hashMap" resultType="int">
+        select count(*) from chatting_room where item_post_id=${postId} and buyer='${buyer}'
+    </select>
+
+    <insert id="createRoom" parameterType="com.carrot.domain.ChatRoomVO">
+        insert into chatting_room values (chatting_room_id.nextval, #{itemPostId}, #{buyer}, #{seller}, #{status}, null)
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select chatting_room_id.currval from dual
+        </selectKey>
+    </insert>
 </mapper>

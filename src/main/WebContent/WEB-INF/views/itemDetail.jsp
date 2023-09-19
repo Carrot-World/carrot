@@ -117,7 +117,11 @@
                     <button class="btn" type="button" id="hartBtn" value="${item.id}" value1="${item.hart_cnt}"
                             name="${isHart == null ? "plus" : "minus"}"
                             onclick="hartBtnHandler()">${isHart == null ? "찜하기" : "찜 취소"}</button>
-                    <button class="btn">채팅하기</button>
+                    <form action="/page/chat" method="post" class="button-wrapper">
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <input type="hidden" name="itemId" value="${item.id}"/>
+                        <button class="btn">채팅하기</button>
+                    </form>
                 </c:if>
                 <!-- 등록한 사람 -->
                 <c:if test="${item.writer == user.id}">

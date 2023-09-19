@@ -8,8 +8,10 @@ import java.util.Map;
 
 public interface ChatRepository {
 
-    public List<ChatRoomVO> getAllChatRooms(String userId);
-    public List<ChatMessageVO> getChatMessages(int id);
-    public int insertChatMessage(ChatMessageVO message);
-    public void updateLastMessage(Map map);
+    List<ChatRoomVO> getAllChatRooms(String userId);
+    List<ChatMessageVO> getChatMessages(int id);
+    int insertChatMessage(ChatMessageVO message);
+    void updateLastMessage(Map map);
+    int search(Map map);
+    int createRoom(ChatRoomVO room);
 }
