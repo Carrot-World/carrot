@@ -43,16 +43,6 @@ public class ItemPostService {
         }
     }
 
-    public int update(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
-        if (sqlSession.getMapper(ItemPostRepository.class).update(vo) > 0) {
-            AWSS3.deleteImage(imageService.getImageFileName(vo.getId()));
-            imageService.delete(vo.getId());
-            return setImage(vo, imageList);
-        } else {
-            return -1;
-        }
-    }
-
     public int setImage(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
         AWSS3.uploadImage(vo.getId(), imageList);
         for (int i = 0; i < imageList.size(); i++) {

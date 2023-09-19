@@ -121,26 +121,4 @@ public class ItemPostController {
             return "accessDenied";
         }
     }
-
-    @RequestMapping("/page/updateForm")
-    public String updateForm(int item_id, String user_id, RedirectAttributes re) {
-        if (user_id.equals(userService.getUserInfo().getId())) {
-            re.addAttribute("itemId", String.valueOf(item_id));
-            return "redirect:/page/insertItem";
-        } else {
-            return "accessDenied";
-        }
-    }
-
-    @ResponseBody
-    @RequestMapping("/api/item/update")
-    public String update(ItemPostVO vo,
-                         @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
-
-        if (itemPostService.update(vo, imageList) == 1) {
-            return "/page/detail?id=" + vo.getId();
-        } else {
-            return "accessDenied";
-        }
-    }
 }
