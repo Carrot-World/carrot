@@ -80,14 +80,13 @@ public class UserController {
 		UserVO vo = new UserVO();
 		vo = userService.getUserInfo();
 		String id = vo.getId();
+		String userid = map.get("id");
 		String password = map.get("password");
 		String newpassword = map.get("newpassword");
-		System.out.println("password : " + password);
-		System.out.println("newpassword : " + newpassword);
-		System.out.println("id : " + id);
-		
+	
 		if ( userService.pwdCheck(id, password) ) {
-			userService.updatePwd(id, newpassword);
+			int result = userService.updatePwd(id, newpassword);
+			System.out.println("result : " + result);
 		} else {
 			return false;
 		}
