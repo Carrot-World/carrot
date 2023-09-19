@@ -140,13 +140,8 @@ public class SnsLoginController {
 	@GetMapping("/api/signup/callback/kakao")
 	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,
 			RedirectAttributes redirectAttr) throws Exception {
-		System.out.println("#########" + code);
 		String access_Token = kakaoLoginService.getAccessToken(code);
-		System.out.println("###access_Token#### : " + access_Token);
-
 		HashMap<String, String> userInfo = kakaoLoginService.getUserInfo(access_Token);
-		System.out.println("###access_Token#### : " + access_Token);
-		System.out.println("###userinfo### : " + userInfo);
 
 		String id = userInfo.get("id"); // 카카오 가상의 아이디
 		String nickname = userInfo.get("nickname");
@@ -207,15 +202,11 @@ public class SnsLoginController {
 	
 	@GetMapping("/api/signup/callback/google")
 	public String googleLogin(@RequestParam("code") String accessCode, RedirectAttributes redirectAttr) {
-		System.out.println("컨트롤러 콜백구글:"+ accessCode);
 		ResponseEntity<GoogleRequest> requestEntity = googleLoginService.getGoogleAccessToken(accessCode);
-		System.out.println("컨트롤러는 2와같아야함:" + requestEntity);
 		
 		//sub = JWT에 포함된 주체(subject)를 나타냅니다. 주체는 사용자의 고유 식별자입니다.
 		String id = requestEntity.getBody().getSub(); 
 		String email = requestEntity.getBody().getEmail();
-		System.out.println("id: "+id);
-		System.out.println("email: "+email);
 		
 		String newId = "GOOGLE_" + id;
 		String target = "@";

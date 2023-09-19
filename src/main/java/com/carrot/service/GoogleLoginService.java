@@ -36,7 +36,6 @@ public class GoogleLoginService {
 		params.put("client_secret", GOOGLE_CLIENT_SECRET);
 		params.put("redirect_uri", LOGIN_REDIRECT_URL);
 		params.put("grant_type", "authorization_code");
-		System.out.println("이곳은 구글서비스");
 		ResponseEntity<String> responseEntity = restTemplate.postForEntity(GOOGLE_TOKEN_URL, params, String.class);
 
         String jsonBody = responseEntity.getBody();
@@ -60,7 +59,6 @@ public class GoogleLoginService {
         
         ResponseEntity<GoogleRequest> responseEntity2 = restTemplate.postForEntity(GOOGLE_TOKEN_INFO_URL, map, GoogleRequest.class);
         
-        System.out.println("로그인서비스: "+responseEntity2);
 		return responseEntity2;
 	}
 }

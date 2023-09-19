@@ -54,22 +54,19 @@ public class LoginController {
 		session.setAttribute("kakaoURI", KAKAO_URI);
 		session.setAttribute("googleID", GOOGLE_ID);
 		session.setAttribute("googleURI", GOOGLE_URI);
-		System.out.println("googleID /" + GOOGLE_ID);
-		System.out.println("googleURI /" + GOOGLE_URI);
 
 		return "login";
 	}
 
 	@GetMapping("/page/signup")
 	public String signUp() {
-		System.out.println("회원가입페이지 이동");
 		return "signUp";
 	}
 
+	@ResponseBody
 	@PostMapping("/api/signup")
-	public String signUp(String id, String nickname, String password, String email, String loc1, String loc2,
-			String loc3, RedirectAttributes redirectAttr) {
-
+	public int signUp(@RequestParam String id, @RequestParam String nickname, @RequestParam String password, @RequestParam String email, 
+			@RequestParam String loc1, @RequestParam String loc2, @RequestParam String loc3, RedirectAttributes redirectAttr) {
 		String encodepw = encoder.encode(password);
 
 		UserVO vo = new UserVO(id, nickname, encodepw, email, loc1, loc2, loc3);
@@ -78,39 +75,27 @@ public class LoginController {
 
 		int result = mapper.signUp(vo);
 		result += mapper.signUp_auth(authVo);
-
-		if (result == 2) {
-			redirectAttr.addFlashAttribute("msg", "success");
-			return "redirect:/page/signup_res";
-		}
-		redirectAttr.addFlashAttribute("msg", "fail");
-		return "redirect:/page/signup_res";
+		
+		return result;
 	}
 
 	@GetMapping("/page/signup_res")
 	public String loginResult() {
-		System.out.println("회원가입 결과창 들렸음");
 		return "signUpResult";
 	}
 
 	@GetMapping("/api/success")
 	public String success(Model model) {
-		System.out.println("에이피아이석섹");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 		UserVO vo = mapper.selectById(authentication.getName());
 		System.out.println("auth: " + authentication);
-		System.out.println("authentication.getAuthorities().getClass():" + authentication.getAuthorities().getClass());
-		System.out.println("authentication.getAuthorities():" + authentication.getAuthorities());
 		model.addAttribute("user", vo);
 		model.addAttribute("msg", authentication.getName() + "님 어서오세요");
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		CustomUser customuser = (CustomUser) principal;
 
-		System.out.println(customuser.getUser().getLoc1());
-		System.out.println(customuser.getUser().getLoc2());
-		System.out.println(customuser.getUser().getLoc3());
 		if (customuser.getUser().getLoc1() == null || customuser.getUser().getLoc2() == null
 				|| customuser.getUser().getLoc3() == null) {
 			model.addAttribute("req_locRegist", "locNull");
