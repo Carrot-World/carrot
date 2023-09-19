@@ -37,14 +37,14 @@
 				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
         		<security:intercept-url pattern="/page/itemRegister" access="isAuthenticated()" />
 
-				<security:intercept-url pattern="/page/newpost" access="permitAll" />
+				<security:intercept-url pattern="/page/newpost" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/townpost" access="permitAll" />
-				<security:intercept-url pattern="/page/detailpost" access="permitAll" />
-				<security:intercept-url pattern="/page/editpost" access="permitAll" />
+				<security:intercept-url pattern="/page/detailpost" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/editpost" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/postList" access="permitAll" />
-				<security:intercept-url pattern="/page/mypageSell" access="permitAll" />
-				<security:intercept-url pattern="/page/mypageBuy" access="permitAll" />
-				<security:intercept-url pattern="/page/mypageReply" access="permitAll" />
+				<security:intercept-url pattern="/page/mypageSell" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/mypageBuy" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/mypageReply" access="isAuthenticated()" />
 				
 				<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
 				<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
