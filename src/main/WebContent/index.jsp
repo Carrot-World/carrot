@@ -38,7 +38,7 @@
             <a class="navbar-brand" style="font-size: 20px; font-weight: 500" href="${pageContext.request.contextPath}/page/itemList">물품목록</a>
             <a class="navbar-brand" style="font-size: 20px; font-weight: 500" href="${pageContext.request.contextPath}/page/postList">동네생활</a>
             <a class="navbar-brand" style="font-size: 20px; font-weight: 500" href="${pageContext.request.contextPath}/page/chat">채팅</a>
-            <a class="navbar-brand" style="font-size: 20px; font-weight: 500" href="${pageContext.request.contextPath}/page/mypage">마이페이지</a>
+            <a class="navbar-brand" style="font-size: 20px; font-weight: 500" href="${pageContext.request.contextPath}/page/mypageSell">마이페이지</a>
             <sec:authorize access="isAuthenticated()">
                 <a class="navbar-brand" style="font-size: 20px; font-weight: 500" href="${pageContext.request.contextPath}/logout">로그아웃</a>
             </sec:authorize>
