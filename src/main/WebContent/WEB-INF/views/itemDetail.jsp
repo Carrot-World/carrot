@@ -87,7 +87,7 @@
         <div class="user-info">
             <div class="user-info-wrapper">
                 <div id="user-info">
-                    <h4 id="username">${item.writer}</h4>
+                    <h4 id="username">${item.writer_nickname}</h4>
                     <span id="location">${item.loc1} ${item.loc2} ${item.loc3}</span>
                     <p id="dealCnt">거래횟수: OO회</p>
                 </div>
