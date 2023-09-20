@@ -8,7 +8,7 @@
 </html>
 <div class="header bg-body-tertiary">
     <nav class="navbar">
-        <a class="navbar-brand logo" href="${pageContext.request.contextPath}/index.jsp">
+        <a class="navbar-brand logo" href="${pageContext.request.contextPath}/page/main">
             <img src="${pageContext.request.contextPath}/resources/image/carrot.jpeg" width="40" height="35"
                  class="align-text-top"/>
             당근나라
