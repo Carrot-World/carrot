@@ -46,27 +46,20 @@ public class ItemPostController {
     @RequestMapping("/page/itemList")
     public String listItem(SearchVO vo, Model model) {
         if (vo.getPageNo() == 0) {
-            if (userService.isAuthenticated()) {
-                UserVO user = userService.getUserInfo();
-                model.addAttribute("user", user);
-                model.addAttribute("list", itemPostService.search(pagingService.setPaging(userService.setUserLocation())));
-                model.addAttribute("loc1List", locationService.loc1Set());
-                model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
-                model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
-                model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
-            } else {
-                model.addAttribute("list", itemPostService.search(pagingService.setPaging(new SearchVO())));
-                model.addAttribute("loc1List", locationService.loc1Set());
-                model.addAttribute("page", pagingService.getPagingInfo(new SearchVO()));
-            }
+            UserVO user = userService.getUserInfo();
+            model.addAttribute("user", user);
+            model.addAttribute("list", itemPostService.search(pagingService.setPaging(userService.setUserLocation())));
+            model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+            model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+            model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
         } else {
             model.addAttribute("list", itemPostService.search(pagingService.setPaging(vo)));
-            model.addAttribute("loc1List", locationService.loc1Set());
             model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
             model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
             model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
             model.addAttribute("searchInfo", vo);
         }
+        model.addAttribute("loc1List", locationService.loc1Set());
         return "itemList";
     }
 
@@ -86,7 +79,7 @@ public class ItemPostController {
     @ResponseBody
     @RequestMapping("/api/item/insert")
     public String insert(ItemPostVO vo,
-                                       @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
+                         @RequestParam(value = "images", required = false) List<MultipartFile> imageList) throws IOException {
 
         if (itemPostService.insert(userService.getUserInfo(), vo, imageList) == 1) {
             return "/page/detail?id=" + vo.getId();
