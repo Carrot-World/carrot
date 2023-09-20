@@ -27,7 +27,7 @@
 				
 				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/itemList" access="isAuthenticated()" />
-				<security:intercept-url pattern="/page/detail" access="permitAll()" />
+				<security:intercept-url pattern="/page/detail" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
 				<security:intercept-url pattern="/api/item/search" access="permitAll()" />
@@ -36,6 +36,8 @@
 				<security:intercept-url pattern="/api/item/hartMinus" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/item/hartPlus" access="permitAll()" />
         		<security:intercept-url pattern="/page/itemRegister" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/getBuyer" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/item/delete" access="isAuthenticated()" />
 
 				<security:intercept-url pattern="/page/newpost" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/townpost" access="permitAll" />
@@ -52,8 +54,8 @@
 				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
 				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
 				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />			
-				<security:intercept-url pattern="/api/post/search" access="permitAll" />			
-      
+				<security:intercept-url pattern="/api/post/search" access="permitAll" />
+
         <security:intercept-url pattern="/page/chat" access="isAuthenticated()"/>
 			  <security:intercept-url pattern="/api/conn" access="isAuthenticated()"/>
 				

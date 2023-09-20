@@ -16,4 +16,5 @@ public interface ChatRepository {
     int createRoom(ChatRoomVO room);
     int updateIsRead(Map map);
     ChatRoomVO selectRoomById(int id);
+    List<ChatRoomVO> getBuyer(int itemPostId);
 }

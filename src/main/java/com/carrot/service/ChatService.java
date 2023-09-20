@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ChatService {
@@ -102,5 +99,14 @@ public class ChatService {
 
     public ChatRoomVO getRoomById(int id) {
         return session.getMapper(ChatRepository.class).selectRoomById(id);
+    }
+
+    public List<String> getBuyerList(int id) {
+        List<ChatRoomVO> roomList = session.getMapper(ChatRepository.class).getBuyer(id);
+        List<String> buyerList = new ArrayList<>();
+        for (ChatRoomVO room : roomList) {
+            buyerList.add(room.getBuyerName());
+        }
+        return buyerList;
     }
 }
