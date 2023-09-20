@@ -22,7 +22,6 @@ import com.carrot.domain.TownPostVO;
 import com.carrot.domain.UserVO;
 import com.carrot.repository.CategoryRepository;
 import com.carrot.repository.TownPostRepository;
-import com.fasterxml.jackson.core.format.DataFormatDetector;
 
 @Service
 public class TownPostService {
@@ -43,13 +42,15 @@ public class TownPostService {
 	public ArrayList<TownPostVO> searchPost(SearchVO vo){ //게시글 검색 조회
 		
 		System.out.println("service searchvo : " + vo);
+		ArrayList<TownPostVO> list = sqlSession.getMapper(TownPostRepository.class).listBySearch(vo);
 		
 		if (!isSetCategory) {
 			setCategoryName();
         }
-
-		ArrayList<TownPostVO> list = sqlSession.getMapper(TownPostRepository.class).listBySearch(vo);
-		
+        if (list.isEmpty()) {
+            return null;
+        }		
+        
 		for ( TownPostVO townpostvo : list ) {
 			townpostvo.setCategoryName(categoryNameMap.get(townpostvo.getCategory_id()));
 			townpostvo.setTime(dateFormat.format(townpostvo.getCreated_at()));

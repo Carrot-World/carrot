@@ -12,6 +12,8 @@ public interface TownPostRepository {
 	
 	//게시판 조회 (+검색)
 	public ArrayList<TownPostVO> listBySearch(SearchVO vo);
+	//
+	public int selectCount(SearchVO vo);
 	
 	
 	//게시글 등록

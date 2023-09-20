@@ -10,7 +10,7 @@
 	     <where>
 	     t.writer = u.id
             <if test="category_id != 0">
-                t.category_id = #{category_id} 
+                and t.category_id = #{category_id} 
             </if>
             <if test="loc1 != null">
                 and t.loc1 = #{loc1}
@@ -21,8 +21,8 @@
             <if test="loc3 != null">
                 and t.loc3 = #{loc3}
             </if>
-            <if test="title != title">
-            	and t.title LIKE '%${title}%' 
+            <if test="title != null">
+            	and t.title LIKE '%' || #{title} || '%' 
             </if>
         </where>
         order by t.id desc offset #{pageStartCnt} rows fetch first #{pageSize} rows only

@@ -1,5 +1,6 @@
 package com.carrot.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,37 +47,28 @@ public class TownPostController {
 	@RequestMapping("/page/postList") //게시물 조회
 	public String searchPost(SearchVO vo, Model model) {
 		
-		System.out.println("searchvo : " + vo);
-        if (userService.isAuthenticated()) {
+		System.out.println("게시물조회 : " + vo);
+		if (vo.getPageNo() == 0) {
             UserVO user = userService.getUserInfo();
             model.addAttribute("user", user);
-            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(userService.setUserLocation())));
-            model.addAttribute("loc1List", locationService.loc1Set());
+            ArrayList<TownPostVO> list = townpostService.searchPost(pagingService.setPaging(userService.setUserLocation()));
+            System.out.println("보내는 리스트 0 : " + list);
+            model.addAttribute("list", list);
             model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
             model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
             model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
         } else {
-            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(new SearchVO())));
-            model.addAttribute("loc1List", locationService.loc1Set());
-            model.addAttribute("page", pagingService.getPagingInfo(new SearchVO()));
+        	ArrayList<TownPostVO> list = townpostService.searchPost(pagingService.setPaging(vo));
+        	System.out.println("보내는 리스트 != 0 : " + list);
+        	model.addAttribute("list", list);
+            model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
+            model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
+            model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
+            model.addAttribute("searchInfo", vo);
         }
+        model.addAttribute("loc1List", locationService.loc1Set());
 		return "postList";
 	}
-	
-	 @RequestMapping("/api/post/search") //게시물 검색
-	    public String search(SearchVO vo, Model model) {
-		 
-		 System.out.print("게시물 검색 ; ");
-		 System.out.println(vo);
-	        model.addAttribute("list", townpostService.searchPost(vo));
-	        model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(vo)));
-	        model.addAttribute("loc1List", locationService.loc1Set());
-	        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
-	        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
-	        model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
-	        model.addAttribute("searchInfo", vo);
-	        return "searchPost";
-	    }
 	
 	@RequestMapping("/page/newpost") // 게시판 글 작성 페이지
 	public String newpost() {
@@ -90,7 +82,6 @@ public class TownPostController {
 		model.addAttribute("postdetail", vo);
 		return "postEdit";
 	}	
-
 	
 	// 기능
 	@RequestMapping("/api/post/inspost") // 게시물 등록
