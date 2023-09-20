@@ -35,3 +35,20 @@ function hartBtnHandler() {
         })
     }
 }
+
+function completeBtnHandler(writer) {
+    var el = $("#completeBtn");
+    var id = el.attr("value");
+
+    el.attr("disabled", true);
+
+    $.ajax({
+        url: "/api/item/getBuyer",
+        data: {id, writer},
+        method: "get",
+        dataType: "text"
+    }).done((result) => {
+        console.log(result);
+        el.attr("disabled", false);
+    })
+}

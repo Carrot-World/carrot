@@ -78,7 +78,7 @@ pageEncoding="UTF-8"%>
               <label for="location">위치</label>
               <div class="col-md-4 mb-3">
                 <select id="loc1" class="form-select" name="loc1" onchange="changeLoc1Select()" >
-                  <option selected disabled>도, 시</option>
+                  <option selected>도시 선택</option>
                   <option value="강원특별자치도">강원특별자치도</option>
                   <option value="경기도">경기도</option>
                   <option value="경상남도">경상남도</option>
@@ -100,13 +100,13 @@ pageEncoding="UTF-8"%>
               </div>
 
               <div class="col-md-3 mb-3">
-                <select id="loc2" class="form-select" name="loc2" onchange="changeLoc2Select()">
-                  <option selected disabled>구, 시</option>
+                <select id="loc2" class="form-select" name="loc2" onchange="changeLoc2Select()" disabled>
+                  <option selected>지역 선택</option>
                 </select>
               </div>
               <div class="col-md-3 mb-3">
-                <select id="loc3" class="form-select" name="loc3">
-                  <option selected disabled>동, 면, 읍</option>
+                <select id="loc3" class="form-select" name="loc3" disabled>
+                  <option selected>동네 선택</option>
                 </select>
               </div>
               <div class="col-md-2 mb-3 button-row">

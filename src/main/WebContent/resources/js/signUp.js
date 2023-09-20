@@ -177,43 +177,66 @@ function sendEmail() {
 function changeLoc1Select() {
   var loc1Select = document.getElementById("loc1");
   var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
+  var loc2El = $("#loc2");
+  var loc3El = $("#loc3");
 
-  $.ajax({
-    url: "/api/loc/get2",
-    data: {
-      loc1: loc1SelectValue,
-    },
-    method: "get",
-    dataType: "json",
-  }).done((data) => {
-    var selectEl = document.querySelector("#loc2");
-    selectEl.innerHTML = "";
-    data.forEach((loc) => {
-      selectEl.innerHTML += optionEl(loc);
+  if (loc1SelectValue === "도시 선택") {
+    loc2El.find("option:eq(0)").prop("selected", true);
+    loc3El.find("option:eq(0)").prop("selected", true);
+
+    loc2El.prop("disabled", true);
+    loc3El.prop("disabled", true);
+  } else {
+    $.ajax({
+      url: "/api/loc/get2",
+      data: {
+        "loc1": loc1SelectValue
+      },
+      method: "get",
+      dataType: "json"
+    }).done((data) => {
+      var selectLoc2El = document.querySelector("#loc2");
+      var selectLoc3El = document.querySelector("#loc3");
+      selectLoc2El.innerHTML = `<option value="지역 선택">지역 선택</option>`;
+      selectLoc3El.innerHTML = `<option value="동네 선택">동네 선택</option>`;
+      loc2El.prop("disabled", false);
+      loc3El.prop("disabled", true);
+      data.forEach((loc) => {
+        selectLoc2El.innerHTML += optionEl(loc);
+      })
     });
-  });
+  }
 }
+
 function changeLoc2Select() {
   var loc1Select = document.getElementById("loc1");
   var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
   var loc2Select = document.getElementById("loc2");
   var loc2SelectValue = loc2Select.options[loc2Select.selectedIndex].value;
+  var loc3El = $("#loc3");
 
-  $.ajax({
-    url: "/api/loc/get3",
-    data: {
-      loc1: loc1SelectValue,
-      loc2: loc2SelectValue,
-    },
-    method: "get",
-    dataType: "json",
-  }).done((data) => {
-    var selectEl = document.querySelector("#loc3");
-    selectEl.innerHTML = "";
-    data.forEach((loc) => {
-      selectEl.innerHTML += optionEl(loc);
+  if (loc1SelectValue === "도시 선택" || loc2SelectValue === "지역 선택") {
+    loc3El.find("option:eq(0)").prop("selected", true);
+
+    loc3El.prop("disabled", true);
+  } else {
+    $.ajax({
+      url: "/api/loc/get3",
+      data: {
+        "loc1": loc1SelectValue,
+        "loc2": loc2SelectValue
+      },
+      method: "get",
+      dataType: "json"
+    }).done((data) => {
+      var selectEl = document.querySelector("#loc3");
+      selectEl.innerHTML = `<option value="동네 선택">동네 선택</option>`;
+      loc3El.prop("disabled", false);
+      data.forEach((loc) => {
+        selectEl.innerHTML += optionEl(loc);
+      })
     });
-  });
+  }
 }
 
 function optionEl(loc) {
