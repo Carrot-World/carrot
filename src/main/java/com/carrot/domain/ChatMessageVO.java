@@ -5,12 +5,16 @@ import java.util.Date;
 public class ChatMessageVO {
     private int id;
     private String writer;
-    private String writerName;
     private String content;
     private Date createdAt;
     private int roomId;
     private int isRead;
+
+    private String writerName;
     private String time;
+    private String destinationId;
+    private int postId;
+    private String destinationName;
 
     public ChatMessageVO() {
     }
@@ -79,15 +83,43 @@ public class ChatMessageVO {
         this.writerName = writerName;
     }
 
+    public String getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(String destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
+
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
     @Override
     public String toString() {
         return "ChatMessageVO{" +
                 "id=" + id +
                 ", writer='" + writer + '\'' +
+                ", writerName='" + writerName + '\'' +
                 ", content='" + content + '\'' +
                 ", createdAt=" + createdAt +
                 ", roomId=" + roomId +
                 ", isRead=" + isRead +
+                ", time='" + time + '\'' +
+                ", destinationId='" + destinationId + '\'' +
+                ", postId=" + postId +
                 '}';
     }
 }

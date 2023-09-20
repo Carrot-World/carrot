@@ -33,17 +33,20 @@
     </resultMap>
 
     <select id="getAllChatRooms" resultMap="chatRoom" parameterType="java.lang.String">
-        select r.*, c.*, c.id as chat_id
-        from chatting_room r, chatting_content c
-        where r.last_message=c.id and (r.buyer = #{userId} or r.seller = #{userId})
+        select r.*, c.*, c.id as chat_id, u1.nickname as buyer_name, u2.nickname as seller_name
+        from chatting_room r, chatting_content c, user_info u1, user_info u2
+        where r.last_message=c.id and r.buyer=u1.id and r.seller=u2.id
+        and (r.buyer = #{userId} or r.seller = #{userId})
     </select>
 
     <select id="getChatMessages" resultMap="chatMessage">
-        select * from chatting_content where chatting_room_id = #{id} order by created_at
+        select c.*, u.nickname as writer_name
+        from chatting_content c, user_info u
+        where c.writer = u.id and chatting_room_id = #{id} order by created_at
     </select>
 
     <insert id="insertChatMessage" parameterType="com.carrot.domain.ChatMessageVO">
-        insert into chatting_content values (chatting_content_id.nextval, #{writer}, #{writerName}, #{content}, #{createdAt}, #{roomId}, ${isRead})
+        insert into chatting_content values (chatting_content_id.nextval, #{writer}, #{content}, #{createdAt}, #{roomId}, ${isRead})
         <selectKey keyProperty="id" resultType="int" order="AFTER">
             select chatting_content_id.currval from dual
         </selectKey>
@@ -52,4 +55,15 @@
     <update id="updateLastMessage" parameterType="hashMap">
         update chatting_room set last_message=#{messageId} where id=#{roomId}
     </update>
+
+    <select id="search" parameterType="hashMap" resultType="int">
+        select count(*) from chatting_room where item_post_id=${postId} and buyer='${buyer}'
+    </select>
+
+    <insert id="createRoom" parameterType="com.carrot.domain.ChatRoomVO">
+        insert into chatting_room values (chatting_room_id.nextval, #{itemPostId}, #{buyer}, #{seller}, #{status}, null)
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select chatting_room_id.currval from dual
+        </selectKey>
+    </insert>
 </mapper>

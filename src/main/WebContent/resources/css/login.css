@@ -1,64 +1,85 @@
 @charset "UTF-8";
 body {
-	background: #ffca95 !important;
-	background: linear-gradient(to right, #0062E6, #33AEFF);
+  min-height: 100vh;
+  background: -webkit-gradient(linear, left bottom, right top, from(#F6E3CE),
+    to(#F5D0A9));
+  background: -webkit-linear-gradient(bottom left, #F6E3CE0%, #F5D0A9 100%);
+  background: -moz-linear-gradient(bottom left, #F6E3CE 0%, #F5D0A9 100%);
+  background: -o-linear-gradient(bottom left, #F6E3CE 0%, #F5D0A9 100%);
+  background: linear-gradient(to top right, #F6E3CE 0%, #F5D0A9 100%);
 }
-
+ 
 .btn-loginType {
-	font-size: 0.9rem;
-	letter-spacing: 0.05rem;
-	padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
 }
 
 .btn-email {
-	color: white !important;
-	background-color: #0088ca;
+  color: white !important;
+  background-color: #0088ca;
 }
+
 .btn-email:hover {
-	background-color: #005984;
+  background-color: #005984;
 }
 
 .btn-google {
-	border: solid black 1px;
-	color: black !important;
-	background-color: #ffffff; 
-	/* background-color: #ea4335; */
-}
-.btn-google:hover {
-	border: solid black 1px;
-	background-color: #dddddd; 
-	/* background-color: #b92013; */
+  border: solid black 1px;
+  color: black !important;
+  background-color: #ffffff;
+  /* background-color: #ea4335; */
 }
 
+.btn-google:hover {
+  border: solid black 1px;
+  background-color: #dddddd;
+  /* background-color: #b92013; */
+}
 
 .btn-kakao {
-	color: black !important;
-	background-color: #f9e000;
-} 
+  color: black !important;
+  background-color: #f9e000;
+}
+
 .btn-kakao:hover {
-	background-color: #e1cb00;
-} 
+  background-color: #e1cb00;
+}
 
 .btn-naver {
-	color: white !important;
-	background-color: #01c75a;
-}
-.btn-naver:hover {
-	background-color: #01a74b;
+  color: white !important;
+  background-color: #01c75a;
 }
 
-.btn-logo-size{
-	height: 20px;
-	margin-right: 10px;
+.btn-naver:hover {
+  background-color: #01a74b;
 }
+
+.btn-logo-size {
+  height: 20px;
+  margin-right: 10px;
+}
+
 .div-finder {
- 	text-decoration-line: none;
-	font-size: small;
-	color: gray;
-	text-align: -webkit-right;
+  text-decoration-line: none;
+  font-size: small;
+  color: gray;
+  text-align: -webkit-right;
 }
+
 div.div-finder a.atag-finder {
- 	text-decoration-line: none;
-	font-size: small;
-	color:gray;
+  text-decoration-line: none;
+  font-size: small;
+  color: gray;
+}
+
+.orange-btn {
+    background-color: #fd7e14;
+    color: #fff !important;
+}
+
+.orange-btn:hover,
+.orange-btn:active {
+    background-color: #fd7e14 !important;
+    color: #fff !important;
 }

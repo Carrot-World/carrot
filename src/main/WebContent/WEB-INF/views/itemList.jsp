@@ -1,13 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7551008ffbd30aac5abaffdcc5a33d7f&libraries=services"></script>
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7551008ffbd30aac5abaffdcc5a33d7f&libraries=services"></script>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -33,31 +35,19 @@
     <div class="section-header">
         <div class="search">
             <c:if test="${searchInfo == null}">
-                <c:if test="${user != null}">
-                    <h3 class="curr-location">${user.nickname}님 동네(${user.loc1} ${user.loc2} ${user.loc3}) 의 물품!!</h3>
-                </c:if>
-                <c:if test="${user == null}">
-                    <h3 class="curr-location">실시간 물품</h3>
-                </c:if>
+                <h3 class="curr-location">${user.nickname}님 동네(${user.loc1} ${user.loc2} ${user.loc3}) 의 물품!!</h3>
             </c:if>
             <c:if test="${searchInfo != null}">
-                <h3 class="curr-location">${searchInfo.loc1} ${searchInfo.loc2} ${searchInfo.loc3} 물품~</h3>
+                <h3 class="curr-location">검색 결과 : ${searchInfo.loc1} ${searchInfo.loc2} ${searchInfo.loc3} 물품~</h3>
             </c:if>
             <div class="search-location">
                 <select class="form-select" id="loc1" name="loc1" onchange="changeLoc1Select()">
-                    <option></option>
+                    <option value="도시 선택">도시 선택</option>
                     <c:if test="${searchInfo == null}">
-                        <c:if test="${user != null}">
-                            <c:forEach items="${loc1List}" var="location1">
-                                <option ${location1 == user.loc1 ? 'selected' : ''}
-                                        value="${location1}">${location1}</option>
-                            </c:forEach>
-                        </c:if>
-                        <c:if test="${user == null}">
-                            <c:forEach items="${loc1List}" var="location1">
-                                <option value="${location1}">${location1}</option>
-                            </c:forEach>
-                        </c:if>
+                        <c:forEach items="${loc1List}" var="location1">
+                            <option ${location1 == user.loc1 ? 'selected' : ''}
+                                    value="${location1}">${location1}</option>
+                        </c:forEach>
                     </c:if>
                     <c:if test="${searchInfo != null}">
                         <c:forEach items="${loc1List}" var="location1">
@@ -66,40 +56,43 @@
                         </c:forEach>
                     </c:if>
                 </select>
-                <select class="form-select" id="loc2" name="loc2" onchange="changeLoc2Select()">
-                    <option></option>
-                    <c:if test="${searchInfo == null}">
-                        <c:if test="${user != null}">
-                            <c:forEach items="${loc2List}" var="location2">
-                                <option ${location2 == user.loc2 ? 'selected' : ''}
-                                        value="${location2}">${location2}</option>
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
-                    <c:if test="${searchInfo != null}">
+                <c:if test="${searchInfo == null}">
+                    <select class="form-select" id="loc2" name="loc2" onchange="changeLoc2Select()">
+                        <option value="지역 선택">지역 선택</option>
+                        <c:forEach items="${loc2List}" var="location2">
+                            <option ${location2 == user.loc2 ? 'selected' : ''}
+                                    value="${location2}">${location2}</option>
+                        </c:forEach>
+                    </select>
+                </c:if>
+                <c:if test="${searchInfo != null}">
+                    <select class="form-select" id="loc2" name="loc2" ${searchInfo.loc1 == null ? "disabled" : ""}
+                            onchange="changeLoc2Select()">
+                        <option value="지역 선택">지역 선택</option>
                         <c:forEach items="${loc2List}" var="location2">
                             <option ${location2 == searchInfo.loc2 ? 'selected' : ''}
                                     value="${location2}">${location2}</option>
                         </c:forEach>
-                    </c:if>
-                </select>
-                <select class="form-select" id="loc3" name="loc3">
-                    <option></option>
-                    <c:if test="${searchInfo == null}">
-                        <c:if test="${user != null}">
-                            <c:forEach items="${loc3List}" var="location3">
-                                <option ${location3 == user.loc3 ? 'selected' : ''}
-                                        value="${location3}">${location3}</option>
-                            </c:forEach>
-                        </c:if>
-                    </c:if>
-                    <c:if test="${searchInfo != null}">
+                    </select>
+                </c:if>
+                <c:if test="${searchInfo == null}">
+                    <select class="form-select" id="loc3" name="loc3">
+                        <option value="동네 선택">동네 선택</option>
+                        <c:forEach items="${loc3List}" var="location3">
+                            <option ${location3 == user.loc3 ? 'selected' : ''}
+                                    value="${location3}">${location3}</option>
+                        </c:forEach>
+                    </select>
+                </c:if>
+                <c:if test="${searchInfo != null}">
+                    <select class="form-select" id="loc3" name="loc3" ${searchInfo.loc2 == null ? "disabled" : ""}>
+                        <option value="동네 선택">동네 선택</option>
                         <c:forEach items="${loc3List}" var="location3">
                             <option ${location3 == searchInfo.loc3 ? 'selected' : ''}
                                     value="${location3}">${location3}</option>
                         </c:forEach>
-                    </c:if>
-                </select>
+                    </select>
+                </c:if>
                 <button class="btn" id="currBtn" onclick="currLocBtnHandler()">현재위치</button>
             </div>
             <div class="search-keyword">
@@ -125,7 +118,8 @@
                     <option value="18" ${searchInfo.category_id == 18 ? "selected" : ""}>반려동물용품</option>
                     <option value="19" ${searchInfo.category_id == 19 ? "selected" : ""}>기타 중고물품</option>
                 </select>
-                <input type="text" id="title" placeholder="검색어 입력" class="form-control" value="${searchInfo != null ? searchInfo.title : ""}">
+                <input type="text" id="title" placeholder="검색어 입력" class="form-control"
+                       value="${searchInfo != null ? searchInfo.title : ""}">
                 <button class="btn" id="searchBtn" onclick="searchBtnHandler()">검색</button>
             </div>
         </div>

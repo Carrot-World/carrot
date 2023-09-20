@@ -13,9 +13,9 @@ function rescaleCard() {
     const cardImg = document.querySelectorAll("img.card-img-top");
     for (let i = 0; i < cards.length; i++) {
         cards[i].style.width = `${cardWidth}px`;
-        if(cardImg[i]) {
-        	cardImg[i].style.height = `${cardWidth}px`;
-       	}
+        if (cardImg[i]) {
+            cardImg[i].style.height = `${cardWidth}px`;
+        }
     }
 }
 
@@ -39,22 +39,35 @@ window.addEventListener("resize", throttle(rescaleCard, 100))
 function changeLoc1Select() {
     var loc1Select = document.getElementById("loc1");
     var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
-    $.ajax({
-        url: "/api/loc/get2",
-        data: {
-            "loc1": loc1SelectValue
-        },
-        method: "get",
-        dataType: "json"
-    }).done((data) => {
-        var selectLoc2El = document.querySelector("#loc2");
-        var selectLoc3El = document.querySelector("#loc3");
-        selectLoc2El.innerHTML = "<option></option>";
-        selectLoc3El.innerHTML = "<option></option>";
-        data.forEach((loc) => {
-            selectLoc2El.innerHTML += optionEl(loc);
-        })
-    });
+    var loc2El = $("#loc2");
+    var loc3El = $("#loc3");
+
+    if (loc1SelectValue === "도시 선택") {
+        loc2El.find("option:eq(0)").prop("selected", true);
+        loc3El.find("option:eq(0)").prop("selected", true);
+
+        loc2El.prop("disabled", true);
+        loc3El.prop("disabled", true);
+    } else {
+        $.ajax({
+            url: "/api/loc/get2",
+            data: {
+                "loc1": loc1SelectValue
+            },
+            method: "get",
+            dataType: "json"
+        }).done((data) => {
+            var selectLoc2El = document.querySelector("#loc2");
+            var selectLoc3El = document.querySelector("#loc3");
+            selectLoc2El.innerHTML = `<option value="지역 선택">지역 선택</option>`;
+            selectLoc3El.innerHTML = `<option value="동네 선택">동네 선택</option>`;
+            loc2El.prop("disabled", false);
+            loc3El.prop("disabled", true);
+            data.forEach((loc) => {
+                selectLoc2El.innerHTML += optionEl(loc);
+            })
+        });
+    }
 }
 
 function changeLoc2Select() {
@@ -62,22 +75,30 @@ function changeLoc2Select() {
     var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
     var loc2Select = document.getElementById("loc2");
     var loc2SelectValue = loc2Select.options[loc2Select.selectedIndex].value;
+    var loc3El = $("#loc3");
 
-    $.ajax({
-        url: "/api/loc/get3",
-        data: {
-            "loc1": loc1SelectValue,
-            "loc2": loc2SelectValue
-        },
-        method: "get",
-        dataType: "json"
-    }).done((data) => {
-        var selectEl = document.querySelector("#loc3");
-        selectEl.innerHTML = "<option></option>";
-        data.forEach((loc) => {
-            selectEl.innerHTML += optionEl(loc);
-        })
-    });
+    if (loc1SelectValue === "도시 선택" || loc2SelectValue === "지역 선택") {
+        loc3El.find("option:eq(0)").prop("selected", true);
+
+        loc3El.prop("disabled", true);
+    } else {
+        $.ajax({
+            url: "/api/loc/get3",
+            data: {
+                "loc1": loc1SelectValue,
+                "loc2": loc2SelectValue
+            },
+            method: "get",
+            dataType: "json"
+        }).done((data) => {
+            var selectEl = document.querySelector("#loc3");
+            selectEl.innerHTML = `<option value="동네 선택">동네 선택</option>`;
+            loc3El.prop("disabled", false);
+            data.forEach((loc) => {
+                selectEl.innerHTML += optionEl(loc);
+            })
+        });
+    }
 }
 
 function optionEl(loc) {
@@ -97,7 +118,7 @@ function searchBtnHandler() {
 
     var search = new URLSearchParams();
 
-    if (loc1SelectValue === "") {
+    if (loc1SelectValue === "도시 선택") {
         $("#loc2").find("option:eq(0)").prop("selected", true);
         $("#loc3").find("option:eq(0)").prop("selected", true);
 
@@ -106,7 +127,7 @@ function searchBtnHandler() {
         search.append("category_id", categorySelectId);
         location.search = search.toString();
 
-    } else if (loc2SelectValue === "") {
+    } else if (loc2SelectValue === "지역 선택") {
         $("#loc3").find("option:eq(0)").prop("selected", true);
 
         search.append("pageNo", 1);
@@ -115,7 +136,7 @@ function searchBtnHandler() {
         search.append("loc1", loc1SelectValue);
         location.search = search.toString();
 
-    } else if (loc3SelectValue === "") {
+    } else if (loc3SelectValue === "동네 선택") {
 
         search.append("pageNo", 1);
         search.append("title", title);

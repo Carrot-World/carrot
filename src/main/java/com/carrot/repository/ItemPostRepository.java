@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ItemPostRepository {
     public int insert(ItemPostVO vo);
-    public int update(ItemPostVO vo);
     public int selectCount(SearchVO vo);
     public ItemPostVO selectById(int id);
     public List<ItemPostVO> search(SearchVO vo);

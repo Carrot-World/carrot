@@ -1,3 +1,3 @@
 $(".btn-email").click(function (e) {
-		 location.href="/page/signup";
+  location.href = "/page/signup";
 });

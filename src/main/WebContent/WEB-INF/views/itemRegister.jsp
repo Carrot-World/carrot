@@ -81,21 +81,21 @@
             <label class="form-label">지역</label>
             <div class="select-wrapper">
                 <select class="form-select" id="loc1" name="loc1"
-                        onchange="changeLoc1Select()" ${item == null ? "" : "disabled"}>
-                    <option></option>
+                        onchange="changeLoc1Select()">
+                    <option value="도시 선택">도시 선택</option>
                     <c:forEach items="${loc1List}" var="location1">
                         <option ${location1 == user.loc1 ? 'selected' : ''} value="${location1}">${location1}</option>
                     </c:forEach>
                 </select>
                 <select class="form-select" id="loc2" name="loc2"
-                        onchange="changeLoc2Select()" ${item == null ? "" : "disabled"}>
-                    <option></option>
+                        onchange="changeLoc2Select()">
+                    <option value="지역 선택">지역 선택</option>
                     <c:forEach items="${loc2List}" var="location2">
                         <option ${location2 == user.loc2 ? 'selected' : ''} value="${location2}">${location2}</option>
                     </c:forEach>
                 </select>
-                <select class="form-select" id="loc3" name="loc3" ${item == null ? "" : "disabled"}>
-                    <option></option>
+                <select class="form-select" id="loc3" name="loc3">
+                    <option value="동네 선택">동네 선택</option>
                     <c:forEach items="${loc3List}" var="location3">
                         <option ${location3 == user.loc3 ? 'selected' : ''} value="${location3}">${location3}</option>
                     </c:forEach>

@@ -16,9 +16,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 			Authentication auth) throws IOException, ServletException {
 		System.out.println("login success");
 
-//		String msg = auth.getName()+"님 환영합니다.";
-//		request.setAttribute("msg", msg); //request 영역에 저장
-		
 		response.sendRedirect("/page/itemList");
 		
 	}

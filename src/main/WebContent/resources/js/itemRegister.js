@@ -121,78 +121,59 @@ function uploadHandler() {
     formData.append("content", content);
     formData.append(token.getAttribute("name"), token.value);
 
-
-    for (let key of formData.keys()) {
-        console.log(key);
-    }
-
-    for (let value of formData.values()) {
-        console.log(value);
-    }
-
-    const insertBtnEl = $("#insertBtn");
-    const insertBtnName = insertBtnEl.attr("name");
-    console.log("버튼이름: " + insertBtnName);
-
-    if (insertBtnName === "insert") {
-        $.ajax({
-            url: "/api/item/insert",
-            data: formData,
-            enctype: "multipart/form-data",
-            processData: false,
-            contentType: false,
-            method: "post",
-            dataType: "text",
-            error: function () {
-                alert("애러 발생 ㅜㅜ");
-            }
-        }).done((result) => {
-            if (result === "/page/itemRegister#") {
-                alert("문제 발생, 관리자에 문의 바람");
-            } else {
-                alert("등록 성공");
-            }
-            window.location = result;
-        })
-
-    } else if (insertBtnName === "update") {
-        const id = insertBtnEl.attr("value");
-        formData.append("id", id);
-        $.ajax({
-            url: "/api/item/update",
-            data: formData,
-            enctype: "multipart/form-data",
-            processData: false,
-            contentType: false,
-            method: "post",
-            dataType: "text"
-        }).done((result) => {
-            window.location = result;
-        })
-    }
+    $.ajax({
+        url: "/api/item/insert",
+        data: formData,
+        enctype: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        method: "post",
+        dataType: "text",
+        error: function () {
+            alert("애러 발생 ㅜㅜ");
+        }
+    }).done((result) => {
+        if (result === "/page/itemRegister#") {
+            alert("문제 발생, 관리자에 문의 바람");
+        } else {
+            alert("등록 성공");
+        }
+        window.location = result;
+    })
 }
 
 function changeLoc1Select() {
     var loc1Select = document.getElementById("loc1");
     var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
+    var loc2El = $("#loc2");
+    var loc3El = $("#loc3");
 
-    $.ajax({
-        url: "/api/loc/get2",
-        data: {
-            "loc1": loc1SelectValue
-        },
-        method: "get",
-        dataType: "json"
-    }).done((data) => {
-        console.log(data);
-        var selectLoc2El = document.querySelector("#loc2");
-        var selectLoc3El = document.querySelector("#loc3");
-        selectLoc2El.innerHTML = "<option></option>";
-        selectLoc3El.innerHTML = "<option></option>";
-        data.forEach((loc) => {
-            selectLoc2El.innerHTML += optionEl(loc);
-        })
-    });
+    if (loc1SelectValue === "도시 선택") {
+        loc2El.find("option:eq(0)").prop("selected", true);
+        loc3El.find("option:eq(0)").prop("selected", true);
+
+        loc2El.prop("disabled", true);
+        loc3El.prop("disabled", true);
+    } else {
+        $.ajax({
+            url: "/api/loc/get2",
+            data: {
+                "loc1": loc1SelectValue
+            },
+            method: "get",
+            dataType: "json"
+        }).done((data) => {
+            var selectLoc2El = document.querySelector("#loc2");
+            var selectLoc3El = document.querySelector("#loc3");
+            selectLoc2El.innerHTML = `<option value="지역 선택">지역 선택</option>`;
+            selectLoc3El.innerHTML = `<option value="동네 선택">동네 선택</option>`;
+            loc2El.prop("disabled", false);
+            loc3El.prop("disabled", true);
+            data.forEach((loc) => {
+                selectLoc2El.innerHTML += optionEl(loc);
+            })
+        });
+    }
 }
 
 function changeLoc2Select() {
@@ -200,23 +181,30 @@ function changeLoc2Select() {
     var loc1SelectValue = loc1Select.options[loc1Select.selectedIndex].value;
     var loc2Select = document.getElementById("loc2");
     var loc2SelectValue = loc2Select.options[loc2Select.selectedIndex].value;
+    var loc3El = $("#loc3");
 
-    $.ajax({
-        url: "/api/loc/get3",
-        data: {
-            "loc1": loc1SelectValue,
-            "loc2": loc2SelectValue
-        },
-        method: "get",
-        dataType: "json"
-    }).done((data) => {
-        console.log(data);
-        var selectEl = document.querySelector("#loc3");
-        selectEl.innerHTML = "<option></option>";
-        data.forEach((loc) => {
-            selectEl.innerHTML += optionEl(loc);
-        })
-    });
+    if (loc1SelectValue === "도시 선택" || loc2SelectValue === "지역 선택") {
+        loc3El.find("option:eq(0)").prop("selected", true);
+
+        loc3El.prop("disabled", true);
+    } else {
+        $.ajax({
+            url: "/api/loc/get3",
+            data: {
+                "loc1": loc1SelectValue,
+                "loc2": loc2SelectValue
+            },
+            method: "get",
+            dataType: "json"
+        }).done((data) => {
+            var selectEl = document.querySelector("#loc3");
+            selectEl.innerHTML = `<option value="동네 선택">동네 선택</option>`;
+            loc3El.prop("disabled", false);
+            data.forEach((loc) => {
+                selectEl.innerHTML += optionEl(loc);
+            })
+        });
+    }
 }
 
 function optionEl(loc) {

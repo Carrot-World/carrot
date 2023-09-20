@@ -1,7 +1,6 @@
 package com.carrot.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,16 +36,6 @@ public class ItemPostService {
         vo.setWriter(user.getId());
         vo.setCreated_at(new Date(System.currentTimeMillis()));
         if (sqlSession.getMapper(ItemPostRepository.class).insert(vo) > 0) {
-            return setImage(vo, imageList);
-        } else {
-            return -1;
-        }
-    }
-
-    public int update(ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
-        if (sqlSession.getMapper(ItemPostRepository.class).update(vo) > 0) {
-            AWSS3.deleteImage(imageService.getImageFileName(vo.getId()));
-            imageService.delete(vo.getId());
             return setImage(vo, imageList);
         } else {
             return -1;

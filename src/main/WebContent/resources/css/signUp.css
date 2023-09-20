@@ -1,71 +1,79 @@
 @charset "UTF-8";
 
-
 body {
-	min-height: 100vh;
-	
-	background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
-	background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-	background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-	background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
-	background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+  min-height: 100vh;
+  background: -webkit-gradient(linear, left bottom, right top, from(#F8ECE0),
+    to(#F5D0A9));
+  background: -webkit-linear-gradient(bottom left, #F8ECE0 0%, #F5D0A9 100%);
+  background: -moz-linear-gradient(bottom left, #F8ECE0 0%, #F5D0A9 100%);
+  background: -o-linear-gradient(bottom left, #F8ECE0 0%, #F5D0A9 100%);
+  background: linear-gradient(to top right, #F8ECE0 0%, #F5D0A9 100%);
 }
-
+ 
 .input-form {
-	max-width: 610px;
-	
-	margin-top: 80px;
-	padding: 50px;
-	
-	background: #fff;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	-webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
-	box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+  max-width: 610px;
+  margin-top: 80px;
+  padding: 50px;
+  background: #fff;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
 }
 
-.btn-custom{
-	--bs-btn-padding-y: 0.35rem;
-  --bs-btn-padding-x: 1rem;
-  --bs-btn-font-size: 1.0rem;
+.btn-custom { 
+  --bs-btn-padding-y: 0.35rem;
+  --bs-btn-padding-x: 1rem; 
   --bs-btn-border-radius: 0.5rem;
   margin-left: 12px;
 }
 
-#btn-emailCheck{
-	--bs-btn-padding-x: 0.8rem;
+.orange-btn {
+    background-color: #fd7e14;
+    color: #fff !important;
 }
 
-.button-row, .register-row{
-	display: flex;
- 	justify-content: flex-end;
+.orange-btn:hover,
+.orange-btn:active {
+    background-color: #fd7e14 !important;
+    color: #fff !important;
 }
 
-.loc-row{
-    --bs-gutter-x: 0.7rem;
-    --bs-gutter-y: 0;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: calc(-1 * var(--bs-gutter-y));
-    margin-right: calc(-.5 * var(--bs-gutter-x));
-    margin-left: calc(-.5 * var(--bs-gutter-x));
+#btn-emailCheck { -
+  -bs-btn-padding-x: 0.8rem;
 }
-#btn-myLoc{
-		--bs-btn-padding-y: 0.35rem;
-  --bs-btn-padding-x: 0.3rem;
-  --bs-btn-font-size: 1.0rem;
+
+.button-row, .register-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loc-row { 
+  --bs-gutter-x: 0.7rem; 
+
+}
+
+#btn-myLoc { 
+  --bs-btn-padding-y: 0.35rem; 
+  --bs-btn-padding-x: 0.3rem; 
   --bs-btn-border-radius: 0.5rem;
 }
 
-.modal-text{
-	width: 250px;
+.modal-text {
+  width: 250px;
 }
-#modal-text-email{
-	background-color: #80808021;
+
+#modal-text-email {
+  background-color: #80808021;
 }
-#custom-modal-row{
-	display: flex;
-	justify-content: space-around;
+
+#custom-modal-row {
+  display: flex;
+  justify-content: space-around;
+}
+.btn-cancel{
+  background-color: #8c8c8c! important;
+  color: #f9f9f9!important
 }
