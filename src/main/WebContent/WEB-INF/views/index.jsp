@@ -4,8 +4,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
-    <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
     <title>Document</title>
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7551008ffbd30aac5abaffdcc5a33d7f&libraries=services"></script>
@@ -41,19 +39,6 @@
 $(window).scroll(function(){
     $('.header').css('left', 0-$(this).scrollLeft());
 });
-function pageLogout() {
-	var header = $("meta[name='_csrf_header']").attr("content");
-	var token = $("meta[name='_csrf']").attr("content");
-	
-	$.ajax({
-		type: 'POST',
-		url: '/logout',
-		beforeSend: function (xhr) {
-			xhr.setRequestHeader("content-type","application/json");
-			xhr.setRequestHeader(header, token);
-		}
-	})
-}	
 </script>
 </body>
 </html>
