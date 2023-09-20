@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -23,7 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   </head>
   <body>
-  <jsp:include page="/WEB-INF/views/header.jsp"/>
+    <jsp:include page="/WEB-INF/views/header.jsp"/>
     <div class="section">
       <div class="room-container" id="roomArea">
         <h2 class="username" id="userName" userId="${userId}">${username}</h2>
@@ -49,50 +48,24 @@
           </div>
         </c:forEach>
       </div>
-      <div class="chat-container" roomId="
-      <c:if test="${fn:length(rooms) == 0}">-1</c:if>
-      <c:if test="${fn:length(rooms) != 0}">${rooms[0].id}</c:if>
-      ">
+      <div class="chat-container" roomId="-1">
         <div class="chat-header">
           <h2>
-            <c:choose>
-              <c:when test="${username eq rooms[0].sellerName}">${rooms[0].buyerName}</c:when>
-              <c:when test="${username eq rooms[0].buyerName}">${rooms[0].sellerName}</c:when>
-            </c:choose>
+            ${item.writer_nickname}
           </h2>
           <button class="btn red-btn">나가기</button>
         </div>
 
         <div class="chat-content" id="messageArea">
-          <c:forEach items="${messages}" var="message">
-            <c:choose>
-              <c:when test="${username eq message.writerName}">
-                <div class="message-wrapper my">
-              </c:when>
-              <c:when test="${username ne message.writerName}">
-                <div class="message-wrapper">
-              </c:when>
-            </c:choose>
-              <div class="card">
-                <div class="card-body">
-                  <div class="card-title">${message.writerName}</div>
-                  <div class="card-text">${message.content}</div>
-                  <div class="card-time">
-                    <fmt:formatDate pattern="MM/dd hh:mm" value="${message.createdAt}"/>
-                  </div>
 
-                </div>
-              </div>
-            </div>
-          </c:forEach>
         </div>
 
-        <div class="chat-input">
-          <textarea class="form-control" id="chatInput"></textarea>
-          <button class="btn orange-btn" id="send" onclick="sendBtnHandler()">전송</button>
+          <div class="chat-input">
+            <textarea class="form-control" id="chatInput"></textarea>
+            <button class="btn orange-btn" id="send" onclick="sendBtnHandler2('${item.writer}', ${item.id})">전송</button>
+          </div>
         </div>
       </div>
-    </div>
     </div>
     <script>
       $(window).scroll(function(){
