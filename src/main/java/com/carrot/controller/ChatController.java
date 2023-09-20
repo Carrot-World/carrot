@@ -108,4 +108,14 @@ public class ChatController {
         template.convertAndSend("/socket/roomchange/"+(user.getId()), messages, header);
     }
 
+    @MessageMapping("/socket/read/{id}")
+    public void updateIsRead(@DestinationVariable String id, java.security.Principal principal) {
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
+        UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        int roomId = Integer.parseInt(id);
+        String userId = user.getId();
+
+        chatService.updateIsRead(userId, roomId);
+    }
+
 }
