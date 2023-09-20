@@ -91,11 +91,8 @@ public class ItemPostController {
     @ResponseBody
     @RequestMapping("/api/item/hartPlus")
     public String hartPlus(HartVO vo) {
-        if (!userService.isAuthenticated()) {
-            return "/page/login";
-        }
         vo.setUser_id(userService.getUserInfo().getId());
-        if (hartService.plus(vo) == 2) {
+        if (hartService.plus(vo) == 1) {
             return "/page/detail?id=" + vo.getItem_post_id();
         } else {
             return "accessDenied";

@@ -86,10 +86,11 @@
         </div>
         <div class="user-info">
             <div class="user-info-wrapper">
-                <div id="user-info" onclick="location.href='${pageContext.request.contextPath}/page/mypageSell?id=${item.writer}'">
+                <div id="user-info"
+                     onclick="location.href='${pageContext.request.contextPath}/page/mypageSell?id=${item.writer}'">
                     <h4 id="username">${item.writer_nickname}</h4>
                     <span id="location">${item.loc1} ${item.loc2} ${item.loc3}</span>
-                    <p id="dealCnt">거래횟수: OO회</p>
+                    <p id="dealCnt">거래횟수: ${item.writer_trade_cnt}회</p>
                 </div>
                 <div class="button-wrapper">
 
@@ -126,7 +127,8 @@
                 <!-- 등록한 사람 -->
                 <c:if test="${item.writer == user.id}">
                     <c:if test="${item.status == 0}">
-                        <button class="btn" id="completeBtn" value="${item.id}" onclick="completeBtnHandler('${item.writer}')">판매완료하기</button>
+                        <button class="btn" id="completeBtn" value="${item.id}"
+                                onclick="completeBtnHandler('${item.writer}')">판매완료하기</button>
                         <form action="/api/item/delete" method="post" class="button-wrapper">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <input type="hidden" name="id" value="${item.id}"/>

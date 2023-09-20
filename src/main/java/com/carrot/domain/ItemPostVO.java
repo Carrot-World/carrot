@@ -20,6 +20,7 @@ public class ItemPostVO {
     private String category_name;
     private int hart_cnt;
     private String writer_nickname;
+    private int writer_trade_cnt;
 
     public ItemPostVO() {
     }
@@ -152,6 +153,14 @@ public class ItemPostVO {
         this.writer_nickname = writer_nickname;
     }
 
+    public int getWriter_trade_cnt() {
+        return writer_trade_cnt;
+    }
+
+    public void setWriter_trade_cnt(int writer_trade_cnt) {
+        this.writer_trade_cnt = writer_trade_cnt;
+    }
+
     @Override
     public String toString() {
         return "ItemPostVO{" +
@@ -170,7 +179,8 @@ public class ItemPostVO {
                 ", imageList=" + imageList +
                 ", category_name='" + category_name + '\'' +
                 ", hart_cnt=" + hart_cnt +
-                ", writerNickName='" + writer_nickname + '\'' +
+                ", writer_nickname='" + writer_nickname + '\'' +
+                ", writer_trade_cnt=" + writer_trade_cnt +
                 '}';
     }
 }
