@@ -1,11 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<html>
-  <head>
-    <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
-    <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
-  </head>
-</html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
+prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <div class="header bg-body-tertiary">
     <nav class="navbar">
         <a class="navbar-brand logo" href="${pageContext.request.contextPath}/page/main">
@@ -29,19 +24,17 @@
     </nav>
 </div>
 <script>
-function pageLogout() {
-	var header = $("meta[name='_csrf_header']").attr("content");
-	var token = $("meta[name='_csrf']").attr("content");
-	
-	$.ajax({
-		type: 'POST',
-		url: '/logout',
-		beforeSend: function (xhr) {
-			xhr.setRequestHeader("content-type","application/json");
-			xhr.setRequestHeader(header, token);
-		}
-	}).done(() => {
-        window.location = "/";
-    })
-}	
+  function pageLogout() {
+    var header = $("meta[name='_csrf_header']").attr("content");
+    var token = $("meta[name='_csrf']").attr("content");
+
+    $.ajax({
+      type: "POST",
+      url: "/logout",
+      beforeSend: function (xhr) {
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader(header, token);
+      },
+    });
+  }
 </script>

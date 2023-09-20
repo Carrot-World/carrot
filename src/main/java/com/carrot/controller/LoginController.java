@@ -1,5 +1,6 @@
 package com.carrot.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -141,5 +142,22 @@ public class LoginController {
 	@GetMapping("/page/findid")
 	public String findid(String id) {
 		return "findId";
+	}
+	
+	@GetMapping("/api/loginfail")
+	public String loginfail(HttpServletRequest request, RedirectAttributes redirectAttr) {
+       
+		String loginFailMsg = (String) request.getSession().getAttribute("loginFailureMessage");
+
+        if (loginFailMsg != null) {
+            // RedirectAttributes를 사용하여 메시지를 다음 요청으로 전달
+        	redirectAttr.addFlashAttribute("LoginFailMessage", loginFailMsg);
+
+            // 메시지를 한 번 사용하면 세션에서 제거합니다.
+            request.getSession().removeAttribute("loginFailureMessage");
+        }
+        // 로그인 페이지로 리다이렉트
+        return "redirect:/page/login";
+		
 	}
 }
