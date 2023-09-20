@@ -66,4 +66,14 @@
             select chatting_room_id.currval from dual
         </selectKey>
     </insert>
+
+    <update id="updateIsRead" parameterType="hashMap">
+        update chatting_content set is_read=0 where chatting_room_id=#{roomId} and writer!=#{userId}
+    </update>
+
+    <select id="selectRoomById" parameterType="int" resultType="com.carrot.domain.ChatRoomVO">
+        select c.*, u1.nickname as sellerName, u2.nickname as buyerName
+        from chatting_room c, user_info u1, user_info u2
+        where c.id=#{id} and u1.id=c.seller and u2.id=c.buyer
+    </select>
 </mapper>

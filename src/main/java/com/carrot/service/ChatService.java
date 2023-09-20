@@ -30,7 +30,7 @@ public class ChatService {
         }
     };
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd hh:mm");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
 
 
     public List<ChatRoomVO> getAllChatRooms(String userId) {
@@ -58,6 +58,9 @@ public class ChatService {
 
     public List<ChatMessageVO> getMessages(int id) {
         List<ChatMessageVO> messages = session.getMapper(ChatRepository.class).getChatMessages(id);
+        for (ChatMessageVO message : messages) {
+            message.setTime(dateFormat.format(message.getCreatedAt()));
+        }
         return messages;
     }
 
@@ -88,5 +91,16 @@ public class ChatService {
     public int createChatRoom(ChatRoomVO room) {
         session.getMapper(ChatRepository.class).createRoom(room);
         return room.getId();
+    }
+
+    public void updateIsRead(String userId, int roomId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("roomId", roomId);
+        session.getMapper(ChatRepository.class).updateIsRead(map);
+    }
+
+    public ChatRoomVO getRoomById(int id) {
+        return session.getMapper(ChatRepository.class).selectRoomById(id);
     }
 }
