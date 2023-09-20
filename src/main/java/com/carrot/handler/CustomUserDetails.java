@@ -25,12 +25,14 @@ public class CustomUserDetails implements UserDetailsService{
 	
 		 UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 		 UserVO vo = mapper.selectById(username);
-		 System.out.println(vo);
-		 System.out.println("userid:" +username);
+		 System.out.println("vo: "+vo);
+		 System.out.println("userid: " +username);
 		 List <AuthVO> list = mapper.selectByAuth(username);
-		 System.out.println("리스트: "+list);
-		 vo.setAuthList(list);
-		
+		 System.out.println("권한 리스트: "+list);
+		 if(list != null) {
+			 vo.setAuthList(list);
+		 }
+		 System.out.println("authlist세팅잘됏니: "+vo.getAuthList());
 		return vo == null ? null : new CustomUser(vo);
 	}
 
