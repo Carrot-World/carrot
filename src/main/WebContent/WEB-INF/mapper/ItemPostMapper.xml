@@ -10,16 +10,22 @@
         #{writer}, 0, #{price}, 0, #{category_id}, #{created_at}, #{hart_cnt})
     </insert>
 
-    <update id="update" parameterType="com.carrot.domain.ItemPostVO">
-        update ITEM_POST set TITLE = #{title}, CONTENT = #{content}, PRICE = #{price}, CATEGORY_ID = #{category_id}
-        where id = #{id}
+    <update id="updateComplete" parameterType="com.carrot.domain.ItemPostVO">
+        update ITEM_POST set status = 1
+        where id = #{id} and writer = #{writer}
+    </update>
+
+    <update id="delete" parameterType="com.carrot.domain.ItemPostVO">
+        update item_post set status = 2
+        where id = #{id} and writer = #{writer}
     </update>
 
     <select id="selectCount" parameterType="com.carrot.domain.SearchVO" resultType="int">
         select count(*) from item_post
         <where>
+            status = 0
             <if test="category_id != 0">
-                category_id = #{category_id}
+                and category_id = #{category_id}
             </if>
             <if test="loc1 != null">
                 and loc1 = #{loc1}
@@ -64,8 +70,9 @@
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
         select * from item_post
         <where>
+            status = 0
             <if test="category_id != 0">
-                category_id = #{category_id}
+                and category_id = #{category_id}
             </if>
             <if test="loc1 != null">
                 and loc1 = #{loc1}
@@ -95,5 +102,9 @@
         <if test="cnt == 0">
             where id = 0
         </if>
+    </update>
+
+    <update id="addChatCnt" parameterType="int">
+        update item_post set chat_cnt = chat_cnt + 1 where id=#{postId}
     </update>
 </mapper>

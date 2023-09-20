@@ -92,4 +92,16 @@ public class ItemPostService {
         }
         isSetCategory = true;
     }
+
+    public void addChatCnt(int postId) {
+        sqlSession.getMapper(ItemPostRepository.class).addChatCnt(postId);
+    }
+
+    public int complete(ItemPostVO vo) {
+
+        return sqlSession.getMapper(ItemPostRepository.class).updateComplete(vo);
+    }
+    public int delete(ItemPostVO vo) {
+        return sqlSession.getMapper(ItemPostRepository.class).delete(vo);
+    }
 }

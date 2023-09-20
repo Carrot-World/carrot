@@ -95,9 +95,12 @@ public class ChatRoomVO {
                 "id=" + id +
                 ", itemPostId=" + itemPostId +
                 ", buyer='" + buyer + '\'' +
+                ", buyerName='" + buyerName + '\'' +
                 ", seller='" + seller + '\'' +
+                ", sellerName='" + sellerName + '\'' +
                 ", status=" + status +
                 ", lastMessage=" + lastMessage +
+                ", unReadCnt=" + unReadCnt +
                 '}';
     }
 }

@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ChatService {
@@ -30,7 +27,7 @@ public class ChatService {
         }
     };
 
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd hh:mm");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm");
 
 
     public List<ChatRoomVO> getAllChatRooms(String userId) {
@@ -47,7 +44,7 @@ public class ChatService {
                 int cnt = 0;
                 List<ChatMessageVO> messages = getMessages(room.getId());
                 int index = messages.size() - 1;
-                while (index >= 0 && (!messages.get(index).getWriter().equals(userId) && message.getIsRead() == 1)) {
+                while (index >= 0 && (!messages.get(index).getWriter().equals(userId) && messages.get(index).getIsRead() == 1)) {
                     index--;
                     cnt++;
                 }
@@ -58,6 +55,9 @@ public class ChatService {
 
     public List<ChatMessageVO> getMessages(int id) {
         List<ChatMessageVO> messages = session.getMapper(ChatRepository.class).getChatMessages(id);
+        for (ChatMessageVO message : messages) {
+            message.setTime(dateFormat.format(message.getCreatedAt()));
+        }
         return messages;
     }
 
@@ -88,5 +88,25 @@ public class ChatService {
     public int createChatRoom(ChatRoomVO room) {
         session.getMapper(ChatRepository.class).createRoom(room);
         return room.getId();
+    }
+
+    public void updateIsRead(String userId, int roomId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("roomId", roomId);
+        session.getMapper(ChatRepository.class).updateIsRead(map);
+    }
+
+    public ChatRoomVO getRoomById(int id) {
+        return session.getMapper(ChatRepository.class).selectRoomById(id);
+    }
+
+    public List<String> getBuyerList(int id) {
+        List<ChatRoomVO> roomList = session.getMapper(ChatRepository.class).getBuyer(id);
+        List<String> buyerList = new ArrayList<>();
+        for (ChatRoomVO room : roomList) {
+            buyerList.add(room.getBuyerName());
+        }
+        return buyerList;
     }
 }

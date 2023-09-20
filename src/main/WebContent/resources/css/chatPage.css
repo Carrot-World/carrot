@@ -142,6 +142,10 @@ div.room-container > :nth-child(2) {
     overflow: auto;
 }
 
+.chat-content .card-text {
+    white-space: pre;
+}
+
 .chat-input > textarea {
     height: 100px;
     resize: none;

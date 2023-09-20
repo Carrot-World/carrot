@@ -19,9 +19,7 @@ public class HartService {
     }
 
     public int plus(HartVO vo) {
-        int insert = sqlSession.getMapper(HartRepository.class).insert(vo);
-        int plus = sqlSession.getMapper(ItemPostRepository.class).hartPlus(vo);
-        return insert + plus;
+        return sqlSession.getMapper(HartRepository.class).insert(vo) + sqlSession.getMapper(ItemPostRepository.class).hartPlus(vo);
     }
 
     public int minus(HartVO vo) {
@@ -29,8 +27,7 @@ public class HartService {
         if (minus < 1) {
             return -1;
         } else {
-            int delete = sqlSession.getMapper(HartRepository.class).delete(vo);
-            return delete;
+            return sqlSession.getMapper(HartRepository.class).delete(vo);
         }
     }
 }

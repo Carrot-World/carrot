@@ -14,5 +14,8 @@ public interface ItemPostRepository {
     public List<ItemPostVO> selectByWriter(String writer);
     public int hartPlus(HartVO vo);
     public int hartMinus(HartVO vo);
+    public void addChatCnt(int postId);
+    public int delete(ItemPostVO vo);
+    public int updateComplete(ItemPostVO vo);
 
 }

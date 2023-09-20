@@ -36,13 +36,13 @@
         select r.*, c.*, c.id as chat_id, u1.nickname as buyer_name, u2.nickname as seller_name
         from chatting_room r, chatting_content c, user_info u1, user_info u2
         where r.last_message=c.id and r.buyer=u1.id and r.seller=u2.id
-        and (r.buyer = #{userId} or r.seller = #{userId})
+        and (r.buyer = #{userId} or r.seller = #{userId}) order by created_at desc
     </select>
 
     <select id="getChatMessages" resultMap="chatMessage">
         select c.*, u.nickname as writer_name
         from chatting_content c, user_info u
-        where c.writer = u.id and chatting_room_id = #{id} order by created_at
+        where c.writer = u.id and chatting_room_id = #{id} order by created_at asc
     </select>
 
     <insert id="insertChatMessage" parameterType="com.carrot.domain.ChatMessageVO">
@@ -66,4 +66,24 @@
             select chatting_room_id.currval from dual
         </selectKey>
     </insert>
+
+    <update id="updateIsRead" parameterType="hashMap">
+        update chatting_content set is_read=0 where chatting_room_id=#{roomId} and writer!=#{userId}
+    </update>
+
+    <select id="selectRoomById" parameterType="int" resultType="com.carrot.domain.ChatRoomVO">
+        select c.*, u1.nickname as sellerName, u2.nickname as buyerName
+        from chatting_room c, user_info u1, user_info u2
+        where c.id=#{id} and u1.id=c.seller and u2.id=c.buyer
+    </select>
+
+    <select id="getBuyer" parameterType="int" resultMap="chatRoom">
+        select c.*, u1.nickname as seller_name, u2.nickname as buyer_name
+        from chatting_room c,
+        user_info u1,
+        user_info u2
+        where c.ITEM_POST_ID = #{itemPostId}
+        and u1.id = c.seller
+        and u2.id = c.buyer
+    </select>
 </mapper>
