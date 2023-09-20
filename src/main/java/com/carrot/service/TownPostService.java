@@ -1,6 +1,7 @@
 package com.carrot.service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import com.carrot.domain.TownPostVO;
 import com.carrot.domain.UserVO;
 import com.carrot.repository.CategoryRepository;
 import com.carrot.repository.TownPostRepository;
+import com.fasterxml.jackson.core.format.DataFormatDetector;
 
 @Service
 public class TownPostService {
@@ -36,20 +38,7 @@ public class TownPostService {
 	
 	private static HashMap <Integer, String> categoryNameMap;
 	private static boolean isSetCategory;
-	
-	public ArrayList<TownPostVO> listPost(){ //게시글 전체 조회
-
-		if (!isSetCategory) {
-			setCategoryName();
-        }
-		
-		ArrayList<TownPostVO> list = sqlSession.getMapper(TownPostRepository.class).listByALL();
-		
-		for ( TownPostVO townpostvo : list ) {
-			townpostvo.setCategoryName(categoryNameMap.get(townpostvo.getId()));
-		}
-		return list;
-	}
+	private final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd hh:mm");
 	
 	public ArrayList<TownPostVO> searchPost(SearchVO vo){ //게시글 검색 조회
 		
@@ -58,12 +47,14 @@ public class TownPostService {
 		if (!isSetCategory) {
 			setCategoryName();
         }
-		
+
 		ArrayList<TownPostVO> list = sqlSession.getMapper(TownPostRepository.class).listBySearch(vo);
 		
 		for ( TownPostVO townpostvo : list ) {
-			townpostvo.setCategoryName(categoryNameMap.get(townpostvo.getId()));
+			townpostvo.setCategoryName(categoryNameMap.get(townpostvo.getCategory_id()));
+			townpostvo.setTime(dateFormat.format(townpostvo.getCreated_at()));
 		}
+		System.out.println("목록조회 : " + list);
 		
 		return list;
 	}
@@ -88,12 +79,13 @@ public class TownPostService {
 	public TownPostVO detailPost(String id) { //게시글 상세보기
 		TownPostVO vo = new TownPostVO();
 		vo = sqlSession.getMapper(TownPostRepository.class).detailPost(id);
-		
+		vo.setCategoryName(categoryNameMap.get(vo.getCategory_id()));
+		vo.setTime(dateFormat.format(vo.getCreated_at()));
 //		댓글 조회
 		vo.setReplylist( replyList(id) );
+//		대댓글 조회
+		vo.setRereplylist( rereplyList(id) );
 		
-		UserVO user = userService.selectById(vo.getWriter());
-		vo.setWriterNickname(user.getNickname());
 		System.out.println("townpostVO : " + vo);
 		return vo;
 	}
@@ -114,7 +106,7 @@ public class TownPostService {
 		return sqlSession.getMapper(TownPostRepository.class).deletePost(id);
 	}
 	
-	public int replyCount(int id) { //댓글 수
+	public int replyCount(int id) { //댓글 수 증가
 		return sqlSession.getMapper(TownPostRepository.class).replyCount(id);
 	}
 
@@ -129,28 +121,43 @@ public class TownPostService {
 		vo.setWriter(writerId);
 		vo.setNickname(writerNickname);
 		vo.setCreated_at(created_at);
-		vo.setParent("");
+		ReplyVO reply = new ReplyVO();
 		sqlSession.getMapper(TownPostRepository.class).insertReply(vo);
 		
-		ReplyVO reply = new ReplyVO();
-		UserVO user = userService.selectById(writerId);
-		reply.setCreated_at(created_at);
-		reply.setNickname(user.getNickname());
+		System.out.println("방금 생성된 댓글 아이디 : " + vo.getId());
+		System.out.println("방금 생성된 vo : " + vo );
+		reply = vo;
+		reply.setTime(dateFormat.format(vo.getCreated_at()));
+		System.out.println("usekey : " + reply);
 		return reply;
 	}
 	
 	public List<ReplyVO> replyList(String id) { //댓글 조회
 		List<ReplyVO> selectReplyList = sqlSession.getMapper(TownPostRepository.class).replList(id);
-		System.out.println("selectReplyList : " + selectReplyList);
+		
+		for (ReplyVO vo : selectReplyList) {
+			vo.setTime(dateFormat.format(vo.getCreated_at()));
+		}
+		
 		return selectReplyList;
+	}
+	
+	public List<ReplyVO> rereplyList(String parent) { //대댓글 조회
+		List<ReplyVO> selectReReplyList = sqlSession.getMapper(TownPostRepository.class).rereplList(parent);
+
+		for (ReplyVO vo : selectReReplyList) {
+			vo.setTime(dateFormat.format(vo.getCreated_at()));
+		}
+		
+		return selectReReplyList;
 	}
 	
 	public int deleteReply(String id) { //댓글 삭제
 		return sqlSession.getMapper(TownPostRepository.class).deleteReply(id);
 	}
 	
-	public int deleteReReply(String parent) { //원댓글 삭제시 대댓글 함께 삭제
-		return sqlSession.getMapper(TownPostRepository.class).deleteReReply(parent);
+	public int replyCountDelete(String id) { //댓글 수 감소
+		return sqlSession.getMapper(TownPostRepository.class).replyCountDelete(id);
 	}
 	
 	public int deleteAllReply(String postid) { //게시글 삭제 시 댓글 전체 삭제

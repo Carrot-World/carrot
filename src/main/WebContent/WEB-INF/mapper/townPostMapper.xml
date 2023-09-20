@@ -6,10 +6,33 @@
 <mapper namespace="com.carrot.repository.TownPostRepository">
 
 <select id="listBySearch" parameterType="com.carrot.domain.SearchVO" resultType="com.carrot.domain.TownPostVO" >
-	select * from town_post
+	select t.*, u.nickname from town_post t, user_info u
 	     <where>
+	     t.writer = u.id
             <if test="category_id != 0">
-                category_id = #{category_id} 
+                t.category_id = #{category_id} 
+            </if>
+            <if test="loc1 != null">
+                and t.loc1 = #{loc1}
+            </if>
+            <if test="loc2 != null">
+                and t.loc2 = #{loc2}
+            </if>
+            <if test="loc3 != null">
+                and t.loc3 = #{loc3}
+            </if>
+            <if test="title != title">
+            	and t.title LIKE '%${title}%' 
+            </if>
+        </where>
+        order by t.id desc offset #{pageStartCnt} rows fetch first #{pageSize} rows only
+</select>
+
+ <select id="selectCount" parameterType="com.carrot.domain.SearchVO" resultType="int">
+        select count(*) from town_post
+        <where>
+            <if test="category_id != 0">
+                category_id = #{category_id}
             </if>
             <if test="loc1 != null">
                 and loc1 = #{loc1}
@@ -20,12 +43,11 @@
             <if test="loc3 != null">
                 and loc3 = #{loc3}
             </if>
-            <if test="title != title">
-            	and title LIKE '%${title}%' 
+            <if test="title != null">
+                and title like '%' || #{title} || '%'
             </if>
         </where>
-        order by id desc
-</select>
+    </select>
 
 <insert id="insertPost" parameterType="com.carrot.domain.TownPostVO">
 	insert into town_post ( id, title, content, writer, read_cnt, reply_cnt, loc1, loc2, loc3, created_at, category_id )
@@ -33,7 +55,7 @@
 </insert>
 
 <select id="detailPost" resultType="com.carrot.domain.TownPostVO">
-	select * from town_post where id = #{id}
+	select t.*, u.nickname from town_post t, user_info u where t.writer = u.id and t.id = #{id}
 </select>
 
 <update id="readCount">
@@ -48,30 +70,34 @@
 	delete from town_post where id=#{id}
 </delete>
 
-<insert id="insertReply" parameterType="com.carrot.domain.ReplyVO" useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
-	insert into reply (id, town_post_id, parent, content, created_at, writer, nickname )
-	values ( reply_id.nextval, #{townPostId}, #{parent}, #{content}, #{created_at}, #{writer}, #{nickname} )
+<insert id="insertReply" parameterType="com.carrot.domain.ReplyVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+	insert into reply (id, town_post_id, parent, content, created_at, writer, status )
+	values ( reply_id.nextval, #{townPostId}, #{parent}, #{content}, #{created_at}, #{writer}, 0 )
 </insert>
 
-<update id="updateReplyCount">
-	update town_post set reply_cnt = #{replycnt} where id = #{id}
+<update id="deleteReply">
+	update reply set status=1 where id=#{id}
 </update>
-
-<select id="replList" resultType="com.carrot.domain.ReplyVO">
-	select id, TOWN_POST_ID as townPostId, PARENT, CONTENT, CREATED_AT, WRITER, NICKNAME from reply where town_post_id=#{id} order by id asc
-</select>
-
-<delete id="deleteReply">
-	delete from reply where id=#{id}
-</delete>
-
-<delete id="deleteReReply">
-	delete from reply where parent=#{parent}
-</delete>
 
 <delete id="deleteAllReply">
 	delete from reply where town_post_id=#{postid}
 </delete>
+
+<update id="replyCount">
+	update town_post set reply_cnt = reply_cnt + 1 where id = #{postid}
+</update>
+
+<update id="replyCountDelete">
+	update town_post set reply_cnt = reply_cnt - 1 where id = #{postid}
+</update>
+
+<select id="replList" resultType="com.carrot.domain.ReplyVO">
+	select r.*, u.nickname from reply r, user_info u where r.writer = u.id and town_post_id=#{id} and parent=0 order by r.id asc
+</select>
+
+<select id="rereplList" resultType="com.carrot.domain.ReplyVO">
+	select r.*, u.nickname from reply r, user_info u where r.writer = u.id and parent=#{parent} order by r.id asc
+</select>
 
 <delete id="withdrawPost">
 	delete from town_post where writer=#{writer}

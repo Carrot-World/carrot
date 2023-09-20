@@ -1,6 +1,7 @@
 package com.carrot.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,6 +65,9 @@ public class TownPostController {
 	
 	 @RequestMapping("/api/post/search") //게시물 검색
 	    public String search(SearchVO vo, Model model) {
+		 
+		 System.out.print("게시물 검색 ; ");
+		 System.out.println(vo);
 	        model.addAttribute("list", townpostService.searchPost(vo));
 	        model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(vo)));
 	        model.addAttribute("loc1List", locationService.loc1Set());
@@ -102,6 +106,7 @@ public class TownPostController {
 		vo = townpostService.detailPost(id);
 		townpostService.readCount(id); //조회수 증가
 		model.addAttribute("postdetail", vo);
+		model.addAttribute("nickname", userService.getUserInfo().getNickname());
 		return "postDetail";
 	}
 	
@@ -126,22 +131,34 @@ public class TownPostController {
 	@RequestMapping("/api/post/insertreply") //댓글 등록 버튼
 	public ReplyVO insertReply(@RequestBody ReplyVO reply) {
 		ReplyVO vo = new ReplyVO();
+		System.out.println("parent : " + reply.getParent());
 		vo = townpostService.insertReply(reply);
+		System.out.println("댓글등록할때 게시글 번호 : " + reply.getTownPostId());
 		//댓글 수 증가
+		townpostService.replyCount(reply.getTownPostId());
 		
+		System.out.println("댓글등록 반환: " + vo);
 		return vo; 
 	}
 	
 	@ResponseBody
 	@RequestMapping("/api/post/deletereply") //댓글 삭제 버튼
-	public boolean deleteReply(@RequestBody String id) {
-		
-//		1. 댓글 삭제
+	public boolean deleteReply(@RequestBody HashMap<String, String> map) {
+		String id = map.get("id");
+		String postid = map.get("postid");
+//		1. 댓글 삭제 (status 0 -> 1)
 		townpostService.deleteReply(id);
-//		2. 원댓글 삭제 시 대댓글 함께 삭제
-		townpostService.deleteReReply(id);
-		
+//		2. 게시글 댓글 수 감소
+		townpostService.replyCountDelete(postid);
 		return true;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/api/post/rereplylist") //대댓글 조회
+	public List<ReplyVO> reReplyList(@RequestBody HashMap<String, String> map) {
+		String parent = map.get("parent");
+		System.out.println("parent id : " + parent);
+		return townpostService.rereplyList(parent);
 	}
 	
 	@ResponseBody

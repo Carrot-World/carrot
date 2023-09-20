@@ -10,15 +10,7 @@ import com.carrot.domain.TownPostVO;
 public interface TownPostRepository {
 
 	
-	//전체 검색
-	public ArrayList<TownPostVO> listByALL();
-	//위치로 검색
-	public ArrayList<TownPostVO> listByLoc();
-	//카테고리로 검색
-	public ArrayList<TownPostVO> listByCategory();
-	//제목으로 검색
-	public ArrayList<TownPostVO> listByTitle();
-	//
+	//게시판 조회 (+검색)
 	public ArrayList<TownPostVO> listBySearch(SearchVO vo);
 	
 	
@@ -37,13 +29,11 @@ public interface TownPostRepository {
 	//댓글 조회
 	public List<ReplyVO> replList(String postid);
 	//대댓글 조회
-	public List<ReplyVO> rereplList(String postid, String parent);
+	public List<ReplyVO> rereplList(String parent);
 	//댓글 삭제
 	public int deleteReply(String id);
 	//게시글 삭제 시 -> 댓글 전체 삭제
 	public int deleteAllReply(String postid);
-	//원댓글 삭제시 -> 대댓글 삭제
-	public int deleteReReply(String parent);
 	
 	//조회수 증가
 	public int readCount(String postid);
