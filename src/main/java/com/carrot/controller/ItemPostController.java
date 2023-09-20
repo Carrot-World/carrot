@@ -32,6 +32,9 @@ public class ItemPostController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ChatService chatService;
+
     @RequestMapping(value = "/page/detail", method = RequestMethod.GET)
     public String detailItem(int id, Model model) {
         if (userService.isAuthenticated()) {
@@ -64,10 +67,7 @@ public class ItemPostController {
     }
 
     @RequestMapping("/page/itemRegister")
-    public String insertForm(String itemId, Model model) {
-        if (itemId != null) {
-            model.addAttribute("item", itemPostService.detail(Integer.parseInt(itemId)));
-        }
+    public String insertForm(Model model) {
         UserVO user = userService.getUserInfo();
         model.addAttribute("user", user);
         model.addAttribute("loc1List", locationService.loc1Set());
@@ -108,6 +108,30 @@ public class ItemPostController {
         vo.setUser_id(userService.getUserInfo().getId());
         if (hartService.minus(vo) > 0) {
             return "/page/detail?id=" + vo.getItem_post_id();
+        } else {
+            return "accessDenied";
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/api/item/getBuyer")
+    public List<String> getBuyer(ItemPostVO vo) {
+        return chatService.getBuyerList(vo.getId());
+    }
+
+    @RequestMapping("/api/item/complete")
+    public String saleComplete() {
+
+        return null;
+    }
+
+    @RequestMapping("/api/item/delete")
+    public String delete(ItemPostVO vo) {
+        if (!userService.getUserInfo().getId().equals(vo.getWriter())) {
+            return "accessDenied";
+        }
+        if (itemPostService.delete(vo) == 1) {
+            return "redirect:/page/mypageSell";
         } else {
             return "accessDenied";
         }
