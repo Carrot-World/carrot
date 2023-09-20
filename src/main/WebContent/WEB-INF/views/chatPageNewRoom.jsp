@@ -27,7 +27,7 @@
       <div class="room-container" id="roomArea">
         <h2 class="username" id="userName" userId="${userId}">${username}</h2>
         <c:forEach items="${rooms}" var="room">
-          <div class="chat-room" roomId="${room.id}">
+        <div class="chat-room" roomId="${room.id}" onclick="sendRoomChange(${room.id})">
             <div class="chat-room-header">
               <span class="chat-user">
                 <c:choose>
@@ -36,7 +36,7 @@
                 </c:choose>
               </span>
               <span class="last-message-time">
-                <fmt:formatDate pattern="MM/dd hh:mm" value="${room.lastMessage.createdAt}"/>
+                <fmt:formatDate pattern="MM/dd HH:mm" value="${room.lastMessage.createdAt}"/>
               </span>
             </div>
             <div class="chat-room-content">

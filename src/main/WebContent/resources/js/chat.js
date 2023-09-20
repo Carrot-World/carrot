@@ -7,6 +7,7 @@ class ChatRoom {
     // 마지막 메세지
     this.lastTime = lastTime;
     this.unReadCnt = unReadCnt;
+    this.lastTimeMillis = new Date().getTime();
   }
 }
 
@@ -20,20 +21,22 @@ class ChatMessage {
 
 const input = document.querySelector("#chatInput");
 const sendBtn = document.querySelector("#send");
+const chatHeader = document.querySelector(".chat-header");
 const messageArea = document.querySelector("#messageArea");
 const roomArea = document.querySelector("#roomArea");
-const otherUserNameArea = document.querySelector(".chat-header > h2");
+const otherUserNameArea = chatHeader.querySelector("h2");
 const userName = document.querySelector("h2#userName").textContent;
 const userId = document.querySelector("h2#userName").getAttribute("userId");
+const chatContainer = document.querySelector(".chat-container");
 
 const chatRooms = new Map();
 const chatRoomElements = document.querySelectorAll("div.chat-room");
 for (let i=0; i<chatRoomElements.length; i++) {
   const chatRoomElement = chatRoomElements[i];
   const roomId = Number(chatRoomElement.getAttribute("roomId"));
-  const userName = chatRoomElement.querySelector("span.chat-user").textContent;
-  const lastMessage = chatRoomElement.querySelector("span.last-message").textContent;
-  const lastTime = chatRoomElement.querySelector("span.last-message-time").textContent;
+  const userName = chatRoomElement.querySelector("span.chat-user").textContent.trim();
+  const lastMessage = chatRoomElement.querySelector("span.last-message").textContent.trim();
+  const lastTime = chatRoomElement.querySelector("span.last-message-time").textContent.trim();
   const unReadCntBadge = chatRoomElement.querySelector("span.unReadCnt");
   let unReadCnt = 0;
   if (unReadCntBadge) {
@@ -42,7 +45,7 @@ for (let i=0; i<chatRoomElements.length; i++) {
   chatRooms.set(roomId, new ChatRoom(roomId, userName, lastMessage, lastTime, unReadCnt));
 }
 
-let currRoomId = Number(document.querySelector(".chat-container").getAttribute("roomId"));
+let currRoomId = Number(chatContainer.getAttribute("roomId"));
 
 
 
@@ -52,6 +55,7 @@ client.connect({}, () => {
     client.subscribe("/socket/message/"+room.roomId, onMessage);
   });
   client.subscribe("/socket/sub/"+userId, onSub);
+  client.subscribe("/socket/roomchange/"+userId, onRoomChange);
 });
 
 
@@ -63,16 +67,23 @@ const onMessage = (m) => {
     messageArea.scrollTop = messageArea.scrollHeight;
     chatRooms.get(roomId).lastMessage = content;
     chatRooms.get(roomId).lastTime = time;
+    chatRooms.get(roomId).lastTimeMillis = new Date().getTime();
     // 소켓을 통해 서버에 읽었다고 알림
   }
   else {
     chatRooms.get(roomId).lastMessage = content;
     chatRooms.get(roomId).lastTime = time;
+    chatRooms.get(roomId).lastTimeMillis = new Date().getTime();
     chatRooms.get(roomId).unReadCnt++;
   }
   let arr = [];
   chatRooms.forEach(room => arr.push(room));
-  arr.sort((a,b) => a.lastTime > b.lastTime ? 1 : 0);
+  arr.sort((a,b) => {
+    if (a.lastTime === b.lastTime) {
+      return a.lastTimeMillis < b.lastTimeMillis ? 1 : -1;
+    }
+    return a.lastTime < b.lastTime ? 1 : -1
+  });
   renderRoomArea(arr);
 }
 
@@ -83,17 +94,37 @@ const onSub = (m) => {
   if (currRoomId === -1) {
     currRoomId = roomId;
     otherUserNameArea.textContent = writerName === userName ? destinationName : writerName;
-    document.querySelector(".chat-container").setAttribute("roomId", roomId);
+    chatContainer.setAttribute("roomId", roomId);
     chatRooms.get(roomId).unReadCnt = 0;
     messageArea.innerHTML += getMessageHtml(writerName, content, time);
     messageArea.scrollTop = messageArea.scrollHeight;
   }
   let arr = [];
   chatRooms.forEach(room => arr.push(room));
-  arr.sort((a,b) => a.lastTime > b.lastTime ? 1 : 0);
-  renderRoomArea(arr);
+  arr.sort((a,b) => {
+    if (a.lastTime === b.lastTime) {
+      return a.lastTimeMillis < b.lastTimeMillis ? 1 : -1;
+    }
+    return a.lastTime < b.lastTime ? 1 : -1
+  });  renderRoomArea(arr);
   sendBtn.onclick = sendBtnHandler;
   client.subscribe("/socket/message/"+roomId,onMessage);
+}
+
+const onRoomChange = (m) => {
+  const roomId = Number(m.headers.roomId);
+  const messages = JSON.parse(m.body);
+  const otherUserName = m.headers.sellerName === userName ? m.headers.buyerName : m.headers.sellerName;
+  chatRooms.get(roomId).unReadCnt = 0;
+  renderChatArea(roomId, messages, otherUserName);
+  let arr = [];
+  chatRooms.forEach(room => arr.push(room));
+  arr.sort((a,b) => {
+    if (a.lastTime === b.lastTime) {
+      return a.lastTimeMillis < b.lastTimeMillis ? 1 : -1;
+    }
+    return a.lastTime < b.lastTime ? 1 : -1
+  });  renderRoomArea(arr);
 }
 
 function renderRoomArea(arr) {
@@ -102,6 +133,14 @@ function renderRoomArea(arr) {
     html += getRoomHtml(room);
   }
   roomArea.innerHTML = html;
+}
+
+function renderChatArea(roomId, messages, otherUserName) {
+  chatHeader.innerHTML = getChatHeaderHtml(otherUserName);
+  messageArea.innerHTML = getMessageAreaHtml(messages);
+
+  currRoomId = roomId;
+  chatContainer.setAttribute("roomId", roomId);
 }
 
 function getMessageHtml(writer, content, time) {
@@ -120,7 +159,7 @@ function getMessageHtml(writer, content, time) {
 
 function getRoomHtml(room) {
   return `
-   <div class="chat-room" roomId="${room.roomId}">
+   <div class="chat-room" roomId="${room.roomId}"  onclick="sendRoomChange(${room.roomId})">
       <div class="chat-room-header">
         <span class="chat-user">
           ${room.userName}
@@ -135,6 +174,22 @@ function getRoomHtml(room) {
       </div>
     </div>
   `;
+}
+
+function getChatHeaderHtml(otherUserName) {
+  return `
+  <h2>${otherUserName}</h2>
+  <button class="btn red-btn">나가기</button>
+  `
+}
+
+function getMessageAreaHtml(messages) {
+  let html = '';
+  for (let i=0; i<messages.length; i++) {
+    const m = messages[i];
+    html += getMessageHtml(m.writerName, m.content, m.time);
+  }
+  return html;
 }
 
 // 일반 메세지 전송
@@ -154,4 +209,8 @@ function sendBtnHandler2(destinationId, postId) {
     client.send("/socket/newroom", {}, JSON.stringify(data));
     input.value = '';
   }
+}
+
+function sendRoomChange(roomId) {
+  client.send("/socket/room/"+roomId, {}, {});
 }

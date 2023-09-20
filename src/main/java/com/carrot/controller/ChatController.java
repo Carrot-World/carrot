@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -86,6 +87,25 @@ public class ChatController {
         newRoomMessage.setDestinationName(destinationName);
         template.convertAndSend("/socket/sub/"+(newRoomMessage.getDestinationId()), newRoomMessage);
         template.convertAndSend("/socket/sub/"+(user.getId()), newRoomMessage);
+    }
+
+    @MessageMapping("/socket/room/{roomId}")
+    public void roomInfo(@DestinationVariable String roomId, java.security.Principal principal) {
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
+        UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        int id = Integer.parseInt(roomId);
+
+        List<ChatMessageVO> messages = chatService.getMessages(id);
+
+        ChatRoomVO room = chatService.getRoomById(id);
+        chatService.updateIsRead(user.getId(), id);
+
+        HashMap<String, Object> header = new HashMap<>();
+        header.put("roomId", id);
+        header.put("sellerName", room.getSellerName());
+        header.put("buyerName", room.getBuyerName());
+
+        template.convertAndSend("/socket/roomchange/"+(user.getId()), messages, header);
     }
 
 }
