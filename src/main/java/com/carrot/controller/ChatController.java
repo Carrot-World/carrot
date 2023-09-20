@@ -78,7 +78,7 @@ public class ChatController {
         newRoom.setItemPostId(newRoomMessage.getPostId());
         newRoom.setSeller(newRoomMessage.getDestinationId());
         newRoom.setBuyer(user.getId());
-        newRoom.setStatus(1);
+        newRoom.setStatus(3);
         int roomId = chatService.createChatRoom(newRoom);
         itemPostService.addChatCnt(newRoomMessage.getPostId());
 
@@ -126,7 +126,7 @@ public class ChatController {
         int roomId = Integer.parseInt(id);
 
         ChatRoomVO room = chatService.getRoomById(roomId);
-        int num = user.getId().equals(room.getSeller()) ? 2 : 1;
+        int num = user.getId().equals(room.getSeller()) ? 1 : 2;
         chatService.exitChatRoom(num, roomId);
         itemPostService.minusChatCnt(room.getItemPostId());
     }

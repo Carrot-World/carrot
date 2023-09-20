@@ -36,7 +36,7 @@
         select r.*, c.*, c.id as chat_id, u1.nickname as buyer_name, u2.nickname as seller_name
         from chatting_room r, chatting_content c, user_info u1, user_info u2
         where r.last_message=c.id and r.buyer=u1.id and r.seller=u2.id
-        and (r.buyer = #{userId} or r.seller = #{userId}) order by created_at desc
+        and ((r.buyer = #{userId} and r.status in (2,3)) or (r.seller = #{userId} and r.status in (1,3))) order by created_at desc
     </select>
 
     <select id="getChatMessages" resultMap="chatMessage">
