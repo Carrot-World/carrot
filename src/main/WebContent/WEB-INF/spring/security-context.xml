@@ -26,7 +26,7 @@
 				<security:intercept-url pattern="/api/signup/callback/google" access="permitAll" />
 				
 				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
-				<security:intercept-url pattern="/page/itemList" access="permitAll()" />
+				<security:intercept-url pattern="/page/itemList" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/detail" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get2" access="permitAll()" />
 				<security:intercept-url pattern="/api/loc/get3" access="permitAll()" />
