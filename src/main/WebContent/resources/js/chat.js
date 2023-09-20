@@ -22,7 +22,9 @@ const input = document.querySelector("#chatInput");
 const sendBtn = document.querySelector("#send");
 const messageArea = document.querySelector("#messageArea");
 const roomArea = document.querySelector("#roomArea");
+const otherUserNameArea = document.querySelector(".chat-header > h2");
 const userName = document.querySelector("h2#userName").textContent;
+const userId = document.querySelector("h2#userName").getAttribute("userId");
 
 const chatRooms = new Map();
 const chatRoomElements = document.querySelectorAll("div.chat-room");
@@ -47,14 +49,14 @@ let currRoomId = Number(document.querySelector(".chat-container").getAttribute("
 const client = Stomp.over(new WebSocket(`ws://${location.host}/api/conn`));
 client.connect({}, () => {
   chatRooms.forEach(room => {
-    client.subscribe("/socket/message/"+room.roomId, onRecieve)
+    client.subscribe("/socket/message/"+room.roomId, onMessage);
   });
+  client.subscribe("/socket/sub/"+userId, onSub);
 });
 
-sendBtn.onclick = sendBtnHandler;
 
 
-const onRecieve = (m) => {
+const onMessage = (m) => {
   const {roomId, writerName, content, time} = JSON.parse(m.body);
   if (currRoomId === roomId) {
     messageArea.innerHTML += getMessageHtml(writerName, content, time);
@@ -72,6 +74,26 @@ const onRecieve = (m) => {
   chatRooms.forEach(room => arr.push(room));
   arr.sort((a,b) => a.lastTime > b.lastTime ? 1 : 0);
   renderRoomArea(arr);
+}
+
+const onSub = (m) => {
+  const {roomId, writerName, content, time, destinationName} = JSON.parse(m.body);
+  const partnerName = writerName === userName ? destinationName : writerName;
+  chatRooms.set(roomId, new ChatRoom(roomId, partnerName, content, time, writerName === userName ? 0 : 1));
+  if (currRoomId === -1) {
+    currRoomId = roomId;
+    otherUserNameArea.textContent = writerName === userName ? destinationName : writerName;
+    document.querySelector(".chat-container").setAttribute("roomId", roomId);
+    chatRooms.get(roomId).unReadCnt = 0;
+    messageArea.innerHTML += getMessageHtml(writerName, content, time);
+    messageArea.scrollTop = messageArea.scrollHeight;
+  }
+  let arr = [];
+  chatRooms.forEach(room => arr.push(room));
+  arr.sort((a,b) => a.lastTime > b.lastTime ? 1 : 0);
+  renderRoomArea(arr);
+  sendBtn.onclick = sendBtnHandler;
+  client.subscribe("/socket/message/"+roomId,onMessage);
 }
 
 function renderRoomArea(arr) {
@@ -115,10 +137,21 @@ function getRoomHtml(room) {
   `;
 }
 
+// 일반 메세지 전송
 function sendBtnHandler() {
   const content = input.value;
   if (content.trim().length > 0) {
-    client.send("/socket/send/"+currRoomId, {}, JSON.stringify({content: input.value}));
+    client.send("/socket/send/"+currRoomId, {}, JSON.stringify({content}));
+    input.value = '';
+  }
+}
+
+// 새로운방 생성
+function sendBtnHandler2(destinationId, postId) {
+  const content = input.value;
+  const data = {destinationId, postId, content}
+  if (content.trim().length > 0) {
+    client.send("/socket/newroom", {}, JSON.stringify(data));
     input.value = '';
   }
 }

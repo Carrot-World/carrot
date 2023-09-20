@@ -18,6 +18,8 @@ public class ChatService {
 
     @Autowired
     SqlSession session;
+    @Autowired
+    UserService userService;
 
     private Comparator<ChatRoomVO> comparator = new Comparator<ChatRoomVO>() {
         @Override
@@ -59,19 +61,32 @@ public class ChatService {
         return messages;
     }
 
-    public ChatMessageVO sendMessage(ChatMessageVO message, int id, String userId, String userName) {
+    public ChatMessageVO sendMessage(ChatMessageVO message, int id, String userId) {
         message.setRoomId(id);
         message.setWriter(userId);
-        message.setWriterName(userName);
+        message.setWriterName(userService.selectById(userId).getNickname());
         message.setIsRead(1);
         message.setCreatedAt(new Date(System.currentTimeMillis()));
+        message.setTime(dateFormat.format(message.getCreatedAt()));
         session.getMapper(ChatRepository.class).insertChatMessage(message);
         int genId = message.getId();
         HashMap<String, Integer> map = new HashMap<>();
         map.put("messageId", genId);
         map.put("roomId", id);
         session.getMapper(ChatRepository.class).updateLastMessage(map);
-        message.setTime(dateFormat.format(message.getCreatedAt()));
         return message;
+    }
+
+    public boolean checkRoomExist(int postId, String buyer) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("postId", postId);
+        map.put("buyer", buyer);
+        int cnt = session.getMapper(ChatRepository.class).search(map);
+        return cnt == 0;
+    }
+
+    public int createChatRoom(ChatRoomVO room) {
+        session.getMapper(ChatRepository.class).createRoom(room);
+        return room.getId();
     }
 }
