@@ -109,4 +109,9 @@ public class ChatService {
         map.put("roomId", roomId);
         session.getMapper(ChatRepository.class).updateRoomStatus(map);
     }
+
+    public boolean checkValidRoom(int roomId) {
+        int status = session.getMapper(ChatRepository.class).getRoomStatusById(roomId);
+        return (status == 3);
+    }
 }

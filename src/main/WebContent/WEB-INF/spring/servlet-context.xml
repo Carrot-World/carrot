@@ -15,6 +15,6 @@
 
     <websocket:message-broker>
         <websocket:stomp-endpoint path="/api/conn" allowed-origins="*"/>
-        <websocket:simple-broker prefix="/socket/message,/socket/roomchange,/socket/sub"/>
+        <websocket:simple-broker prefix="/socket/message,/socket/roomchange,/socket/sub,/socket/reject"/>
     </websocket:message-broker>
 </beans>

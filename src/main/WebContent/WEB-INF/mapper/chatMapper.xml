@@ -80,4 +80,8 @@
     <update id="updateRoomStatus" parameterType="hashMap">
         update chatting_room set status=status-#{num} where id=#{roomId}
     </update>
+
+    <select id="getRoomStatusById" parameterType="int" resultType="int">
+        select status from chatting_room where id=#{roomId}
+    </select>
 </mapper>

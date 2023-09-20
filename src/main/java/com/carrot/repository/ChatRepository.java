@@ -17,4 +17,5 @@ public interface ChatRepository {
     int updateIsRead(Map map);
     ChatRoomVO selectRoomById(int id);
     int updateRoomStatus(Map map);
+    int getRoomStatusById(int roomId);
 }

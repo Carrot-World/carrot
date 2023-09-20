@@ -64,8 +64,14 @@ public class ChatController {
 
     @MessageMapping("/socket/send/{roomId}")
     public void chat(ChatMessageVO message, @DestinationVariable String roomId, java.security.Principal principal) {
+
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
         UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        if (!chatService.checkValidRoom(Integer.parseInt(roomId))) {
+            template.convertAndSend("/socket/reject/"+user.getId(), Integer.parseInt(roomId));
+            return;
+        }
+
         message.setWriterName(user.getNickname());
         template.convertAndSend("/socket/message/"+roomId,
                 chatService.sendMessage(message, Integer.parseInt(roomId), user.getId()));

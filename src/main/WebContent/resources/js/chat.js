@@ -58,6 +58,7 @@ client.connect({}, () => {
     client.subscribe("/socket/message/"+room.roomId, onMessage);
   });
   client.subscribe("/socket/sub/"+userId, onSub);
+  client.subscribe("/socket/reject/"+userId, onReject);
   client.subscribe("/socket/roomchange/"+userId, onRoomChange);
   if (currRoomId !== -1) {
     client.send("/socket/read/"+currRoomId, {}, {});
@@ -109,6 +110,10 @@ const onRoomChange = (m) => {
   chatRooms.get(roomId).unReadCnt = 0;
   renderChatArea(roomId, messages, otherUserName);
   renderRoomArea();
+}
+
+const onReject = (m) => {
+  alert("상대 유저가 퇴장하여 메세지를 보낼수가 없습니다.");
 }
 
 function renderRoomArea() {
