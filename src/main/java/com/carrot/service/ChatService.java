@@ -67,7 +67,6 @@ public class ChatService {
     public ChatMessageVO sendMessage(ChatMessageVO message, int id, String userId) {
         message.setRoomId(id);
         message.setWriter(userId);
-        message.setWriterName(userService.selectById(userId).getNickname());
         message.setIsRead(1);
         message.setCreatedAt(new Date(System.currentTimeMillis()));
         message.setTime(dateFormat.format(message.getCreatedAt()));

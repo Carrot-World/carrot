@@ -66,6 +66,7 @@ public class ChatController {
     public void chat(ChatMessageVO message, @DestinationVariable String roomId, java.security.Principal principal) {
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
         UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        message.setWriterName(user.getNickname());
         template.convertAndSend("/socket/message/"+roomId,
                 chatService.sendMessage(message, Integer.parseInt(roomId), user.getId()));
     }
@@ -129,6 +130,12 @@ public class ChatController {
         int num = user.getId().equals(room.getSeller()) ? 1 : 2;
         chatService.exitChatRoom(num, roomId);
         itemPostService.minusChatCnt(room.getItemPostId());
+
+        ChatMessageVO exitMessage = new ChatMessageVO();
+        exitMessage.setContent(user.getNickname() + "님이 퇴장하셨습니다.");
+        exitMessage.setWriterName(user.getNickname());
+        chatService.sendMessage(exitMessage, roomId, user.getId());
+        template.convertAndSend("/socket/message/"+roomId, exitMessage);
     }
 
 }
