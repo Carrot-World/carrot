@@ -119,4 +119,16 @@ public class ChatController {
         chatService.updateIsRead(userId, roomId);
     }
 
+    @MessageMapping("/socket/exit/{id}")
+    public void exitRoom(@DestinationVariable String id, java.security.Principal principal) {
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
+        UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        int roomId = Integer.parseInt(id);
+
+        ChatRoomVO room = chatService.getRoomById(roomId);
+        int num = user.getId().equals(room.getSeller()) ? 2 : 1;
+        chatService.exitChatRoom(num, roomId);
+        itemPostService.minusChatCnt(room.getItemPostId());
+    }
+
 }

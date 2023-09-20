@@ -60,7 +60,7 @@
               <c:when test="${username eq rooms[0].buyerName}">${rooms[0].sellerName}</c:when>
             </c:choose>
           </h2>
-          <button class="btn red-btn">나가기</button>
+          <button class="btn red-btn" onclick="exitRoom()">나가기</button>
         </div>
 
         <div class="chat-content" id="messageArea">

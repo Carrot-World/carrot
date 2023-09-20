@@ -103,4 +103,11 @@ public class ChatService {
     public ChatRoomVO getRoomById(int id) {
         return session.getMapper(ChatRepository.class).selectRoomById(id);
     }
+
+    public void exitChatRoom(int num, int roomId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("num", num);
+        map.put("roomId", roomId);
+        session.getMapper(ChatRepository.class).updateRoomStatus(map);
+    }
 }

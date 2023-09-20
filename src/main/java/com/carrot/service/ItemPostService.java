@@ -96,4 +96,8 @@ public class ItemPostService {
     public void addChatCnt(int postId) {
         sqlSession.getMapper(ItemPostRepository.class).addChatCnt(postId);
     }
+
+    public void minusChatCnt(int postId) {
+        sqlSession.getMapper(ItemPostRepository.class).minusChatCnt(postId);
+    }
 }

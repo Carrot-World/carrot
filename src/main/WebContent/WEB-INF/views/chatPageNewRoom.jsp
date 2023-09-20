@@ -53,7 +53,6 @@
           <h2>
             ${item.writer_nickname}
           </h2>
-          <button class="btn red-btn">나가기</button>
         </div>
 
         <div class="chat-content" id="messageArea">
