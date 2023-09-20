@@ -92,4 +92,8 @@ public class ItemPostService {
         }
         isSetCategory = true;
     }
+
+    public void addChatCnt(int postId) {
+        sqlSession.getMapper(ItemPostRepository.class).addChatCnt(postId);
+    }
 }

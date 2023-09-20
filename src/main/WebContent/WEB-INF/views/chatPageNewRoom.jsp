@@ -42,7 +42,7 @@
             <div class="chat-room-content">
               <span class="last-message">${room.lastMessage.content}</span>
               <c:if test="${room.unReadCnt != 0}">
-                <span class="badge bg-danger float-end">${room.unReadCnt}</span>
+                <span class="badge bg-danger float-end unReadCnt">${room.unReadCnt}</span>
               </c:if>
             </div>
           </div>

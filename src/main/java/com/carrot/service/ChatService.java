@@ -47,7 +47,7 @@ public class ChatService {
                 int cnt = 0;
                 List<ChatMessageVO> messages = getMessages(room.getId());
                 int index = messages.size() - 1;
-                while (index >= 0 && (!messages.get(index).getWriter().equals(userId) && message.getIsRead() == 1)) {
+                while (index >= 0 && (!messages.get(index).getWriter().equals(userId) && messages.get(index).getIsRead() == 1)) {
                     index--;
                     cnt++;
                 }

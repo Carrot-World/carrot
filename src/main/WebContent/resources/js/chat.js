@@ -39,8 +39,12 @@ for (let i=0; i<chatRoomElements.length; i++) {
   const lastTime = chatRoomElement.querySelector("span.last-message-time").textContent.trim();
   const unReadCntBadge = chatRoomElement.querySelector("span.unReadCnt");
   let unReadCnt = 0;
-  if (unReadCntBadge) {
-    unReadCnt = unReadCntBadge.textContent;
+
+  if (i === 0 && unReadCntBadge !== null) {
+    unReadCntBadge.remove();
+  }
+  else if (unReadCntBadge !== null) {
+    unReadCnt = Number(unReadCntBadge.textContent.trim());
   }
   chatRooms.set(roomId, new ChatRoom(roomId, userName, lastMessage, lastTime, unReadCnt));
 }
@@ -56,6 +60,9 @@ client.connect({}, () => {
   });
   client.subscribe("/socket/sub/"+userId, onSub);
   client.subscribe("/socket/roomchange/"+userId, onRoomChange);
+  if (currRoomId !== -1) {
+    client.send("/socket/read/"+currRoomId, {}, {});
+  }
 });
 
 
@@ -69,6 +76,9 @@ const onMessage = (m) => {
     chatRooms.get(roomId).lastTime = time;
     chatRooms.get(roomId).lastTimeMillis = new Date().getTime();
     // 소켓을 통해 서버에 읽었다고 알림
+    if (writerName !== userName) {
+      client.send("/socket/read/"+currRoomId, {}, {});
+    }
   }
   else {
     chatRooms.get(roomId).lastMessage = content;
@@ -194,8 +204,9 @@ function getMessageAreaHtml(messages) {
 
 // 일반 메세지 전송
 function sendBtnHandler() {
-  const content = input.value;
+  let content = input.value;
   if (content.trim().length > 0) {
+    content = content.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     client.send("/socket/send/"+currRoomId, {}, JSON.stringify({content}));
     input.value = '';
   }
@@ -203,9 +214,10 @@ function sendBtnHandler() {
 
 // 새로운방 생성
 function sendBtnHandler2(destinationId, postId) {
-  const content = input.value;
-  const data = {destinationId, postId, content}
+  let content = input.value;
   if (content.trim().length > 0) {
+    content = content.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    const data = {destinationId, postId, content}
     client.send("/socket/newroom", {}, JSON.stringify(data));
     input.value = '';
   }

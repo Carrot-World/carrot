@@ -80,6 +80,7 @@ public class ChatController {
         newRoom.setBuyer(user.getId());
         newRoom.setStatus(1);
         int roomId = chatService.createChatRoom(newRoom);
+        itemPostService.addChatCnt(newRoomMessage.getPostId());
 
         String destinationName = userService.selectById(newRoomMessage.getDestinationId()).getNickname();
 
@@ -106,6 +107,16 @@ public class ChatController {
         header.put("buyerName", room.getBuyerName());
 
         template.convertAndSend("/socket/roomchange/"+(user.getId()), messages, header);
+    }
+
+    @MessageMapping("/socket/read/{id}")
+    public void updateIsRead(@DestinationVariable String id, java.security.Principal principal) {
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
+        UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        int roomId = Integer.parseInt(id);
+        String userId = user.getId();
+
+        chatService.updateIsRead(userId, roomId);
     }
 
 }
