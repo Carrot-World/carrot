@@ -4,11 +4,10 @@ import java.util.Date;
 
 public class ReplyVO {
 	
-	private int id, townPostId;
-	private String parent, content, writer;
+	private int id, townPostId, status;
+	private String parent, content, writer, nickname;
 	private Date created_at;
-	private String nickname;
-	
+	private String time;
 
 	public int getId() {
 		return id;
@@ -50,19 +49,29 @@ public class ReplyVO {
 		this.writer = writer;
 	}
 	
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
 	public String getNickname() {
 		return nickname;
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	@Override
 	public String toString() {
-		return "ReplyVO [id=" + id + ", townPostId=" + townPostId + ", parent=" + parent + ", content=" + content
-				+ ", writer=" + writer + ", created_at=" + created_at + ", nickname=" + nickname + "]";
+		return "ReplyVO [id=" + id + ", townPostId=" + townPostId + ", status=" + status + ", parent=" + parent
+				+ ", content=" + content + ", writer=" + writer + ", nickname=" + nickname + ", created_at="
+				+ created_at + ", time=" + time + "]";
 	}
-	
-	
-
 }
-

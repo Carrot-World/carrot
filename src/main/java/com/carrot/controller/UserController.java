@@ -1,19 +1,15 @@
 package com.carrot.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.carrot.domain.ItemPostVO;
+import com.carrot.domain.LocationVO;
 import com.carrot.domain.UserVO;
 import com.carrot.service.ItemPostService;
 import com.carrot.service.LocationService;
@@ -46,23 +42,64 @@ public class UserController {
         model.addAttribute("userinfo", user);
         model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
         
+    	System.out.println("1. user : " + user);
+		System.out.println("2. loc1List : " + locationService.loc1Set());
+        model.addAttribute("loc1List", locationService.loc1Set());
+        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+        
 		return "mySellPage";
 	}
 	
 	@RequestMapping("/page/mypageBuy") //마이페이지 (구매내역)
 	public String myPageBuy(Model model) {
 		UserVO user = userService.getUserInfo();
+		System.out.println("1. user : " + user);
+		System.out.println("2. loc1List : " + locationService.loc1Set());
         model.addAttribute("userinfo", user);
+        model.addAttribute("loc1List", locationService.loc1Set());
+        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
         
 		return "myBuyPage";
 	}
 	
-	@RequestMapping("/page/mypageReply") //마이페이지 (거래후기)
-	public String myPageReply(Model model) {
+	@RequestMapping("/page/mypageTrade") //마이페이지 (거래후기)
+	public String myPageTrade(Model model) {
 		UserVO user = userService.getUserInfo();
         model.addAttribute("userinfo", user);
+        model.addAttribute("loc1List", locationService.loc1Set());
+        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
         
-		return "myReplyPage";
+		return "myTradePage";
+	}
+	
+	@RequestMapping("/page/userpageSell") //유저페이지 (판매내역)
+	public String userPageSell(Model model, String id) {
+		UserVO login = userService.getUserInfo();
+		UserVO user = userService.selectById(id);
+		model.addAttribute("userinfo", user);
+		if ( login.getId().equals(user.getId())) {
+			return "redirect://page/mypageSell";
+		}
+		model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
+		return "userSellPage";
+	}
+	
+	@RequestMapping("/page/userpageTrade") //유저페이지 (거래후기)
+	public String userPageTrade(Model model, String id) {
+		UserVO login = userService.getUserInfo();
+		UserVO user = userService.selectById(id);
+		model.addAttribute("userinfo", user);
+		
+		
+		
+		if ( login.getId().equals(user.getId())) {
+			return "redirect://page/mypageTrade";
+		}
+		
+		return "userTradePage";
 	}
 	
 	//기능

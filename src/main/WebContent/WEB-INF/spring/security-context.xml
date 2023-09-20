@@ -42,20 +42,26 @@
 				<security:intercept-url pattern="/page/newpost" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/townpost" access="permitAll" />
 				<security:intercept-url pattern="/page/detailpost" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/detailpost/**" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/editpost" access="isAuthenticated()" />
-				<security:intercept-url pattern="/page/postList" access="permitAll" />
+				<security:intercept-url pattern="/page/postList" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/mypageSell" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/mypageBuy" access="isAuthenticated()" />
-				<security:intercept-url pattern="/page/mypageReply" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/mypageTrade" access="isAuthenticated()" />
 				
-				<security:intercept-url pattern="/api/post/inspost" access="permitAll" />
-				<security:intercept-url pattern="/api/post/updatepost" access="permitAll" />
+				<security:intercept-url pattern="/page/userpageSell" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/userpageSell/**" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/userpageTrade" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/userpageTrade/**" access="isAuthenticated()" />
+				
+				<security:intercept-url pattern="/api/post/inspost" access="isAuthenticated()" />
+				<security:intercept-url pattern="/api/post/updatepost" access="isAuthenticated()" />
 				<security:intercept-url pattern="/api/image/image" access="permitAll" />
-				<security:intercept-url pattern="/api/post/insertreply" access="permitAll" />				
-				<security:intercept-url pattern="/api/post/updatereply" access="permitAll" />				
-				<security:intercept-url pattern="/api/post/deletereply" access="permitAll" />			
-				<security:intercept-url pattern="/api/post/search" access="permitAll" />
-
+				<security:intercept-url pattern="/api/post/insertreply" access="isAuthenticated()" />				
+				<security:intercept-url pattern="/api/post/updatereply" access="isAuthenticated()" />				
+				<security:intercept-url pattern="/api/post/deletereply" access="isAuthenticated()" />			
+				<security:intercept-url pattern="/api/post/search" access="permitAll" />			
+      
         <security:intercept-url pattern="/page/chat" access="isAuthenticated()"/>
 			  <security:intercept-url pattern="/api/conn" access="isAuthenticated()"/>
 				
