@@ -194,8 +194,9 @@ function getMessageAreaHtml(messages) {
 
 // 일반 메세지 전송
 function sendBtnHandler() {
-  const content = input.value;
+  let content = input.value;
   if (content.trim().length > 0) {
+    content = content.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     client.send("/socket/send/"+currRoomId, {}, JSON.stringify({content}));
     input.value = '';
   }
@@ -203,9 +204,10 @@ function sendBtnHandler() {
 
 // 새로운방 생성
 function sendBtnHandler2(destinationId, postId) {
-  const content = input.value;
-  const data = {destinationId, postId, content}
+  let content = input.value;
   if (content.trim().length > 0) {
+    content = content.replacaAll("<", "&lt;").replaceAll(">", "&gt;");
+    const data = {destinationId, postId, content}
     client.send("/socket/newroom", {}, JSON.stringify(data));
     input.value = '';
   }
