@@ -72,6 +72,7 @@ public class UserController {
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+		model.addAttribute("tradeList", tradeService.getListByUserId2(user.getId()));
 
 		return "myTradePage";
 	}

@@ -29,4 +29,14 @@ public class TradeService {
         return tradeList;
     }
 
+    public List<TradeVO> getListByUserId2(String userId) {
+        List<TradeVO> tradeList = session.getMapper(TradeRepository.class).getListByUserId2(userId);
+        if (tradeList == null) {
+            return new ArrayList<TradeVO>();
+        }
+        for (TradeVO trade : tradeList) {
+            trade.setTime(dateFormat.format(trade.getCreated_at()));
+        }
+        return tradeList;
+    }
 }

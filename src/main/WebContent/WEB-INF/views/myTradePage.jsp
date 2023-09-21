@@ -58,17 +58,51 @@
 				</ul>
 			</div>
 			<div class="reviews">
-
-				<c:forEach var="list" items="${ list }">
-					<div class="review card">
-						<div class="review-header">
-							<h4>${ list.buyer }</h4>
-							<span>${ list.loc1 } ${ list.loc2 } ${ list.loc3 } </span>
-						</div>
-						<div class="review-content">${list.buyer_content}</div>
-						<div class="review-footer">${list.creatd_at }</div>
+			<c:forEach items="${tradeList}" var="trade">
+				<div class="review card">
+					<div class="review-header">
+						<h4>
+							<c:if test="${trade.sellerName == userinfo.nickname}">
+								${trade.buyerName}
+							</c:if>
+							<c:if test="${trade.sellerName != userinfo.nickname}">
+								${trade.sellerName}
+							</c:if>
+						</h4>
+						<span>-
+							<c:if test="${trade.sellerName == userinfo.nickname}">
+								${trade.bLoc1} ${trade.bLoc2} ${trade.bLoc3}
+							</c:if>
+							<c:if test="${trade.sellerName != userinfo.nickname}">
+								${trade.sLoc1} ${trade.sLoc2} ${trade.sLoc3}
+							</c:if>
+						</span>
 					</div>
-				</c:forEach>
+					<div class="post-title" onclick="location.href='${pageContext.request.contextPath}/page/detail?id=${trade.item_post_id}'">
+						물품글: ${trade.title}
+					</div>
+					<c:if test="${trade.sellerName == userinfo.nickname and trade.buyer_content != null}">
+						<div class="review-content">
+							${trade.buyer_content}
+						</div>
+					</c:if>
+					<c:if test="${trade.buyerName == userinfo.nickname and trade.seller_content != null}">
+						<div class="review-content">
+								${trade.buyer_content}
+						</div>
+					</c:if>
+					<div class="review-footer">
+							${trade.time} 거래완료
+					</div>
+					<c:if test="${(trade.buyerName == userinfo.nickname && trade.buyer_content == null)
+					or (trade.sellerName == userinfo.nickname && trade.seller_content == null)}">
+						<div class="review-content">
+							<button class="btn orange-btn write-btn" data-bs-target="#writeModal" data-bs-toggle="modal">후기작성</button>
+						</div>
+					</c:if>
+				</div>
+			</c:forEach>
+
 			</div>
 		</div>
 		<div class="section-footer"></div>
@@ -89,8 +123,7 @@
 					<div class="input-row">
 						<div class="label">ID:</div>
 						<div class="input">
-							<input class="form-control" type="text" value="${ userinfo.id }"
-						id="userid" readonly="readonly">
+							<input class="form-control" type="text" value="${ userinfo.id }" id="userid" readonly="readonly"/>
 				</div>
 			</div>
 
@@ -199,6 +232,26 @@
 				<button class="btn orange-btn" onclick="updatePassword('${userinfo.id}')">비밀번호 변경</button>
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 후기남기기 모달 -->
+<div class="modal fade" id="writeModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="writeModalLabel">후기작성</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<label for="writeForm">OOO님의 후기작성</label>
+				<textarea class="form-control write-btn" id="writeForm"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn orange-btn write-btn" onclick="">후기등록</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 			</div>
 		</div>
 	</div>
