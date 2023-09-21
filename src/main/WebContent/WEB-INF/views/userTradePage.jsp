@@ -15,7 +15,7 @@
 	integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
 	crossorigin="anonymous" />
 <link
-	href="${pageContext.request.contextPath}/resources/css/mypagebuy.css"
+	href="${pageContext.request.contextPath}/resources/css/mypagetrade.css"
 	rel="stylesheet" />
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -47,15 +47,45 @@
 				</ul>
 			</div>
 				<div class="reviews">
-				<c:forEach var="list" items="${ list }">
-					<div class="review card">
-						<div class="review-header">
-							<h4>${ list.buyer }</h4>
-							<span>${ list.loc1 } ${ list.loc2 } ${ list.loc3 } </span>
+				<c:forEach items="${tradeList}" var="trade">
+					<c:if test="${(trade.sellerName == userinfo.nickname and trade.buyer_content != null)
+					or (trade.buyerName == userinfo.nickname and trade.seller_content != null) }">
+						<div class="review card">
+							<div class="review-header">
+								<h4>
+									<c:if test="${trade.sellerName == userinfo.nickname}">
+										${trade.buyerName}
+									</c:if>
+									<c:if test="${trade.sellerName != userinfo.nickname}">
+										${trade.sellerName}
+									</c:if>
+								</h4>
+								<span>-
+									<c:if test="${trade.sellerName == userinfo.nickname}">
+										${trade.bLoc1} ${trade.bLoc2} ${trade.bLoc3}
+									</c:if>
+									<c:if test="${trade.sellerName != userinfo.nickname}">
+										${trade.sLoc1} ${trade.sLoc2} ${trade.sLoc3}
+									</c:if>
+								</span>
+							</div>
+							<div class="post-title" onclick="location.href='${pageContext.request.contextPath}/page/detail?id=${trade.item_post_id}'">
+								물품글: ${trade.title}
+							</div>
+							<div class="review-content">
+								<c:if test="${trade.sellerName == userinfo.nickname}">
+									${trade.buyer_content}
+								</c:if>
+								<c:if test="${trade.sellerName != userinfo.nickname}">
+									${trade.seller_content}
+								</c:if>
+							</div>
+							<div class="review-footer">
+								${trade.time} 거래완료
+							</div>
+
 						</div>
-						<div class="review-content">${list.buyer_content}</div>
-						<div class="review-footer">${list.creatd_at }</div>
-					</div>
+					</c:if>
 				</c:forEach>
 			</div>
 		</div>

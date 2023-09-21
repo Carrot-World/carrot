@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carrot.repository.TradeRepository">
+    <select id="getListByUserId" resultType="com.carrot.domain.TradeVO">
+        select t.*, u1.nickname as sellerName, u2.nickname as buyerName,
+        u1.loc1 as sLoc1, u1.loc2 as sLoc2, u1.loc3 as sLoc3,
+        u2.loc1 as bLoc1, u2.loc2 as bLoc2, u2.loc3 as bLoc3, p.title as title
+        from trade t, user_info u1, user_info u2, item_post p
+        where t.seller = u1.id and t.buyer = u2.id and
+        ((t.seller = #{userId} and t.buyer_content is not null) or (t.buyer = #{userId} and t.seller_content is not null))
+        and p.id = t.item_post_id
+    </select>
+</mapper>
