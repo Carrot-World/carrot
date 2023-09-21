@@ -1,0 +1,223 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+
+/* header */
+a.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.header {
+  width: 100%;
+  min-width: 1336px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.header > nav {
+  width: 80%;
+  min-width: 1336px;
+  margin: auto;
+}
+
+.min-width {
+  min-width: 1336px;
+}
+
+/* section */
+.section {
+  width: 100%;
+  margin-top: 70px;
+}
+
+.section > div {
+  width: 80%;
+  min-width: 1336px;
+  margin: auto;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* title */
+div.title {
+  width: 800px;
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+/* 게시물 내용 */
+.post-wrapper {
+  width: 800px;
+  padding: 10px;
+  margin: auto;
+  margin-top: 16px;
+  margin-bottom: 20px;
+  border-bottom: solid 1px rgb(233, 236, 239);
+  border-top: solid 1px rgb(233, 236, 239);
+}
+
+.post-title {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.post-category,
+.post-like {
+  margin-top: 6px;
+  font-size: 16px;
+  color: rgb(134, 142, 150);
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.post-like > .button-wrapper {
+  display: flex;
+  gap: 16px;
+}
+
+.post-content {
+  margin: 16px 0px;
+  line-height: 1.6;
+  font-size: 24px;
+}
+
+.button-wrapper {
+  display: flex;
+  height: 100%;
+  align-items: end;
+  gap: 12px;
+}
+
+.orange-btn {
+  background-color: #fd7e14;
+  border: 1px solid #fd7e14;
+  color: #fff !important;
+}
+
+.orange-btn:hover,
+.orange-btn:active {
+  background-color: #fd7e14 !important;
+  color: #fff !important;
+}
+
+.red-btn {
+  background-color: #dc3545 !important;
+  border: 1px solid #dc3545;
+  color: #fff !important;
+}
+
+.red-btn:hover,
+.red-btn:active {
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}
+
+/* reply form */
+.reply-form {
+  width: 800px;
+  margin: auto;
+}
+.reply-form > label {
+  font-size: 20px;
+}
+
+.reply-form > textarea {
+  height: 150px;
+  resize: none;
+}
+
+.reply-form-button-wrapper {
+  text-align: right;
+  margin-top: 12px;
+}
+
+.reply-form-button-wrapper > button {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* reply */
+.reply-container {
+  width: 800px;
+  margin: auto;
+  margin-top: 16px;
+}
+
+div.reply-card {
+  width: 800px;
+  background-color: #f2f5f9;
+  border: 1px solid rgb(248, 249, 250);
+  padding: 15px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+div.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+div.reply-header > h5 {
+  margin-bottom: 0px;
+}
+
+div.reply-header > span {
+  font-size: 16px;
+  color: rgb(134, 142, 150);
+}
+
+div.reply-content {
+  margin-top: 6px;
+}
+
+div.reply-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.reply-footer > button {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* 대댓글 */
+.nested-reply-container {
+  padding-left: 30px;
+}
+
+.reply-card.nested {
+  width: 770px;
+  background-color: #e9ecef;
+}
+
+.reply-footer.nested {
+  justify-content: end;
+}
+
+.reply-form.nested {
+  width: 770px;
+  margin: auto;
+}
+
+.reply-form.nested > label {
+  font-size: 20px;
+}
+
+.reply-form.nested > textarea {
+  height: 120px;
+  resize: none;
+}

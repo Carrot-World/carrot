@@ -84,4 +84,14 @@
     <select id="getRoomStatusById" parameterType="int" resultType="int">
         select status from chatting_room where id=#{roomId}
     </select>
+
+    <select id="getBuyer" parameterType="int" resultMap="chatRoom">
+        select c.*, u1.nickname as seller_name, u2.nickname as buyer_name
+        from chatting_room c,
+        user_info u1,
+        user_info u2
+        where c.ITEM_POST_ID = #{itemPostId}
+        and u1.id = c.seller
+        and u2.id = c.buyer
+    </select>
 </mapper>

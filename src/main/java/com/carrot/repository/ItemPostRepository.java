@@ -16,5 +16,6 @@ public interface ItemPostRepository {
     public int hartMinus(HartVO vo);
     public void addChatCnt(int postId);
     public void minusChatCnt(int postId);
-
+    public int delete(ItemPostVO vo);
+    public int updateComplete(ItemPostVO vo);
 }

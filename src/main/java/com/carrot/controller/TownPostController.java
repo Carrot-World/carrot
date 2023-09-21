@@ -1,6 +1,8 @@
 package com.carrot.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,34 +47,28 @@ public class TownPostController {
 	@RequestMapping("/page/postList") //게시물 조회
 	public String searchPost(SearchVO vo, Model model) {
 		
-		System.out.println("searchvo : " + vo);
-        if (userService.isAuthenticated()) {
+		System.out.println("게시물조회 : " + vo);
+		if (vo.getPageNo() == 0) {
             UserVO user = userService.getUserInfo();
             model.addAttribute("user", user);
-            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(userService.setUserLocation())));
-            model.addAttribute("loc1List", locationService.loc1Set());
+            ArrayList<TownPostVO> list = townpostService.searchPost(pagingService.setPaging(userService.setUserLocation()));
+            System.out.println("보내는 리스트 0 : " + list);
+            model.addAttribute("list", list);
             model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
             model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
             model.addAttribute("page", pagingService.getPagingInfo(userService.setUserLocation()));
         } else {
-            model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(new SearchVO())));
-            model.addAttribute("loc1List", locationService.loc1Set());
-            model.addAttribute("page", pagingService.getPagingInfo(new SearchVO()));
+        	ArrayList<TownPostVO> list = townpostService.searchPost(pagingService.setPaging(vo));
+        	System.out.println("보내는 리스트 != 0 : " + list);
+        	model.addAttribute("list", list);
+            model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
+            model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
+            model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
+            model.addAttribute("searchInfo", vo);
         }
+        model.addAttribute("loc1List", locationService.loc1Set());
 		return "postList";
 	}
-	
-	 @RequestMapping("/api/post/search") //게시물 검색
-	    public String search(SearchVO vo, Model model) {
-	        model.addAttribute("list", townpostService.searchPost(vo));
-	        model.addAttribute("list", townpostService.searchPost(pagingService.setPaging(vo)));
-	        model.addAttribute("loc1List", locationService.loc1Set());
-	        model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(vo.getLoc1())));
-	        model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(vo.getLoc1(), vo.getLoc2())));
-	        model.addAttribute("page", pagingService.getPagingInfo(pagingService.setPaging(vo)));
-	        model.addAttribute("searchInfo", vo);
-	        return "searchPost";
-	    }
 	
 	@RequestMapping("/page/newpost") // 게시판 글 작성 페이지
 	public String newpost() {
@@ -86,7 +82,6 @@ public class TownPostController {
 		model.addAttribute("postdetail", vo);
 		return "postEdit";
 	}	
-
 	
 	// 기능
 	@RequestMapping("/api/post/inspost") // 게시물 등록
@@ -102,6 +97,7 @@ public class TownPostController {
 		vo = townpostService.detailPost(id);
 		townpostService.readCount(id); //조회수 증가
 		model.addAttribute("postdetail", vo);
+		model.addAttribute("nickname", userService.getUserInfo().getNickname());
 		return "postDetail";
 	}
 	
@@ -126,22 +122,34 @@ public class TownPostController {
 	@RequestMapping("/api/post/insertreply") //댓글 등록 버튼
 	public ReplyVO insertReply(@RequestBody ReplyVO reply) {
 		ReplyVO vo = new ReplyVO();
+		System.out.println("parent : " + reply.getParent());
 		vo = townpostService.insertReply(reply);
+		System.out.println("댓글등록할때 게시글 번호 : " + reply.getTownPostId());
 		//댓글 수 증가
+		townpostService.replyCount(reply.getTownPostId());
 		
+		System.out.println("댓글등록 반환: " + vo);
 		return vo; 
 	}
 	
 	@ResponseBody
 	@RequestMapping("/api/post/deletereply") //댓글 삭제 버튼
-	public boolean deleteReply(@RequestBody String id) {
-		
-//		1. 댓글 삭제
+	public boolean deleteReply(@RequestBody HashMap<String, String> map) {
+		String id = map.get("id");
+		String postid = map.get("postid");
+//		1. 댓글 삭제 (status 0 -> 1)
 		townpostService.deleteReply(id);
-//		2. 원댓글 삭제 시 대댓글 함께 삭제
-		townpostService.deleteReReply(id);
-		
+//		2. 게시글 댓글 수 감소
+		townpostService.replyCountDelete(postid);
 		return true;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/api/post/rereplylist") //대댓글 조회
+	public List<ReplyVO> reReplyList(@RequestBody HashMap<String, String> map) {
+		String parent = map.get("parent");
+		System.out.println("parent id : " + parent);
+		return townpostService.rereplyList(parent);
 	}
 	
 	@ResponseBody

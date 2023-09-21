@@ -9,9 +9,10 @@ public class TownPostVO {
 	private int id, read_cnt, reply_cnt, category_id;
 	private String title, content, writer, loc1, loc2, loc3;
 	private Date created_at;
-	private String categoryName, writerNickname;
-	private List<ReplyVO> replylist;
-	
+	private String categoryName, nickname;
+	private List<ReplyVO> replylist; //댓글 리스트
+	private List<ReplyVO> rereplylist; //대댓글 리스트
+	private String time; //시간저장
 	
 	//getter setter
 	public int getId() {
@@ -89,13 +90,12 @@ public class TownPostVO {
 		this.categoryName = categoryName;
 	}
 	
-	public String getWriterNickname() {
-		return writerNickname;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setWriterNickname(String writerNickname) {
-		this.writerNickname = writerNickname;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
-	
 	public List<ReplyVO> getReplylist() {
 		return replylist;
 	}
@@ -103,14 +103,27 @@ public class TownPostVO {
 		this.replylist = replylist;
 	}
 	
+	public List<ReplyVO> getRereplylist() {
+		return rereplylist;
+	}
+	public void setRereplylist(List<ReplyVO> rereplylist) {
+		this.rereplylist = rereplylist;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	@Override
 	public String toString() {
 		return "TownPostVO [id=" + id + ", read_cnt=" + read_cnt + ", reply_cnt=" + reply_cnt + ", category_id="
 				+ category_id + ", title=" + title + ", content=" + content + ", writer=" + writer + ", loc1=" + loc1
 				+ ", loc2=" + loc2 + ", loc3=" + loc3 + ", created_at=" + created_at + ", categoryName=" + categoryName
-				+ ", writerNickname=" + writerNickname + ", replylist=" + replylist + "]";
+				+ ", nickname=" + nickname + ", replylist=" + replylist + ", rereplylist=" + rereplylist + ", time="
+				+ time + "]";
 	}
-
 	
 }	
 
