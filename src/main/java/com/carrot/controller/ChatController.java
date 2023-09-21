@@ -64,8 +64,15 @@ public class ChatController {
 
     @MessageMapping("/socket/send/{roomId}")
     public void chat(ChatMessageVO message, @DestinationVariable String roomId, java.security.Principal principal) {
+
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
         UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        if (!chatService.checkValidRoom(Integer.parseInt(roomId))) {
+            template.convertAndSend("/socket/reject/"+user.getId(), Integer.parseInt(roomId));
+            return;
+        }
+
+        message.setWriterName(user.getNickname());
         template.convertAndSend("/socket/message/"+roomId,
                 chatService.sendMessage(message, Integer.parseInt(roomId), user.getId()));
     }
@@ -78,9 +85,9 @@ public class ChatController {
         newRoom.setItemPostId(newRoomMessage.getPostId());
         newRoom.setSeller(newRoomMessage.getDestinationId());
         newRoom.setBuyer(user.getId());
-        newRoom.setStatus(1);
+        newRoom.setStatus(3);
         int roomId = chatService.createChatRoom(newRoom);
-        itemPostService.addChatCnt(newRoomMessage.getPostId());
+//        itemPostService.addChatCnt(newRoomMessage.getPostId());
 
         String destinationName = userService.selectById(newRoomMessage.getDestinationId()).getNickname();
 
@@ -117,6 +124,24 @@ public class ChatController {
         String userId = user.getId();
 
         chatService.updateIsRead(userId, roomId);
+    }
+
+    @MessageMapping("/socket/exit/{id}")
+    public void exitRoom(@DestinationVariable String id, java.security.Principal principal) {
+        UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken)principal;
+        UserVO user = ((CustomUser)token.getPrincipal()).getUser();
+        int roomId = Integer.parseInt(id);
+
+        ChatRoomVO room = chatService.getRoomById(roomId);
+        int num = user.getId().equals(room.getSeller()) ? 1 : 2;
+        chatService.exitChatRoom(num, roomId);
+//        itemPostService.minusChatCnt(room.getItemPostId());
+
+        ChatMessageVO exitMessage = new ChatMessageVO();
+        exitMessage.setContent(user.getNickname() + "님이 퇴장하셨습니다.");
+        exitMessage.setWriterName(user.getNickname());
+        chatService.sendMessage(exitMessage, roomId, user.getId());
+        template.convertAndSend("/socket/message/"+roomId, exitMessage);
     }
 
 }

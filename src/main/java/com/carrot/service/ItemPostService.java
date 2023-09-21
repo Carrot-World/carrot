@@ -75,10 +75,15 @@ public class ItemPostService {
     public void addChatCnt(int postId) {
         sqlSession.getMapper(ItemPostRepository.class).addChatCnt(postId);
     }
-
+  
+    public void minusChatCnt(int postId) {
+        sqlSession.getMapper(ItemPostRepository.class).minusChatCnt(postId);
+    }
+  
     public int complete(ItemPostVO vo) {
         return sqlSession.getMapper(ItemPostRepository.class).updateComplete(vo);
     }
+  
     public int delete(ItemPostVO vo) {
         return sqlSession.getMapper(ItemPostRepository.class).delete(vo);
     }

@@ -114,4 +114,8 @@
     <update id="addChatCnt" parameterType="int">
         update item_post set chat_cnt = chat_cnt + 1 where id=#{postId}
     </update>
+
+    <update id="minusChatCnt" parameterType="int">
+        update item_post set chat_cnt = chat_cnt - 1 where id=#{postId}
+    </update>
 </mapper>

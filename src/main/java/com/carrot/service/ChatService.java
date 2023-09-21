@@ -64,7 +64,6 @@ public class ChatService {
     public ChatMessageVO sendMessage(ChatMessageVO message, int id, String userId) {
         message.setRoomId(id);
         message.setWriter(userId);
-        message.setWriterName(userService.selectById(userId).getNickname());
         message.setIsRead(1);
         message.setCreatedAt(new Date(System.currentTimeMillis()));
         message.setTime(dateFormat.format(message.getCreatedAt()));
@@ -101,6 +100,18 @@ public class ChatService {
         return session.getMapper(ChatRepository.class).selectRoomById(id);
     }
 
+    public void exitChatRoom(int num, int roomId) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("num", num);
+        map.put("roomId", roomId);
+        session.getMapper(ChatRepository.class).updateRoomStatus(map);
+    }
+
+    public boolean checkValidRoom(int roomId) {
+        int status = session.getMapper(ChatRepository.class).getRoomStatusById(roomId);
+        return (status == 3);
+    }
+  
     public List<String> getBuyerList(int id) {
         List<ChatRoomVO> roomList = session.getMapper(ChatRepository.class).getBuyer(id);
         List<String> buyerList = new ArrayList<>();

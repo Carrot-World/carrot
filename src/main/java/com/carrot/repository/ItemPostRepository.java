@@ -12,7 +12,7 @@ public interface ItemPostRepository {
     public List<ItemPostVO> search(SearchVO vo);
     public List<ItemPostVO> selectByWriter(String writer);
     public void addChatCnt(int postId);
+    public void minusChatCnt(int postId);
     public int delete(ItemPostVO vo);
     public int updateComplete(ItemPostVO vo);
-
 }
