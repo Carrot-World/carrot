@@ -24,7 +24,6 @@ const sendBtn = document.querySelector("#send");
 const chatHeader = document.querySelector(".chat-header");
 const messageArea = document.querySelector("#messageArea");
 const roomArea = document.querySelector("#roomArea");
-const otherUserNameArea = chatHeader.querySelector("h2");
 const userName = document.querySelector("h2#userName").textContent;
 const userId = document.querySelector("h2#userName").getAttribute("userId");
 const chatContainer = document.querySelector(".chat-container");
@@ -59,6 +58,7 @@ client.connect({}, () => {
     client.subscribe("/socket/message/"+room.roomId, onMessage);
   });
   client.subscribe("/socket/sub/"+userId, onSub);
+  client.subscribe("/socket/reject/"+userId, onReject);
   client.subscribe("/socket/roomchange/"+userId, onRoomChange);
   if (currRoomId !== -1) {
     client.send("/socket/read/"+currRoomId, {}, {});
@@ -86,15 +86,7 @@ const onMessage = (m) => {
     chatRooms.get(roomId).lastTimeMillis = new Date().getTime();
     chatRooms.get(roomId).unReadCnt++;
   }
-  let arr = [];
-  chatRooms.forEach(room => arr.push(room));
-  arr.sort((a,b) => {
-    if (a.lastTime === b.lastTime) {
-      return a.lastTimeMillis < b.lastTimeMillis ? 1 : -1;
-    }
-    return a.lastTime < b.lastTime ? 1 : -1
-  });
-  renderRoomArea(arr);
+  renderRoomArea();
 }
 
 const onSub = (m) => {
@@ -102,21 +94,11 @@ const onSub = (m) => {
   const partnerName = writerName === userName ? destinationName : writerName;
   chatRooms.set(roomId, new ChatRoom(roomId, partnerName, content, time, writerName === userName ? 0 : 1));
   if (currRoomId === -1) {
-    currRoomId = roomId;
-    otherUserNameArea.textContent = writerName === userName ? destinationName : writerName;
-    chatContainer.setAttribute("roomId", roomId);
+    renderChatArea(roomId, [{writerName, content, time}], partnerName);
     chatRooms.get(roomId).unReadCnt = 0;
-    messageArea.innerHTML += getMessageHtml(writerName, content, time);
     messageArea.scrollTop = messageArea.scrollHeight;
   }
-  let arr = [];
-  chatRooms.forEach(room => arr.push(room));
-  arr.sort((a,b) => {
-    if (a.lastTime === b.lastTime) {
-      return a.lastTimeMillis < b.lastTimeMillis ? 1 : -1;
-    }
-    return a.lastTime < b.lastTime ? 1 : -1
-  });  renderRoomArea(arr);
+  renderRoomArea();
   sendBtn.onclick = sendBtnHandler;
   client.subscribe("/socket/message/"+roomId,onMessage);
 }
@@ -127,6 +109,14 @@ const onRoomChange = (m) => {
   const otherUserName = m.headers.sellerName === userName ? m.headers.buyerName : m.headers.sellerName;
   chatRooms.get(roomId).unReadCnt = 0;
   renderChatArea(roomId, messages, otherUserName);
+  renderRoomArea();
+}
+
+const onReject = (m) => {
+  alert("상대 유저가 퇴장하여 메세지를 보낼수가 없습니다.");
+}
+
+function renderRoomArea() {
   let arr = [];
   chatRooms.forEach(room => arr.push(room));
   arr.sort((a,b) => {
@@ -134,10 +124,7 @@ const onRoomChange = (m) => {
       return a.lastTimeMillis < b.lastTimeMillis ? 1 : -1;
     }
     return a.lastTime < b.lastTime ? 1 : -1
-  });  renderRoomArea(arr);
-}
-
-function renderRoomArea(arr) {
+  });
   let html = `<h2 class="username" id="userName">${userName}</h2>`
   for (const room of arr) {
     html += getRoomHtml(room);
@@ -146,7 +133,7 @@ function renderRoomArea(arr) {
 }
 
 function renderChatArea(roomId, messages, otherUserName) {
-  chatHeader.innerHTML = getChatHeaderHtml(otherUserName);
+  chatHeader.innerHTML = getChatHeaderHtml(otherUserName, roomId);
   messageArea.innerHTML = getMessageAreaHtml(messages);
 
   currRoomId = roomId;
@@ -186,10 +173,10 @@ function getRoomHtml(room) {
   `;
 }
 
-function getChatHeaderHtml(otherUserName) {
+function getChatHeaderHtml(otherUserName, roomId) {
   return `
   <h2>${otherUserName}</h2>
-  <button class="btn red-btn">나가기</button>
+  ${roomId === -1 ? '' : '<button class=\"btn red-btn\" onclick=\"exitRoom()\">나가기</button>'}
   `
 }
 
@@ -225,4 +212,24 @@ function sendBtnHandler2(destinationId, postId) {
 
 function sendRoomChange(roomId) {
   client.send("/socket/room/"+roomId, {}, {});
+}
+
+function exitRoom() {
+  if (currRoomId === -1) {
+    return;
+  }
+  client.unsubscribe("/socket/message/"+currRoomId, {});
+  client.send("/socket/exit/"+currRoomId, {}, {});
+  chatRooms.delete(currRoomId);
+  renderRoomArea();
+  renderChatArea(-1, [], '');
+  const firstRoom = document.querySelector(".chat-room");
+  if (firstRoom !== null) {
+    const roomId = Number(firstRoom.getAttribute("roomId"));
+    sendRoomChange(roomId);
+  }
+  else {
+    renderChatArea(-1, [], '');
+  }
+
 }
