@@ -30,6 +30,10 @@ a.logo {
   min-width: 1336px;
 }
 
+body{
+	margin-bottom: 3%;
+}
+
 /* section */
 .section {
   width: 100%;
