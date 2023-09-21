@@ -2,16 +2,13 @@ package com.carrot.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.carrot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.LocationVO;
@@ -175,5 +172,21 @@ public class UserController {
 		return cnt;
 	}
 
+	@RequestMapping("/api/trade/writeModal/{tradeId}")
+	public String writeModal(@PathVariable int tradeId, Model model) {
+		model.addAttribute("userInfo", userService.getUserInfo());
+		model.addAttribute("trade", tradeService.selectById(tradeId));
+		return "tradeWriteModal";
+	}
 
+	@ResponseBody
+	@RequestMapping("/api/trade/updateTrade")
+	public void updateTrade(@RequestBody Map<String, Object> data) {
+		String content = (String)data.get("content");
+		String type = (String)data.get("type");
+		int tradeId = (int) data.get("tradeId");
+		String colName = type + "_content";
+		tradeService.writeContent(tradeId, colName, content);
+
+	}
 }

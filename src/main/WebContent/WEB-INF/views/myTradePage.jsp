@@ -7,7 +7,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 <title>${ userinfo.nickname }의거래 후기 페이지</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -88,7 +89,7 @@
 					</c:if>
 					<c:if test="${trade.buyerName == userinfo.nickname and trade.seller_content != null}">
 						<div class="review-content">
-								${trade.buyer_content}
+								${trade.seller_content}
 						</div>
 					</c:if>
 					<div class="review-footer">
@@ -97,7 +98,7 @@
 					<c:if test="${(trade.buyerName == userinfo.nickname && trade.buyer_content == null)
 					or (trade.sellerName == userinfo.nickname && trade.seller_content == null)}">
 						<div class="review-content">
-							<button class="btn orange-btn write-btn" data-bs-target="#writeModal" data-bs-toggle="modal">후기작성</button>
+							<button class="btn orange-btn write-btn" onclick="writeModalOpen(${trade.id})">후기작성</button>
 						</div>
 					</c:if>
 				</div>
@@ -257,5 +258,6 @@
 	</div>
 </div>
 <script src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/tradeWriteModal.js"></script>
 </body>
 </html>

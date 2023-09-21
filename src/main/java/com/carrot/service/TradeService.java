@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -38,5 +39,17 @@ public class TradeService {
             trade.setTime(dateFormat.format(trade.getCreated_at()));
         }
         return tradeList;
+    }
+
+    public TradeVO selectById(int tradeId) {
+        return session.getMapper(TradeRepository.class).selectById(tradeId);
+    }
+
+    public void writeContent(int tradeId, String colName, String content) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("tradeId", tradeId);
+        map.put("colName", colName);
+        map.put("content", content);
+        session.getMapper(TradeRepository.class).updateTrade(map);
     }
 }

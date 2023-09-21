@@ -22,4 +22,10 @@
         or (t.seller = #{userId} and t.buyer_content is not null) or (t.buyer = #{userId} and t.seller_content is not null))
         and p.id = t.item_post_id
     </select>
+    <select id="selectById" resultType="com.carrot.domain.TradeVO">
+        select * from trade where id = #{tradeId}
+    </select>
+    <update id="updateTrade" parameterType="hashMap">
+        update trade set ${colName}=#{content} where id=#{tradeId}
+    </update>
 </mapper>
