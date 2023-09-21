@@ -87,7 +87,7 @@
         <div class="user-info">
             <div class="user-info-wrapper">
                 <div id="user-info"
-                     onclick="location.href='${pageContext.request.contextPath}/page/mypageSell?id=${item.writer}'">
+                     onclick="location.href='${pageContext.request.contextPath}/page/userpageSell?id=${item.writer}'" style="cursor:pointer">
                     <h4 id="username">${item.writer_nickname}</h4>
                     <span id="location">${item.loc1} ${item.loc2} ${item.loc3}</span>
                     <p id="dealCnt">거래횟수: ${item.writer_trade_cnt}회</p>

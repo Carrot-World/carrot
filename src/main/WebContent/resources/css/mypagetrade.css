@@ -1,0 +1,251 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+
+/* header */
+a.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.header {
+  width: 100%;
+  min-width: 1336px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.header > nav {
+  width: 80%;
+  min-width: 1336px;
+  margin: auto;
+}
+
+.min-width {
+  min-width: 1336px;
+}
+
+/* section */
+.section {
+  width: 100%;
+  margin-top: 70px;
+}
+
+.section > div {
+  width: 80%;
+  min-width: 1336px;
+  margin: auto;
+}
+
+.section-header {
+  display: flex;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 유저정보 카드 */
+.user-info-wrapper {
+  width: 600px;
+  height: 200px;
+  border: 1px solid rgb(248, 249, 250);
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2f5f9;
+  border-radius: 16px;
+}
+
+.button-wrapper {
+  display: flex;
+  height: 100%;
+  align-items: end;
+}
+
+#username {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 30px;
+}
+
+#location {
+  display: block;
+  font-size: 20px;
+  padding-bottom: 10px;
+  position: relative;
+  font-weight: 500;
+}
+
+#location:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 1px;
+  background: #cbd6e9;
+  bottom: 0;
+  left: 0;
+}
+
+#dealCnt {
+  margin: 10px 0 0 0;
+  font-size: 14px;
+}
+
+button.update {
+  background-color: #fd7e14;
+  font-weight: bold;
+  color: #fff;
+}
+
+button.update:hover,
+button.update:active {
+  background-color: #fd7e14 !important;
+  font-weight: bold !important;
+  color: #fff !important;
+}
+
+/* 마이페이지 탭 */
+ul.nav {
+  gap: 20px;
+  justify-content: center;
+}
+
+.nav-link {
+  color: #fd7e14 !important;
+}
+
+.nav-link.active {
+  background-color: #fd7e14 !important;
+  color: #fff !important;
+}
+
+/* 리뷰칸 */
+.reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review {
+  width: 600px;
+  margin-top: 24px;
+  padding: 30px;
+  background-color: #f2f5f9;
+  border: none;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.review-footer {
+  margin-top: 8px;
+}
+
+.section-footer {
+  margin-top: 16px !important;
+  display: flex;
+  justify-content: center;
+}
+
+ul.pagination * {
+  color: #fd7e14 !important;
+}
+
+ul.pagination *.active {
+  background-color: #fd7e14 !important;
+  color: #fff !important;
+  border-color: #fd7e14;
+}
+
+/* modal */
+.modal-dialog {
+  width: 700px;
+  max-width: 700px;
+}
+
+.modal-content {
+  width: 700px;
+}
+
+#passwordModal .modal-dialog {
+  width: 600px;
+}
+
+#passwordModal .modal-content {
+  width: 600px;
+  max-width: 600px;
+}
+
+.modal-title {
+  font-size: 30px !important;
+}
+
+.input-wrapper > div {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  align-items: center;
+}
+
+div.label {
+  width: 20%;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div.input {
+  display: flex;
+  gap: 10px;
+  width: 80%;
+}
+
+#passwordModal div.label {
+  width: 25%;
+}
+
+#passwordModal div.input {
+  width: 70%;
+}
+
+div.input > .form-control {
+  width: 50%;
+}
+
+#passwordModal .form-control {
+  width: 100%;
+}
+
+div.input > .form-select {
+  width: 130px;
+}
+
+#currBtn,
+.orange-btn {
+  background-color: #fd7e14;
+  width: 130px;
+}
+
+#currBtn:hover,
+#currBtn:active,
+.orange-btn:hover,
+.orange-btn:active {
+  background-color: #fd7e14 !important;
+  color: #fff !important;
+}
+
+button {
+  color: #fff !important;
+}

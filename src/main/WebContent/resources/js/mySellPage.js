@@ -4,6 +4,10 @@ $(window).scroll(function () {
     $('.header').css('left', 0 - $(this).scrollLeft());
 });
 
+$(window).load(function(){
+	rescaleCard();
+})
+
 var header = $("meta[name='_csrf_header']").attr('content');
 var token = $("meta[name='_csrf']").attr('content');
 
