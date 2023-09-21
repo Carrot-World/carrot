@@ -83,24 +83,22 @@ public class LoginController {
 	}
 
 	@GetMapping("/api/success")
-	public String success(Model model) {
+	public String success(Model model, RedirectAttributes redirectAttr) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserRepository mapper = sqlSession.getMapper(UserRepository.class);
 		UserVO vo = mapper.selectById(authentication.getName());
-		System.out.println("auth: " + authentication);
 		model.addAttribute("user", vo);
-		model.addAttribute("msg", authentication.getName() + "님 어서오세요");
-
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		CustomUser customuser = (CustomUser) principal;
 
 		if (customuser.getUser().getLoc1() == null || customuser.getUser().getLoc2() == null
 				|| customuser.getUser().getLoc3() == null) {
-			model.addAttribute("req_locRegist", "locNull");
+			//redirectAttr.addAttribute("req_locRegist", false);
+			redirectAttr.addFlashAttribute("req_locRegist", false);
+			redirectAttr.addFlashAttribute("user", vo);
 		}
 
-		return "imsiLoginSuccess";
-		// return "snsLoginSuccess";
+		return "redirect:/page/main";
 	}
 
 	@GetMapping("/access_denied")
@@ -130,10 +128,8 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping("/api/signup/emailcheck")
 	public int emailCheck(@RequestParam String email) {
-		System.out.println("이메일체크옴");
 		int cnt = 0;
 		cnt = userService.emailCheck(email);
-		System.out.println("실행됏냐: "+cnt);
 		return cnt;
 	}
 	
@@ -178,5 +174,6 @@ public class LoginController {
 		int cnt = userService.updatePassword(id, encodepw);
 		return cnt;
 	}
+	
 	
 }

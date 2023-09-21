@@ -28,7 +28,7 @@ pageEncoding="UTF-8"%>
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <div class="card border-0 shadow rounded-3 my-5">
             <div class="card-body p-4 p-sm-5">
-              <h5 class="card-title text-center mb-5 fw-light fs-5">로그인</h5>
+              <h5 class="card-title text-center mb-5 fw-light fs-5 btn-loginType">로그인</h5>
               <form action="/login" method="post">
                 <div class="form-floating mb-3">
                   <input
