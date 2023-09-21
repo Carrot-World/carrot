@@ -60,8 +60,10 @@ public class ItemPostService {
     
     public List<ItemPostVO> selectByWriter(String writer) {
     	List<ItemPostVO> list = sqlSession.getMapper(ItemPostRepository.class).selectByWriter(writer);
-    	System.out.println("list : " + list);
-    	return list;
+    	if (list.isEmpty()) {
+            return null;
+        }
+    	return imageService.setFirstImage(list) ;
     }
 
     public ItemPostVO detail(int id) {

@@ -75,6 +75,7 @@ public class UserService {
     	savedvo.setLoc1(vo.getLoc1());
     	savedvo.setLoc2(vo.getLoc2());
     	savedvo.setLoc3(vo.getLoc3());
+    	
     	return cnt;
     }
     
@@ -104,10 +105,25 @@ public class UserService {
     public boolean withdrawSignUp(String id) { //회원탈퇴
 //    	String encodepw = encoder.encode(password);
     	int result = sqlSession.getMapper(UserRepository.class).withdrawSignUp(id);
+    	System.out.println(result);
     	if (result <= 0) {
     		return false;
     	}
     	return true;
     }
     
+    public String findId(String email) {
+    	String id = sqlSession.getMapper(UserRepository.class).findId(email);
+    	return id;
+    }
+    
+    public int findPassword(String id, String email) {
+    	int cnt = sqlSession.getMapper(UserRepository.class).findPassword(id, email);
+		return cnt;
+    }
+    
+    public int updatePassword(String id, String password) {
+    	int cnt = sqlSession.getMapper(UserRepository.class).updatePassword(id, password);
+    	return cnt;
+    }
 }

@@ -1,11 +1,13 @@
 package com.carrot.service;
 
-import com.carrot.domain.PageVO;
-import com.carrot.domain.SearchVO;
-import com.carrot.repository.ItemPostRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.carrot.domain.PageVO;
+import com.carrot.domain.SearchVO;
+import com.carrot.repository.ItemPostRepository;
+import com.carrot.repository.TownPostRepository;
 
 @Service
 public class PagingService {
@@ -38,6 +40,20 @@ public class PagingService {
         pageVO.setBlock(pageBlock);
         pageVO.setCurrPageCnt(Math.abs(searchResultCnt - (pageVO.getCurrent() * pageSize)));
         return pageVO;
+    }
+    
+    public PageVO getPostPagingInfo(SearchVO vo) {
+    	searchInfoChecker(vo);
+    	PageVO pageVO = new PageVO();
+    	int searchResultCnt = sqlSession.getMapper(TownPostRepository.class).selectCount(vo);
+    	pageVO.setTotal((int) Math.ceil((double) searchResultCnt / pageSize));
+    	pageVO.setStart(((vo.getPageNo() - 1) / pageBlock) * pageBlock + 1);
+    	pageVO.setEnd(Math.min((pageVO.getStart() - 1 + pageBlock), pageVO.getTotal()));
+    	pageVO.setCurrent(vo.getPageNo() == 0 ? 1 : vo.getPageNo());
+    	pageVO.setSize(pageSize);
+    	pageVO.setBlock(pageBlock);
+    	pageVO.setCurrPageCnt(Math.abs(searchResultCnt - (pageVO.getCurrent() * pageSize)));
+    	return pageVO;
     }
 
     public void searchInfoChecker(SearchVO vo) {

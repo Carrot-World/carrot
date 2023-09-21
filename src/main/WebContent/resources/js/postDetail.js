@@ -55,7 +55,7 @@ function btnInsert(num) {
 		success: (data) => {
 			console.log(data);
 			document.querySelector('#reply-form').value = '';
-			afterReplyInsert(data.nickname, repl_content, data.time, data.id)
+			afterReplyInsert(data.nickname, repl_content, data.writer, data.time, data.id)
 		},
 		error: () => {
 			alert('등록 실패')
@@ -63,13 +63,13 @@ function btnInsert(num) {
 	})
 }
 
-function afterReplyInsert(nickname, content, time, id) { //댓글 등록 후 -> 
+function afterReplyInsert(nickname, content, writer, time, id) { //댓글 등록 후 -> 
 
 	const commentbox = document.querySelector("div.reply-container");
 	commentbox.innerHTML += `
         <div class="reply-card" id="reply${id}">
 						<div class="reply-header">
-							<h5>${nickname}</h5>
+							<h5 onclick="location.href='/page/userpageSell?id=${writer}'" style="cursor:pointer">${nickname}</h5>
 							<span class="reply-time">${time}</span>
 						</div>
 						<div class="reply-content">
@@ -134,7 +134,7 @@ function btnInsertReply(num) {
 			const formDiv = replyEl.querySelector(".reply-form.nested");
 			console.log(data);
 			document.querySelector('#re-reply-form').value = '';
-			afterReReplyInsert(data.nickname, re_repl_content, data.time, data.id, formDiv)
+			afterReReplyInsert(data.nickname, re_repl_content, data.writer, data.time, data.id, formDiv)
 			/* location.reload(); */
 		},
 		error: () => {
@@ -143,7 +143,7 @@ function btnInsertReply(num) {
 	})
 }
 
-function afterReReplyInsert(nickname, content, time, id, formDiv) { //대댓글 등록 후 ->
+function afterReReplyInsert(nickname, content, writer, time, id, formDiv) { //대댓글 등록 후 ->
 
 	//const commentbox = document.querySelector("#reply"+parent);
 	const newreply = document.createElement("div")
@@ -151,7 +151,7 @@ function afterReReplyInsert(nickname, content, time, id, formDiv) { //대댓글 
 	newreply.classList.add("nested");
 	newreply.innerHTML += `
 						<div class="reply-header">
-							<h5>${nickname}</h5>
+							<h5 onclick="location.href='/page/userpageSell?id=${writer}'" style="cursor:pointer">${nickname}</h5>
 							<span class="reply-time">${time}</span>
 						</div>
 						<div class="reply-content">
@@ -234,7 +234,7 @@ function getNestedReplyHtml(e) {
 		return `
 	<div class="reply-card nested">
 		<div class="reply-header">
-			<h5 onclick="location.href='/page/userpageSell/${e.writer}'">${e.nickname}</h5>
+			<h5 onclick="location.href='/page/userpageSell?id=${e.writer}'" style="cursor:pointer">${e.nickname}</h5>
 			<span class="reply-time">${e.time}</span>
 		</div>
 		<div class="reply-content"><pre>${e.content}</pre></div>

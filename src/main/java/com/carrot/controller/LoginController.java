@@ -1,5 +1,7 @@
 package com.carrot.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -55,7 +57,7 @@ public class LoginController {
 		session.setAttribute("kakaoURI", KAKAO_URI);
 		session.setAttribute("googleID", GOOGLE_ID);
 		session.setAttribute("googleURI", GOOGLE_URI);
-
+		
 		return "login";
 	}
 
@@ -78,11 +80,6 @@ public class LoginController {
 		result += mapper.signUp_auth(authVo);
 		
 		return result;
-	}
-
-	@GetMapping("/page/signup_res")
-	public String loginResult() {
-		return "signUpResult";
 	}
 
 	@GetMapping("/api/success")
@@ -133,15 +130,11 @@ public class LoginController {
 	@ResponseBody
 	@PostMapping("/api/signup/emailcheck")
 	public int emailCheck(@RequestParam String email) {
+		System.out.println("이메일체크옴");
 		int cnt = 0;
 		cnt = userService.emailCheck(email);
-
+		System.out.println("실행됏냐: "+cnt);
 		return cnt;
-	}
-
-	@GetMapping("/page/findid")
-	public String findid(String id) {
-		return "findId";
 	}
 	
 	@GetMapping("/api/loginfail")
@@ -158,6 +151,32 @@ public class LoginController {
         }
         // 로그인 페이지로 리다이렉트
         return "redirect:/page/login";
-		
 	}
+	
+	@ResponseBody
+	@PostMapping("/api/finduser/id")
+	public String findId(@RequestParam String email) {
+		String id = userService.findId(email);
+		
+		if(id == null) {
+			id = "미가입";
+		}
+		return id;
+	}
+	
+	@ResponseBody
+	@PostMapping("/api/finduser/password")
+	public int findPassword(@RequestParam("id") String id, @RequestParam("email") String email) {
+		
+		int cnt = userService.findPassword(id, email);
+		return cnt;
+	}
+	@ResponseBody
+	@PostMapping("/api/finduser/newpwd")
+	public int updatePassword(@RequestParam("id") String id, @RequestParam("password") String password) {
+		String encodepw = encoder.encode(password);
+		int cnt = userService.updatePassword(id, encodepw);
+		return cnt;
+	}
+	
 }

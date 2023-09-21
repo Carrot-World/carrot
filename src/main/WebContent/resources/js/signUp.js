@@ -113,7 +113,7 @@ $("#btn-emailCheck").click(function (e) {
         } else {
           $("#modal-text-email").val(email);
           $("#res-authnum-text").val("");
-          $("#staticBackdrop").modal("show");
+          $("#emailCertifyModal").modal("show");
           sendEmail();
         }
       },
@@ -164,7 +164,7 @@ function sendEmail() {
       alert("인증이 완료되었습니다.");
       $("#email").prop("readonly", true);
       $("#email").attr("style", "background-color:#80808021;");
-      $("#staticBackdrop").modal("hide");
+      $("#emailCertifyModal").modal("hide");
       $("#emailStatus").val("1");
     }
     if (eamil_auth_compl === false) {
@@ -244,10 +244,7 @@ function optionEl(loc) {
 }
 
 $("#btn-cancel").click(function (e) {
-  //메인으로 보내주기 이전? history먹히나?
-  e.preventDefault();
-
-  console.log($("#emailStatus").val());
+	location.href = "/page/login";
 });
 
 $("#id").change(function () {
