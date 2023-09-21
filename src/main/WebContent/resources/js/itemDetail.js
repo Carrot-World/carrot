@@ -5,7 +5,6 @@ $(window).scroll(function(){
 function hartBtnHandler() {
     var el = $("#hartBtn");
     var id = el.attr("value");
-    var cnt = el.attr("value1");
     var name = el.attr("name");
 
     el.attr("disabled", true);
@@ -25,8 +24,7 @@ function hartBtnHandler() {
         $.ajax({
             url: "/api/item/hartMinus",
             data: {
-                "item_post_id": id,
-                "cnt": cnt
+                "item_post_id": id
             },
             method: "get",
             dataType: "text"

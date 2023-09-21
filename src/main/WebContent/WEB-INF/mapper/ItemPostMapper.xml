@@ -50,16 +50,20 @@
         item.loc2,
         item.loc3,
         item.writer,
-        item.chat_cnt,
         item.price,
         item.status,
         item.category_id,
         item.created_at,
-        item.hart_cnt,
-        writer.NICKNAME as writer_nickname
+        (select count(*) from hart where item_post_id = #{id})                        as hart_cnt,
+        (select count(*) from CHATTING_ROOM where ITEM_POST_ID = #{id})               as chat_cnt,
+        writer.NICKNAME                                                            as writer_nickname,
+        cate.NAME                                                                  as category_name,
+        (select count(*) from TRADE where writer.ID = SELLER or writer.ID = BUYER) as writer_trade_cnt
         from item_post item,
-        USER_INFO writer
+        USER_INFO writer,
+        CATEGORY cate
         where item.Writer = writer.ID
+        and item.category_id = cate.ID
         and item.id = #{id}
     </select>
 
@@ -68,7 +72,24 @@
     </select>
 
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
-        select * from item_post
+        select distinct p.id,
+        p.title,
+        p.content,
+        p.loc1,
+        p.loc2,
+        p.loc3,
+        p.writer,
+        p.price,
+        p.status,
+        p.category_id,
+        p.created_at,
+        nvl(c.chat_cnt, 0) as chat_cnt,
+        nvl(h.hart_cnt, 0) as hart_cnt
+        from item_post p
+        left join (select item_post_id, count(*) over (partition by ITEM_POST_ID) as chat_cnt from CHATTING_ROOM) c
+        on p.id = c.ITEM_POST_ID
+        left join (select item_post_id, count(*) over (partition by item_post_id) as hart_cnt from hart) h
+        on p.id = h.item_post_id
         <where>
             status = 0
             <if test="category_id != 0">
@@ -89,20 +110,6 @@
         </where>
         order by id desc offset #{pageStartCnt} rows fetch first #{pageSize} rows only
     </select>
-
-    <update id="hartPlus" parameterType="com.carrot.domain.HartVO">
-        update ITEM_POST set HART_CNT = HART_CNT + 1 where id = #{item_post_id}
-    </update>
-
-    <update id="hartMinus" parameterType="com.carrot.domain.HartVO">
-        update ITEM_POST set HART_CNT = HART_CNT
-        <if test="cnt > 0">
-            - 1 where id = #{item_post_id}
-        </if>
-        <if test="cnt == 0">
-            where id = 0
-        </if>
-    </update>
 
     <update id="addChatCnt" parameterType="int">
         update item_post set chat_cnt = chat_cnt + 1 where id=#{postId}

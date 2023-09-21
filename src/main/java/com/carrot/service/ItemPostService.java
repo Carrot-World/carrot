@@ -2,7 +2,6 @@ package com.carrot.service;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -10,12 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.carrot.domain.CategoryVO;
 import com.carrot.domain.ImageVO;
 import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.SearchVO;
 import com.carrot.domain.UserVO;
-import com.carrot.repository.CategoryRepository;
 import com.carrot.repository.ItemPostRepository;
 
 @Service
@@ -29,8 +26,6 @@ public class ItemPostService {
 
     @Autowired
     private ImageService imageService;
-    private static HashMap<Integer, String> categoryMap;
-    private static boolean isSetCategory;
 
     public int insert(UserVO user, ItemPostVO vo, List<MultipartFile> imageList) throws IOException {
         vo.setWriter(user.getId());
@@ -56,9 +51,6 @@ public class ItemPostService {
 
     public List<ItemPostVO> search(SearchVO vo) {
         List<ItemPostVO> itemPostList = sqlSession.getMapper(ItemPostRepository.class).search(vo);
-        if (!isSetCategory) {
-            setCategoryMap();
-        }
         if (itemPostList.isEmpty()) {
             return null;
         }
@@ -77,20 +69,7 @@ public class ItemPostService {
         if (!imageList.isEmpty()) {
             itemPost.setImageList(imageService.selectById(id));
         }
-        if (!isSetCategory) {
-            setCategoryMap();
-        }
-        itemPost.setCategory_name(categoryMap.get(itemPost.getCategory_id()));
         return itemPost;
-    }
-
-    public void setCategoryMap() {
-        List<CategoryVO> categoryList = sqlSession.getMapper(CategoryRepository.class).selectAll();
-        categoryMap = new HashMap<>();
-        for (CategoryVO vo : categoryList) {
-            categoryMap.put(vo.getId(), vo.getName());
-        }
-        isSetCategory = true;
     }
 
     public void addChatCnt(int postId) {
@@ -102,7 +81,6 @@ public class ItemPostService {
     }
   
     public int complete(ItemPostVO vo) {
-
         return sqlSession.getMapper(ItemPostRepository.class).updateComplete(vo);
     }
   
