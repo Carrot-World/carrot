@@ -103,7 +103,7 @@
 	delete from town_post where writer=#{writer}
 </delete>
 <delete id="withdrawReply">
-	delete from reply where writer={writer}
+	delete from reply where writer=#{writer}
 </delete>
 
 </mapper>

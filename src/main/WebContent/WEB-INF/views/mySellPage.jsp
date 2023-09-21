@@ -46,7 +46,7 @@
 		</div>
 		<div class="button-wrapper">
 			<button class="btn update" data-bs-target="#updateModal"
-				data-bs-toggle="modal">내정보수정</button>
+				data-bs-toggle="modal">내 정보수정</button>
 		</div>
 	</div>
 </div>
@@ -136,7 +136,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="updateModalLabel">내정보수정</h1>
+				<h1 class="modal-title fs-5" id="updateModalLabel">내 정보수정</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -154,9 +154,9 @@
 				<div class="label">이메일:</div>
 				<div class="input">
 					<input class="form-control" type="text"
-						value="${ userinfo.email }" id="newemail"> <input
-						type="button" value="이메일인증" id="btn-emailCheck"
-						onclick="emailModalOpen()">
+						value="${ userinfo.email }" id="newemail" readonly="readonly"> 
+                    <button id="btn-emailCheck" class="btn orange-btn"
+						onclick="emailModalOpen()">변 경</button>
 				</div>
 			</div>
 
@@ -164,7 +164,9 @@
 				<div class="label">닉네임:</div>
 				<div class="input">
 					<input class="form-control" type="text"
-						value="${ userinfo.nickname }" id="newnickname">
+						value="${ userinfo.nickname }" id="newnickname" readonly="readonly">
+                     <button id="btn-nicCheck" class="btn orange-btn"
+                            onclick="nicknameModalOpen()">변 경</button>
 				</div>
 			</div>
 
@@ -260,40 +262,139 @@
 	</div>
 </div>
 
+<!-- 이메일 변경 모달+  중복/인증요청  -->
+    <div
+      class="modal fade"
+      id="emailModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              이메일 변경
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-row">
+              <div class="label emailModal_label">이메일:</div>
+              <div class="input">
+                <input
+                  class="form-control emailModal_input"
+                  type="email"
+                  id="emailModal_email"
+                />
+                <button class="btn orange-btn" id="emailModal_req">
+                  인증요청
+                </button>
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="label emailModal_label">인증번호:</div>
+              <div class="input">
+                <input
+                  class="form-control emailModal_input"
+                  type="text"
+                  id="emailModal_num"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn orange-btn"
+              id="emailModal_compl"
+            >
+              인증확인
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 닉네임 변경 모달+  중복확인  -->
+    <div
+      class="modal fade"
+      id="nicknameModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              닉네임 변경
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-row">
+              <div class="label emailModal_label">닉네임:</div>
+              <div class="input">
+                <input
+                  class="form-control emailModal_input"
+                  type="email"
+                  id="nicknameModal_nic"
+                />
+                <button class="btn orange-btn" id="nicknameModal_req">
+                  중복확인
+                </button>
+              </div>
+            </div>
 
-<!-- 이메일 인증 Modal -->
-<div class="modal fade" id="#staticBackdrop" data-bs-backdrop="static"
-	data-bs-keyboard="false" tabindex="-1"
-	aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog ">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">이메일 인증</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body row">
-
-				<div id="custom-modal-row" class="mb-3">
-					<input type="text" id="modal-text-email" class="modal-text"
-						readonly="readonly" /> <input type="button" id="request-authnum"
-						value="인증 요청">
-				</div>
-				<div id="custom-modal-row" class="mb-3">
-					<input type="text" id="res-authnum-text" class="modal-text" /> <input
-						type="button" id="res-authnum" value="인증 확인">
-					<!--  <input type="text" id="time-limit" value="유효시간" size="6"> -->
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-primary"
-					id="submit-email-auth">확인</button>
-				<button type="button" class="btn btn-secondary"
-					data-bs-dismiss="modal">취소</button>
-			</div>
-		</div>
-	</div>
-</div>
+            <div class="input-row-hidden">
+              <div class="label emailModal_label"></div>
+              <div class="input">
+                <span id="nicknameModal_msg"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn orange-btn"
+              id="nicknameModal_compl"
+            >
+              확인
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 <script
 	src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
 </body>

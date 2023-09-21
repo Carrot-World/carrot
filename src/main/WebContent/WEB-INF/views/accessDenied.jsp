@@ -7,13 +7,13 @@
 <title>권한 접근 금지</title>
 </head>
 <body>
-    <h1>권한이 없습니다.</h1>
-    <a href="/page/listItem">홈으로</a>
-    <a href="/page/login">로그인으로</a>
-    
     <form action="logout" method="post">
+      <br><br>
+      <h1 style="text-align:center">접근 권한이 없습니다.</h1><br>
+      <h1 style="text-align:center">관리자에게 문의해주세요.</h1><br>
+          
       <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <button>로그아웃 버튼 입니다....</button>
+      <div style="text-align:center"><button >로그아웃</button></div>
     </form>
     
 </body>
