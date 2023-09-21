@@ -85,7 +85,7 @@ public class UserController {
 		UserVO user = userService.selectById(id);
 		model.addAttribute("userinfo", user);
 		if ( login.getId().equals(user.getId())) {
-			return "redirect://page/mypageSell";
+			return "redirect:/page/mypageSell";
 		}
 		model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
 		System.err.println("물품 list : " + itemPostService.selectByWriter(user.getId()));
@@ -99,9 +99,8 @@ public class UserController {
 		model.addAttribute("userinfo", user);
 		
 		
-		
 		if ( login.getId().equals(user.getId())) {
-			return "redirect://page/mypageTrade";
+			return "redirect:/page/mypageTrade";
 		}
 		
 		return "userTradePage";
