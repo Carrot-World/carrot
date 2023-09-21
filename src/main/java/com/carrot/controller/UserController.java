@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -136,8 +137,10 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping("api/myPage/withdraw") //회원탈퇴
-	public String withdraw(@RequestBody String id ) {
-		System.out.println(id);
+	public String withdraw(@RequestBody HashMap<String, String> map ) {
+		System.out.println(map);
+		String id = map.get("id");
+		System.out.println("id:" + id);
 		
 		if ( !userService.withdrawSignUp(id) ) {
 			return "redirect:page/myPage";
@@ -153,6 +156,25 @@ public class UserController {
 		UserVO vo = new UserVO();
 		vo = userService.getUserInfo();
 		return vo.getId();
+	}
+	
+	@ResponseBody
+	@PostMapping("/api/mypage/emailcheck")
+	public int emailCheck(@RequestParam String email) {
+		System.out.println("이메일체크옴");
+		int cnt = 0;
+		cnt = userService.emailCheck(email);
+		System.out.println("실행됏냐: "+cnt);
+		return cnt;
+	}
+	
+	@ResponseBody
+	@PostMapping("/api/mypage/niccheck")
+	public int nicCheck(@RequestParam String nickname) {
+		int cnt = 0;
+		cnt = userService.nicCheck(nickname);
+
+		return cnt;
 	}
 	
 	

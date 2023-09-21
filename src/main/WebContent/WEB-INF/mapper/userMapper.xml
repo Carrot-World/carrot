@@ -32,27 +32,41 @@
 		</insert>
 		
 		<select id="idCheck" parameterType="String" resultType="Integer">
-      SELECT count(*) FROM user_info WHERE id = #{id}
-    </select>
+           SELECT count(*) FROM user_info WHERE id = #{id}
+        </select>
     
  		<select id="nicCheck" parameterType="String" resultType="Integer">
-      SELECT count(*) FROM user_info WHERE nickname = #{nickname}
-    </select>
+          SELECT count(*) FROM user_info WHERE nickname = #{nickname}
+        </select>
     
  		<select id="emailCheck" parameterType="String" resultType="Integer">
-      SELECT count(*) FROM user_info WHERE email = #{email}
-    </select>
+           SELECT count(*) FROM user_info WHERE email = #{email}
+        </select>
     
-    <update id="updateUser" parameterType="com.carrot.domain.UserVO">
-    	update user_info set email=#{email}, nickname=#{nickname}, loc1=#{loc1}, loc2=#{loc2}, loc3=#{loc3} where id=#{id}
-    </update>
+        <update id="updateUser" parameterType="com.carrot.domain.UserVO">
+        	update user_info set email=#{email}, nickname=#{nickname}, loc1=#{loc1}, loc2=#{loc2}, loc3=#{loc3} where id=#{id}
+        </update>
+        
+        <update id="updatePwd" parameterType="HashMap">
+        	update user_info set password=#{encodepw} where id=#{id}
+        </update>
     
-    <update id="updatePwd" parameterType="HashMap">
-    	update user_info set password=#{encodepw} where id=#{id}
-    </update>
-
-    <delete id="withdrawSignUp">
-    	delete from user_info where id=#{id}
-    </delete>
+        <delete id="withdrawSignUp">
+        	delete from user_info where id=#{id}
+        </delete>
+    
+        <select id ="findId"  resultType ="String">
+          SELECT * FROM user_info WHERE email = #{email} AND 
+          NOT (id LIKE 'NAVER_%' OR id LIKE 'KAKAO_%' OR id LIKE 'GOOGLE_%')
+        </select>
+        
+        <select id="findPassword" resultType="Integer">
+          SELECT count(*) FROM user_info
+          WHERE id = #{id} AND email = #{email}
+        </select>
+        
+        <update id = "updatePassword" >
+          update user_info set password = #{password} where id=#{id}
+        </update>
     
 </mapper>	
