@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
 prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<link href="${pageContext.request.contextPath}/resources/css/common.css" rel="stylesheet" />
 
 <div class="header bg-body-tertiary">
     <nav class="navbar">

@@ -70,6 +70,10 @@
     <select id="selectByWriter" resultType="com.carrot.domain.ItemPostVO">
         select * from item_post where  (status = 0 or status = 1) and writer=#{writer} order by status asc, id desc
     </select>
+    
+    <select id="selectByBuyer" resultType="com.carrot.domain.ItemPostVO">
+    	select i.* from trade t, item_post i where t.item_post_id = i.id and buyer=#{buyer} order by i.id desc
+    </select>
 
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
         select distinct p.id,
@@ -118,4 +122,14 @@
     <update id="minusChatCnt" parameterType="int">
         update item_post set chat_cnt = chat_cnt - 1 where id=#{postId}
     </update>
+    
+    
+    <select id="selectTradeById" resultType="com.carrot.domain.TradeVO">
+    	select * from trade where seller=#{id} or buyer=#{id} order by id desc
+    </select>
+    
+    <select id="selectHeartById" resultType="com.carrot.domain.ItemPostVO">
+    	select i.* from item_post i, hart h where i.id = h.item_post_id and h.user_id=#{id}
+    </select>
+    
 </mapper>
