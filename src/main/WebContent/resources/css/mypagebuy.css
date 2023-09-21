@@ -181,12 +181,12 @@ ul.pagination *.active {
 
 /* modal */
 .modal-dialog {
-  width: 700px;
-  max-width: 700px;
+  width: 710px;
+  max-width: 710px;
 }
 
 .modal-content {
-  width: 700px;
+  width: 710px;
 }
 
 #passwordModal .modal-dialog {
@@ -247,7 +247,7 @@ div.input > .form-select {
 #currBtn,
 .orange-btn {
   background-color: #fd7e14;
-  width: 130px;
+  /* width: 130px; */
 }
 
 #currBtn:hover,
@@ -260,4 +260,39 @@ div.input > .form-select {
 
 button {
   color: #fff !important;
+}
+
+.input-row {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  align-items: center;
+}
+
+div.emailModal_label {
+  width: 20%;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div.input {
+  display: flex;
+  gap: 10px;
+  width: 80%;
+}
+
+.emailModal_input {
+  width: 70% !important;
+}
+.input-row-hidden {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding-left: 15px;
+  align-items: center;
+  font-size: 12px;
+  color: red;
 }

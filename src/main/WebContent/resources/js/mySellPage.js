@@ -14,23 +14,14 @@ function rescaleCard() {
   const offset = 30;
   const cardWidth = Math.ceil((wrapperWidth * 270) / 1336);
 
-<<<<<<< Updated upstream
-    const cards = document.querySelectorAll("div.card");
-    const cardImg = document.querySelectorAll("img.card-img-top");
-    for (let i = 0; i < cards.length; i++) {
-        cards[i].style.width = `${cardWidth}px`;
-        if (cardImg[i]) {
-            cardImg[i].style.height = `${cardWidth}px`;
-        }
-    }
-=======
   const cards = document.querySelectorAll("div.card");
   const cardImg = document.querySelectorAll("img.card-img-top");
   for (let i = 0; i < cards.length; i++) {
     cards[i].style.width = `${cardWidth}px`;
-    cardImg[i].style.height = `${cardWidth}px`;
+    if (cardImg[i]) {
+      cardImg[i].style.height = `${cardWidth}px`;
+    }
   }
->>>>>>> Stashed changes
 }
 
 rescaleCard();
@@ -48,10 +39,7 @@ function throttle(fn, delay) {
   };
 }
 
-window.addEventListener("resize", throttle(rescaleCard, 100))
-
-
-
+window.addEventListener("resize", throttle(rescaleCard, 100));
 
 const updateModal = new bootstrap.Modal("#updateModal");
 const passwordModal = new bootstrap.Modal("#passwordModal");
