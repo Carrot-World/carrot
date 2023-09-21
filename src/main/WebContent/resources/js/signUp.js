@@ -190,10 +190,10 @@ function changeLoc1Select() {
     $.ajax({
       url: "/api/loc/get2",
       data: {
-        "loc1": loc1SelectValue
+        loc1: loc1SelectValue,
       },
       method: "get",
-      dataType: "json"
+      dataType: "json",
     }).done((data) => {
       var selectLoc2El = document.querySelector("#loc2");
       var selectLoc3El = document.querySelector("#loc3");
@@ -203,7 +203,7 @@ function changeLoc1Select() {
       loc3El.prop("disabled", true);
       data.forEach((loc) => {
         selectLoc2El.innerHTML += optionEl(loc);
-      })
+      });
     });
   }
 }
@@ -223,18 +223,18 @@ function changeLoc2Select() {
     $.ajax({
       url: "/api/loc/get3",
       data: {
-        "loc1": loc1SelectValue,
-        "loc2": loc2SelectValue
+        loc1: loc1SelectValue,
+        loc2: loc2SelectValue,
       },
       method: "get",
-      dataType: "json"
+      dataType: "json",
     }).done((data) => {
       var selectEl = document.querySelector("#loc3");
       selectEl.innerHTML = `<option value="동네 선택">동네 선택</option>`;
       loc3El.prop("disabled", false);
       data.forEach((loc) => {
         selectEl.innerHTML += optionEl(loc);
-      })
+      });
     });
   }
 }
@@ -244,16 +244,16 @@ function optionEl(loc) {
 }
 
 $("#btn-cancel").click(function (e) {
-	location.href = "/page/login";
+  location.href = "/page/login";
 });
 
 $("#id").change(function () {
-  if ($("#idStatus").val() === 1) {
+  if ($("#idStatus").val() === "1") {
     $("#idStatus").val("0");
   }
 });
 $("#nickname").change(function () {
-  if ($("#nicknameStatus").val() === 1) {
+  if ($("#nicknameStatus").val() === "1") {
     $("#nicknameStatus").val("0");
   }
 });

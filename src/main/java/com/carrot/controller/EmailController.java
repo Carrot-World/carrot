@@ -29,7 +29,7 @@ public class EmailController {
 		
         String setFrom = "ssobuilt@gmail.com";
         String toMail = email;
-        String title = "당근나라 회원가입 인증 이메일 입니다.";
+        String title = "당근나라 인증 관련 이메일 입니다.";
         String content = 
                 "당근나라를 방문해주셔서 감사합니다." +
                 "<br><br>" + 

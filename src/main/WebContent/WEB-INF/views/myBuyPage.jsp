@@ -7,6 +7,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header"
+  content="${_csrf.headerName}" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>${ userinfo.nickname }의구매내역페이지</title>
 <link
@@ -51,7 +54,7 @@
 		<!-- 본인일 경우 버튼 활성화 -->
 		<div class="button-wrapper">
 			<button class="btn update" data-bs-target="#updateModal"
-				data-bs-toggle="modal">내정보수정</button>
+				data-bs-toggle="modal">내 정보수정</button>
 		</div>
 	</div>
 </div>
@@ -111,7 +114,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="updateModalLabel">내정보수정</h1>
+				<h1 class="modal-title fs-5" id="updateModalLabel">내 정보수정</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -120,65 +123,70 @@
 					<div class="input-row">
 						<div class="label">ID:</div>
 						<div class="input">
-							<input class="form-control" type="text"
-								value="${ userinfo.id }" readonly="readonly">
-					</div>
+							<input class="form-control" type="text" value="${ userinfo.id }"
+						id="userid" readonly="readonly">
 				</div>
+			</div>
 
-				<div class="input-row">
-					<div class="label">이메일:</div>
-					<div class="input">
-						<input class="form-control" type="text"
-							value="${ userinfo.email }" id="newemail"> <input
-							type="button" value="이메일인증" id="btn-emailCheck"
-							onclick="emailModalOpen()">
-					</div>
+			<div class="input-row">
+				<div class="label">이메일:</div>
+				<div class="input">
+					<input class="form-control" type="text"
+						value="${ userinfo.email }" id="newemail" readonly="readonly"> 
+                    <button id="btn-emailCheck" class="btn orange-btn"
+						onclick="emailModalOpen()">변 경</button>
 				</div>
+			</div>
 
-				<div class="input-row">
-					<div class="label">닉네임:</div>
-					<div class="input">
-						<input class="form-control" type="text"
-							value="${ userinfo.nickname }" id="newnickanme">
-					</div>
+			<div class="input-row">
+				<div class="label">닉네임:</div>
+				<div class="input">
+					<input class="form-control" type="text"
+						value="${ userinfo.nickname }" id="newnickname" readonly="readonly">
+                     <button id="btn-nicCheck" class="btn orange-btn"
+                            onclick="nicknameModalOpen()">변 경</button>
 				</div>
+			</div>
 
-				<div class="input-row">
-					<div class="label">지역:</div>
-					<div class="input">
-						<select class="form-select" id="loc1" name="loc1"
-							onchange="changeLoc1Select()">
-							<option value="도시 선택">도시 선택</option>
-							<c:forEach items="${loc1List}" var="location1">
-								<option ${location1 == userinfo.loc1 ? 'selected' : ''}
-									value="${location1}">${location1}</option>
-							</c:forEach>
-						</select> <select class="form-select" id="loc2" name="loc2"
-							onchange="changeLoc2Select()">
-							<option value="지역 선택">지역 선택</option>
-							<c:forEach items="${loc2List}" var="location2">
-								<option ${location2 == userinfo.loc2 ? 'selected' : ''}
-									value="${location2}">${location2}</option>
-							</c:forEach>
-						</select> <select class="form-select" id="loc3" name="loc3">
-							<option value="동네 선택">동네 선택</option>
-							<c:forEach items="${loc3List}" var="location3">
-								<option ${location3 == userinfo.loc3 ? 'selected' : ''}
-									value="${location3}">${location3}</option>
-							</c:forEach>
-						</select>
+			<div class="input-row">
+				<div class="label">지역:</div>
+				<div class="input">
+					<select class="form-select" id="loc1" name="loc1"
+						onchange="changeLoc1Select()">
+						<option value="도시 선택">도시 선택</option>
+						<c:forEach items="${loc1List}" var="location1">
+							<option ${location1 == userinfo.loc1 ? 'selected' : ''}
+								value="${location1}">${location1}</option>
+						</c:forEach>
+					</select> <select class="form-select" id="loc2" name="loc2"
+						onchange="changeLoc2Select()">
+						<option value="지역 선택">지역 선택</option>
+						<c:forEach items="${loc2List}" var="location2">
+							<option ${location2 == userinfo.loc2 ? 'selected' : ''}
+								value="${location2}">${location2}</option>
+						</c:forEach>
+					</select> <select class="form-select" id="loc3" name="loc3">
+						<option value="동네 선택">동네 선택</option>
+						<c:forEach items="${loc3List}" var="location3">
+							<option ${location3 == userinfo.loc3 ? 'selected' : ''}
+								value="${location3}">${location3}</option>
+						</c:forEach>
+					</select>
 
-						<button class="btn" id="currBtn" onclick="currLocBtnHandler()">현재위치</button>
-					</div>
+					<button class="btn" id="currBtn" onclick="currLocBtnHandler()">현재위치</button>
 				</div>
-
 			</div>
 		</div>
-		<div class="modal-footer">
-			<button class="btn orange-btn">회원정보 수정</button>
-			<button class="btn orange-btn" onclick="passwordModalOpen()">비밀번호
-					변경</button>
-				<button class="btn btn-danger">회원탈퇴</button>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn orange-btn"
+			onclick="updateInfo('${ userinfo.id }')">회원정보 수정</button>
+		<!-- <button class="btn orange-btn" id="btnUdpateInfo" >회원정보 수정</button> -->
+		<button class="btn orange-btn" onclick="passwordModalOpen()">비밀번호
+			변경</button>
+		<button class="btn btn-danger"
+			onclick="btnWithdraw('${ userinfo.id }')">회원탈퇴</button>
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">취소</button>
 			</div>
@@ -224,13 +232,146 @@
 			<div class="modal-footer">
 				<button class="btn orange-btn" onclick="updateModalOpen()">회원정보
 					수정</button>
-				<button class="btn orange-btn">비밀번호 변경</button>
+				<button class="btn orange-btn" onclick="updatePassword('${userinfo.id}')">비밀번호 변경</button>
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">취소</button>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- 이메일 변경 모달+  중복/인증요청  -->
+    <div
+      class="modal fade"
+      id="emailModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              이메일 변경
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-row">
+              <div class="label emailModal_label">이메일:</div>
+              <div class="input">
+                <input
+                  class="form-control emailModal_input"
+                  type="email"
+                  id="emailModal_email"
+                />
+                <button class="btn orange-btn" id="emailModal_req">
+                  인증요청
+                </button>
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="label emailModal_label">인증번호:</div>
+              <div class="input">
+                <input
+                  class="form-control emailModal_input"
+                  type="text"
+                  id="emailModal_num"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn orange-btn"
+              id="emailModal_compl"
+            >
+              인증확인
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 닉네임 변경 모달+  중복확인  -->
+    <div
+      class="modal fade"
+      id="nicknameModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              닉네임 변경
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-row">
+              <div class="label emailModal_label">닉네임:</div>
+              <div class="input">
+                <input
+                  class="form-control emailModal_input"
+                  type="email"
+                  id="nicknameModal_nic"
+                />
+                <button class="btn orange-btn" id="nicknameModal_req">
+                  중복확인
+                </button>
+              </div>
+            </div>
+
+            <div class="input-row-hidden">
+              <div class="label emailModal_label"></div>
+              <div class="input">
+                <span id="nicknameModal_msg"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn orange-btn"
+              id="nicknameModal_compl"
+            >
+              확인
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 </sec:authorize>
 <script
 	src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
