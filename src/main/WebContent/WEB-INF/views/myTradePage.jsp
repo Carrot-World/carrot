@@ -57,18 +57,46 @@
 						href="mypageTrade">거래후기</a></li>
 				</ul>
 			</div>
+			<!-- 테스트용..!! 임시입니다. 바뀔거에요 -->
 			<div class="reviews">
-
+				<c:if test="${not empty list}">
 				<c:forEach var="list" items="${ list }">
+				<c:if test="${list.buyer == userinfo.id }">
+					<div class="review card">
+						<div class="review-header">
+							<h4>${ list.seller }</h4>
+						</div>
+						
+						<c:if test="${list.seller_content != null }">
+						<div class="review-content">${list.seller_content}</div>
+						<div class="review-footer">${list.created_at }</div>
+						</c:if>
+						<c:if test="${list.seller_content == null }">
+						<button style="background-color: green; border-radius: 0.375rem;">거래후기 남기러 가기</button>
+						</c:if>
+					
+					</div>
+				</c:if>
+				<c:if test="${list.seller == userinfo.id }">
 					<div class="review card">
 						<div class="review-header">
 							<h4>${ list.buyer }</h4>
-							<span>${ list.loc1 } ${ list.loc2 } ${ list.loc3 } </span>
 						</div>
+						
+						<c:if test="${list.buyer_content != null }">
 						<div class="review-content">${list.buyer_content}</div>
-						<div class="review-footer">${list.creatd_at }</div>
+						<div class="review-footer">${list.created_at }</div>
+						</c:if>
+						<c:if test="${list.buyer_content == null }">
+						<button style="background-color: orange; border-radius: 0.375rem;">거래후기 보러 가기</button>
+						</c:if>
 					</div>
+				</c:if>
 				</c:forEach>
+				</c:if>
+				<c:if test="${empty list}">
+					<h3> 내역이 없습니다. </h3>
+					</c:if>
 			</div>
 		</div>
 		<div class="section-footer"></div>

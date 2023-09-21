@@ -21,6 +21,7 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/mypagesell.css"
 	rel="stylesheet" />
+	
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
@@ -123,6 +124,11 @@
                     </c:forEach>
                 </c:if>
 					</c:if>
+					
+					<c:if test="${list == null }">
+					<h3> 내역이 없습니다. </h3>
+					</c:if>
+					
 				</div>
 		</div>
 	</div>
