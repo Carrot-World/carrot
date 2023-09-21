@@ -7,7 +7,15 @@
 
 
 		<select id="selectById" resultType="com.carrot.domain.UserVO">
-			select * from user_info where id = #{id}
+			select id,
+			NICKNAME,
+			PASSWORD,
+			EMAIL,
+			loc1,
+			loc2,
+			loc3,
+			(select count(*) from TRADE where BUYER = #{id} or SELLER = #{id}) as completed_cnt
+			from user_info where id = #{id}
 		</select>
 	
 		<select id="selectByAuth" resultType="com.carrot.domain.AuthVO">

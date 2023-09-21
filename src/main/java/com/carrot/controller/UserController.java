@@ -42,12 +42,11 @@ public class UserController {
 	@RequestMapping("/page/mypageSell") //마이페이지 (판매내역)
 	public String myPageSell(Model model) {
 		UserVO user = userService.getUserInfo();
-        model.addAttribute("userinfo", user);
+
+        model.addAttribute("userinfo", userService.selectById(user.getId()));
         List<ItemPostVO> list = itemPostService.selectByWriter(user.getId());
         model.addAttribute("list", list);
         model.addAttribute("itemcnt", list.size());
-    	System.out.println("1. user : " + user);
-		System.out.println("2. loc1List : " + locationService.loc1Set());
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
@@ -58,9 +57,7 @@ public class UserController {
 	@RequestMapping("/page/mypageBuy") //마이페이지 (구매내역)
 	public String myPageBuy(Model model) {
 		UserVO user = userService.getUserInfo();
-		System.out.println("1. user : " + user);
-		System.out.println("2. loc1List : " + locationService.loc1Set());
-        model.addAttribute("userinfo", user);
+        model.addAttribute("userinfo", userService.selectById(user.getId()));
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
@@ -71,7 +68,7 @@ public class UserController {
 	@RequestMapping("/page/mypageTrade") //마이페이지 (거래후기)
 	public String myPageTrade(Model model) {
 		UserVO user = userService.getUserInfo();
-        model.addAttribute("userinfo", user);
+        model.addAttribute("userinfo", userService.selectById(user.getId()));
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
