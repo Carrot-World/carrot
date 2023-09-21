@@ -24,6 +24,7 @@
 				<security:intercept-url pattern="/page/signup_res" access="isAnonymous()" />
 				<security:intercept-url pattern="/api/success" access="permitAll" />
 				<security:intercept-url pattern="/api/signup/**" access="isAnonymous()" />
+				<security:intercept-url pattern="/api/finduser/id" access="isAnonymous()" />
 				
 				<security:intercept-url pattern="/api/item/insert" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/itemList" access="isAuthenticated()" />
