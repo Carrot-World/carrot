@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+}
+
+/* header */
+a.logo {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.header {
+  width: 100%;
+  min-width: 1336px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.header > nav {
+  width: 80%;
+  min-width: 1336px;
+  margin: auto;
+}
+
+/* section */
+.section {
+  width: 100%;
+  margin-top: 70px;
+}
+
+.section > div {
+  width: 1000px;
+  margin: auto;
+}
+
+.img-wrapper {
+  min-width: 1336px !important;
+}
+
+/* 검색 UI */
+.search > * {
+  margin: 8px 0px;
+}
+
+.search > div {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+  align-items: center;
+}
+
+select.form-select {
+  width: 150px;
+  display: inline;
+}
+
+.form-control {
+  width: 200px;
+  display: inline;
+}
+
+#currBtn {
+  background-color: #fd7e14;
+  font-weight: bold;
+}
+
+#searchBtn, #btnInsertPost {
+  background-color: #198754;
+  font-weight: bold;
+}
+
+button {
+  color: #fff !important;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+/* post-table */
+table.post-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+}
+
+table.post-table tr > td:first-child,
+table.post-table tr > td:nth-child(3),
+table.post-table tr > td:nth-child(4),
+table.post-table tr > th:first-child,
+table.post-table tr > th:nth-child(3),
+table.post-table tr > th:nth-child(4) {
+  width: 15%;
+}
+
+table.post-table tr > td:nth-child(5),
+table.post-table tr > th:nth-child(5), 
+table.post-table tr > td:nth-child(6),
+table.post-table tr > th:nth-child(6) {
+  width: 7%;
+}
+
+table.post-table tr > td:nth-child(2),
+table.post-table tr > th:nth-child(2) {
+  width: 37%;
+}
+
+td,
+th {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* section-footer */
+.section-footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+ul.pagination * {
+  color: #fd7e14 !important;
+}
+
+ul.pagination *.active {
+  background-color: #fd7e14 !important;
+  color: #fff !important;
+  border-color: #fd7e14;
+}
