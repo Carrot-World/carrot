@@ -68,7 +68,7 @@
     </select>
 
     <select id="selectByWriter" resultType="com.carrot.domain.ItemPostVO">
-        select * from ITEM_POST where writer = #{writer}
+        select * from item_post where  (status = 0 or status = 1) and writer=#{writer} order by status asc, id desc
     </select>
 
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">

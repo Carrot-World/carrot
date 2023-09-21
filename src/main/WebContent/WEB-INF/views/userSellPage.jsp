@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>${ userinfo.nickname }의판매내역 페이지</title>
+<title>${ userinfo.nickname }의판매내역페이지</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -24,7 +25,9 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous"></script>
-<script src="${pageContext.request.contextPath}/resources/js/userSellPage.js" defer></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/userSellPage.js"
+	defer></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
@@ -70,7 +73,7 @@
 										<fmt:formatNumber value="${item.price}" pattern="#,###" />
 										원
 									</p>
-									<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
+									<p class="location">${item.loc1}${item.loc2} ${item.loc3}</p>
 									<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
 								</div>
 							</div>
@@ -83,7 +86,8 @@
 								onclick="location.href='/page/detail?id=${item.id}'">
 								<c:if test="${item.imageList != null}">
 									<c:forEach items="${item.imageList}" var="image" end="0">
-										<img src="${image.url}" class="card-img-top" style="opacity: 0.5">
+										<img src="${image.url}" class="card-img-top"
+											style="opacity: 0.5">
 									</c:forEach>
 								</c:if>
 								<c:if test="${item.imageList == null}">
@@ -97,12 +101,17 @@
 										<fmt:formatNumber value="${item.price}" pattern="#,###" />
 										원
 									</p>
-									<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
+									<p class="location">${item.loc1}${item.loc2} ${item.loc3}</p>
 									<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
 								</div>
 							</div>
 						</c:if>
 					</c:forEach>
+					<c:if test="${ itemcnt % 4 != 0}">
+						<c:forEach var="i" begin="1" end="${itemcnt % 4}">
+							<div class="card hidden" id="${i}" style="visibility: hidden"></div>
+						</c:forEach>
+					</c:if>
 				</div>
 			</div>
 		</div>
