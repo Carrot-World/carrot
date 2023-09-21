@@ -91,7 +91,7 @@ const onMessage = (m) => {
 
 const onSub = (m) => {
   const {roomId, writerName, content, time, destinationName} = JSON.parse(m.body);
-  const partnerName = writerName === userName ? destinationName : writerName;
+  const partnerName = (writerName === userName) ? destinationName : writerName;
   chatRooms.set(roomId, new ChatRoom(roomId, partnerName, content, time, writerName === userName ? 0 : 1));
   if (currRoomId === -1) {
     renderChatArea(roomId, [{writerName, content, time}], partnerName);
