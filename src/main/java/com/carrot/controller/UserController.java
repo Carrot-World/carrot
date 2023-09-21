@@ -77,6 +77,24 @@ public class UserController {
 		return "myBuyPage";
 	}
 	
+	@RequestMapping("/page/mypageHeart") //마이페이지 (찜 목록)
+	public String myPageHeart(Model model) {
+		UserVO user = userService.getUserInfo();
+		model.addAttribute("userinfo", userService.selectById(user.getId()));
+		List<ItemPostVO> list = itemPostService.selectHeartById(user.getId());
+		model.addAttribute("list", list);
+		
+		if ( list != null) {
+			model.addAttribute("itemcnt", list.size());
+		}
+		
+		model.addAttribute("loc1List", locationService.loc1Set());
+		model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+		model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+		
+		return "myHeartPage";
+	}
+	
 	@RequestMapping("/page/mypageTrade") //마이페이지 (거래후기)
 	public String myPageTrade(Model model) {
 		UserVO user = userService.getUserInfo();

@@ -57,6 +57,7 @@
 			<li class="nav-item"><a class="nav-link active"
 				aria-current="page" href="mypageSell">판매물품</a></li>
 			<li class="nav-item"><a class="nav-link" href="mypageBuy">구매물품</a></li>
+			<li class="nav-item"><a class="nav-link" href="mypageHeart">찜 목록</a></li>
 			<li class="nav-item"><a class="nav-link" href="mypageTrade">거래후기</a></li>
 		</ul>
 	</div>

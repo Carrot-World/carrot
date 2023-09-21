@@ -19,4 +19,5 @@ public interface ItemPostRepository {
     public int updateComplete(ItemPostVO vo);
     
     public List<TradeVO> selectTradeById(String id); //거래후기 조회
+    public List<ItemPostVO> selectHeartById(String id); //찜 목록 조회
 }

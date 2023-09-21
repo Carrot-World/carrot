@@ -125,7 +125,11 @@
     
     
     <select id="selectTradeById" resultType="com.carrot.domain.TradeVO">
-    select * from trade where seller=#{id} or buyer=#{id} order by id desc
+    	select * from trade where seller=#{id} or buyer=#{id} order by id desc
+    </select>
+    
+    <select id="selectHeartById" resultType="com.carrot.domain.ItemPostVO">
+    	select i.* from item_post i, hart h where i.id = h.item_post_id and h.user_id=#{id}
     </select>
     
 </mapper>

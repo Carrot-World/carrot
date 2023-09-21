@@ -105,4 +105,13 @@ public class ItemPostService {
     public List<TradeVO> selectTradeById(String id) { //거래 후기 조회
     	return sqlSession.getMapper(ItemPostRepository.class).selectTradeById(id);
     }
+    
+    public List<ItemPostVO> selectHeartById(String id) { //찜 목록 조회
+    	List<ItemPostVO> list =  sqlSession.getMapper(ItemPostRepository.class).selectHeartById(id);
+    	
+    	if (list.isEmpty()) {
+    		return null;
+    	}
+    	return imageService.setFirstImage(list) ;
+    }
 }
