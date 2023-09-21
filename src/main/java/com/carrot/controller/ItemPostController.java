@@ -3,6 +3,7 @@ package com.carrot.controller;
 import com.carrot.domain.*;
 import com.carrot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,9 @@ public class ItemPostController {
 
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    SimpMessagingTemplate template;
 
     @RequestMapping(value = "/page/detail", method = RequestMethod.GET)
     public String detailItem(int id, Model model) {
@@ -143,7 +147,19 @@ public class ItemPostController {
     @ResponseBody
     @RequestMapping("/api/item/trade/{postId}/{name}")
     public void createTrade(@PathVariable int postId, @PathVariable String name) {
+        UserVO user = userService.getUserInfo();
         itemPostService.complete(postId);
         itemPostService.createTrade(postId, name);
+
+        List<ChatRoomVO> chatRooms = chatService.getChatRoomByPostId(postId);
+        if (chatRooms != null) {
+            for (ChatRoomVO room : chatRooms) {
+                ChatMessageVO message = new ChatMessageVO();
+                message.setContent("물품이 판매되었습니다.");
+                message.setWriterName(user.getNickname());
+                template.convertAndSend("/socket/message/"+room.getId(),
+                        chatService.sendMessage(message, room.getId(), user.getId()));
+            }
+        }
     }
 }
