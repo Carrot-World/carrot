@@ -61,7 +61,8 @@
 	</div>
 
 	<div>
-		<div class="items">
+		<div class="items">		
+		<c:if test="${list != null}">
 					<c:forEach items="${list}" var="item">
 						<c:if test="${ item.status == 0 }">
 							<div class="card"
@@ -82,7 +83,7 @@
 										<fmt:formatNumber value="${item.price}" pattern="#,###" />
 										원
 									</p>
-									<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
+									<p class="location">${item.loc1} ${item.loc2} ${item.loc3}</p>
 									<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
 								</div>
 							</div>
@@ -109,12 +110,19 @@
 										<fmt:formatNumber value="${item.price}" pattern="#,###" />
 										원
 									</p>
-									<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
+									<p class="location">${item.loc1} ${item.loc2} ${item.loc3}</p>
 									<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
 								</div>
 							</div>
 						</c:if>
 					</c:forEach>
+					<c:if test="${ itemcnt % 4 != 0}">
+                    <c:forEach var="i" begin="1" end="${itemcnt % 4}">
+                        <div class="card hidden" id="${i}" style="visibility: hidden">
+                        </div>
+                    </c:forEach>
+                </c:if>
+					</c:if>
 				</div>
 		</div>
 	</div>

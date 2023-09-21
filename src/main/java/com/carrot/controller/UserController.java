@@ -1,17 +1,17 @@
 package com.carrot.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.LocationVO;
 import com.carrot.domain.UserVO;
 import com.carrot.service.ItemPostService;
@@ -43,8 +43,9 @@ public class UserController {
 	public String myPageSell(Model model) {
 		UserVO user = userService.getUserInfo();
         model.addAttribute("userinfo", user);
-        model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
-        
+        List<ItemPostVO> list = itemPostService.selectByWriter(user.getId());
+        model.addAttribute("list", list);
+        model.addAttribute("itemcnt", list.size());
     	System.out.println("1. user : " + user);
 		System.out.println("2. loc1List : " + locationService.loc1Set());
         model.addAttribute("loc1List", locationService.loc1Set());
@@ -87,8 +88,9 @@ public class UserController {
 		if ( login.getId().equals(user.getId())) {
 			return "redirect:/page/mypageSell";
 		}
-		model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
-		System.err.println("물품 list : " + itemPostService.selectByWriter(user.getId()));
+		List<ItemPostVO> list = itemPostService.selectByWriter(user.getId());
+        model.addAttribute("list", list);
+        model.addAttribute("itemcnt", list.size());
 		return "userSellPage";
 	}
 	
