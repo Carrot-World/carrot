@@ -137,9 +137,9 @@
 				<c:forEach items="${ list }" var="list">
 					<tr>
 						<td>${ list.categoryName }</td>
-						<td onclick="location.href='/page/detailpost/${list.id}'">${ list.title }
+						<td onclick="location.href='/page/detailpost/${list.id}'" style="cursor:pointer">${ list.title }
 						</td>
-						<td onclick="location.href='/page/userpageSell/${list.writer}'">${ list.nickname }</td>
+						<td onclick="location.href='/page/userpageSell?id=${list.writer}'" style="cursor:pointer">${ list.nickname }</td>
 						<td>
 							<fmt:formatDate pattern="MM/dd hh:mm" value="${list.created_at}" />
 						</td>

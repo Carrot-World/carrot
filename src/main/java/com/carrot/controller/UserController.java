@@ -3,10 +3,13 @@ package com.carrot.controller;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.carrot.domain.LocationVO;
@@ -76,7 +79,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/page/userpageSell") //유저페이지 (판매내역)
-	public String userPageSell(Model model, String id) {
+	public String userPageSell(Model model, @RequestParam String id) {
+		System.out.println("id값 : " +  id);
 		UserVO login = userService.getUserInfo();
 		UserVO user = userService.selectById(id);
 		model.addAttribute("userinfo", user);
@@ -84,11 +88,12 @@ public class UserController {
 			return "redirect://page/mypageSell";
 		}
 		model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
+		System.err.println("물품 list : " + itemPostService.selectByWriter(user.getId()));
 		return "userSellPage";
 	}
 	
 	@RequestMapping("/page/userpageTrade") //유저페이지 (거래후기)
-	public String userPageTrade(Model model, String id) {
+	public String userPageTrade(Model model, @RequestParam String id) {
 		UserVO login = userService.getUserInfo();
 		UserVO user = userService.selectById(id);
 		model.addAttribute("userinfo", user);

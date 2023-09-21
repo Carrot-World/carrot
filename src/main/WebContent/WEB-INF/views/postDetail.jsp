@@ -90,7 +90,7 @@ defer></script>
 			<c:if test="${ list.status == 0 }">
 				<div class="reply-card" id="reply${list.id}">
 					<div class="reply-header">
-						<h5 onclick="location.href='/page/userpageSell/${list.writer}'">${ list.nickname }</h5>
+						<h5 onclick="location.href='/page/userpageSell?id=${list.writer}'" style="cursor: pointer">${ list.nickname }</h5>
 						<span class="reply-time">${ list.time }</span>
 					</div>
 					<div class="reply-content">

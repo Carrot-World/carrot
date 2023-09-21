@@ -18,9 +18,13 @@ function rescaleCard() {
     const cardImg = document.querySelectorAll("img.card-img-top");
     for (let i = 0; i < cards.length; i++) {
         cards[i].style.width = `${cardWidth}px`;
-        cardImg[i].style.height = `${cardWidth}px`;
+        if (cardImg[i]) {
+            cardImg[i].style.height = `${cardWidth}px`;
+        }
     }
 }
+
+rescaleCard();
 
 function throttle(fn, delay) {
     let waiting = false;
@@ -35,7 +39,10 @@ function throttle(fn, delay) {
     }
 }
 
-window.addEventListener("resize", throttle(rescaleCard, 100));
+window.addEventListener("resize", throttle(rescaleCard, 100))
+
+
+
 
 const updateModal = new bootstrap.Modal("#updateModal");
 const passwordModal = new bootstrap.Modal("#passwordModal");

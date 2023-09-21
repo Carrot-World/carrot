@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,9 +28,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous"></script>
-<script defer
-	src="${pageContext.request.contextPath}/resources/js/mySellPage.js"
-	defer></script>
+<script src="${pageContext.request.contextPath}/resources/js/mySellPage.js" defer></script>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7551008ffbd30aac5abaffdcc5a33d7f&libraries=services"></script>
 
@@ -65,64 +62,60 @@
 
 	<div>
 		<div class="items">
-			<c:forEach items="${list}" var="item">
-			<c:if test="${ item.status == 0 }">
-				<div class="card"
-					onclick="location.href='/page/detail?id=${item.id}'">
-					<c:if test="${item.imageList != null}">
-						<c:forEach items="${item.imageList}" var="image" end="0">
-							<img
-								src="${pageContext.request.contextPath}/resources/html/image/img.jpg"
-								class="card-img-top">
-						</c:forEach>
-					</c:if>
-					<c:if test="${item.imageList == null}">
-						<img
-							src="${pageContext.request.contextPath}/resources/html/image/noImage.png"
-							class="card-img-top">
-					</c:if>
-					<div class="card-body">
-						<h5 class="title">${ item.title }</h5>
-						<p class="price">
-							<fmt:formatNumber value="${item.price}" pattern="#,###" />
-							원
-						</p>
-						<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
-						<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
-					</div>
-				</div>
-			</c:if>
-		</c:forEach>
+					<c:forEach items="${list}" var="item">
+						<c:if test="${ item.status == 0 }">
+							<div class="card"
+								onclick="location.href='/page/detail?id=${item.id}'">
+								<c:if test="${item.imageList != null}">
+									<c:forEach items="${item.imageList}" var="image" end="0">
+										<img src="${image.url}" class="card-img-top">
+									</c:forEach>
+								</c:if>
+								<c:if test="${item.imageList == null}">
+									<img
+										src="${pageContext.request.contextPath}/resources/image/noImage.png"
+										class="card-img-top">
+								</c:if>
+								<div class="card-body">
+									<h5 class="title">${ item.title }</h5>
+									<p class="price">
+										<fmt:formatNumber value="${item.price}" pattern="#,###" />
+										원
+									</p>
+									<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
+									<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
 
-		<c:forEach items="${list}" var="item">
-			<c:if test="${ item.status == 1 }">
-				<div class="card"
-					onclick="location.href='/page/detail?id=${item.id}'">
-					<c:if test="${item.imageList != null}">
-						<c:forEach items="${item.imageList}" var="image" end="0">
-							<img
-								src="${pageContext.request.contextPath}/resources/html/image/img.jpg"
-								class="card-img-top">
-						</c:forEach>
-					</c:if>
-					<c:if test="${item.imageList == null}">
-						<img
-							src="${pageContext.request.contextPath}/resources/html/image/noImage.png"
-							class="card-img-top">
-					</c:if>
-					<div class="card-body">
-						<h5 class="title">${ item.title }</h5>
-						<p class="price">
-							<fmt:formatNumber value="${item.price}" pattern="#,###" />
-							원
-						</p>
-						<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
-						<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
-					</div>
+					<c:forEach items="${list}" var="item">
+						<c:if test="${ item.status == 1 }">
+							<div class="card"
+								onclick="location.href='/page/detail?id=${item.id}'">
+								<c:if test="${item.imageList != null}">
+									<c:forEach items="${item.imageList}" var="image" end="0">
+										<img src="${image.url}" class="card-img-top" style="opacity: 0.5">
+									</c:forEach>
+								</c:if>
+								<c:if test="${item.imageList == null}">
+									<img
+										src="${pageContext.request.contextPath}/resources/image/noImage.png"
+										class="card-img-top" style="opacity: 0.5">
+								</c:if>
+								<div class="card-body">
+									<h5 class="title">${ item.title }</h5>
+									<p class="price">
+										<fmt:formatNumber value="${item.price}" pattern="#,###" />
+										원
+									</p>
+									<p class="location">${item.loc1}${item.loc2}${item.loc3}</p>
+									<p class="count">찜 ${item.hart_cnt} ∙ 채팅 ${item.chat_cnt}</p>
+								</div>
+							</div>
+						</c:if>
+					</c:forEach>
 				</div>
-			</c:if>
-		</c:forEach>
-			</div>
 		</div>
 	</div>
 
