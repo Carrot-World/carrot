@@ -86,6 +86,7 @@ public class ChatController {
         newRoom.setSeller(newRoomMessage.getDestinationId());
         newRoom.setBuyer(user.getId());
         newRoom.setStatus(3);
+        newRoomMessage.setWriterName(user.getNickname());
         int roomId = chatService.createChatRoom(newRoom);
 //        itemPostService.addChatCnt(newRoomMessage.getPostId());
 
