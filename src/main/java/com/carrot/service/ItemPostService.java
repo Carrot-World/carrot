@@ -2,6 +2,7 @@ package com.carrot.service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -80,11 +81,20 @@ public class ItemPostService {
         sqlSession.getMapper(ItemPostRepository.class).minusChatCnt(postId);
     }
   
-    public int complete(ItemPostVO vo) {
-        return sqlSession.getMapper(ItemPostRepository.class).updateComplete(vo);
+    public int complete(int postId) {
+        return sqlSession.getMapper(ItemPostRepository.class).updateComplete(postId);
     }
   
     public int delete(ItemPostVO vo) {
         return sqlSession.getMapper(ItemPostRepository.class).delete(vo);
     }
+
+    public void createTrade(int postId, String buyerName) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("postId", postId);
+        map.put("buyerName", buyerName);
+        map.put("date", new Date(System.currentTimeMillis()));
+        sqlSession.getMapper(ItemPostRepository.class).createTrade(map);
+    }
+
 }

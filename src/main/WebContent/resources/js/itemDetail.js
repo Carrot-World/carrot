@@ -49,3 +49,18 @@ function completeBtnHandler(postId) {
         completeModal.show();
     })
 }
+
+function submitBtnHandler(postId) {
+    const value = document.querySelector("#buyerSelector").value;
+    if (value === '') {
+        return;
+    }
+    $.ajax({
+        url: "/api/item/trade/"+postId+"/"+value,
+        method: "get",
+    }).done(() => {
+        location.reload();
+    }).catch((err) => {
+        console.log(err);
+    })
+}

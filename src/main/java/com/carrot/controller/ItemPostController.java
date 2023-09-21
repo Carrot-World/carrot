@@ -133,9 +133,17 @@ public class ItemPostController {
 
     @RequestMapping("/page/modal/complete/{id}")
     public String completeModal(@PathVariable String id, Model model) {
-        int postId = Integer.parseInt(id);
-        List<String> buyerList = chatService.getBuyerList(postId);
+        int itemId = Integer.parseInt(id);
+        List<String> buyerList = chatService.getBuyerList(itemId);
         model.addAttribute("buyerList", buyerList);
+        model.addAttribute("postId", itemId);
         return "completeModal";
+    }
+
+    @ResponseBody
+    @RequestMapping("/api/item/trade/{postId}/{name}")
+    public void createTrade(@PathVariable int postId, @PathVariable String name) {
+        itemPostService.complete(postId);
+        itemPostService.createTrade(postId, name);
     }
 }

@@ -9,7 +9,9 @@
   </div>
   <div class="modal-body">
     <c:if test="${fn:length(buyerList) == 0}">
-      <label>생성된 채팅방이 없습니다.</label>
+      <div class="input-row">
+        <label style="width: 100%; font-weight: 500;">생성된 채팅방이 없습니다.</label>
+      </div>
     </c:if>
     <c:if test="${fn:length(buyerList) != 0}">
       <div class="input-row">
@@ -25,7 +27,7 @@
   </div>
   <div class="modal-footer">
     <c:if test="${fn:length(buyerList) != 0}">
-      <button class="btn orange-btn" onclick="">판매완료</button>
+      <button class="btn orange-btn" onclick="submitBtnHandler(${postId})">판매완료</button>
     </c:if>
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
   </div>
