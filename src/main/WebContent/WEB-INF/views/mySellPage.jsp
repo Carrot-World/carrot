@@ -28,15 +28,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
 	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
 	crossorigin="anonymous"></script>
-<script defer
-	src="${pageContext.request.contextPath}/resources/js/mySellPage.js"
-	defer></script>
+<script src="${pageContext.request.contextPath}/resources/js/mySellPage.js" defer></script>
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7551008ffbd30aac5abaffdcc5a33d7f&libraries=services"></script>
 
 </head>
 
-<body onload="rescaleCard()">
+<body>
 	<jsp:include page="/WEB-INF/views/header.jsp" />
 <div class="section">
 	<div class="section-header">
