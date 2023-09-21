@@ -87,7 +87,7 @@ public class ChatController {
         newRoom.setBuyer(user.getId());
         newRoom.setStatus(3);
         int roomId = chatService.createChatRoom(newRoom);
-        itemPostService.addChatCnt(newRoomMessage.getPostId());
+//        itemPostService.addChatCnt(newRoomMessage.getPostId());
 
         String destinationName = userService.selectById(newRoomMessage.getDestinationId()).getNickname();
 
@@ -135,7 +135,7 @@ public class ChatController {
         ChatRoomVO room = chatService.getRoomById(roomId);
         int num = user.getId().equals(room.getSeller()) ? 1 : 2;
         chatService.exitChatRoom(num, roomId);
-        itemPostService.minusChatCnt(room.getItemPostId());
+//        itemPostService.minusChatCnt(room.getItemPostId());
 
         ChatMessageVO exitMessage = new ChatMessageVO();
         exitMessage.setContent(user.getNickname() + "님이 퇴장하셨습니다.");
