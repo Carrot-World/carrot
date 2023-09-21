@@ -42,9 +42,9 @@ public class UserController {
 	@RequestMapping("/page/mypageSell") //마이페이지 (판매내역)
 	public String myPageSell(Model model) {
 		UserVO user = userService.getUserInfo();
-        model.addAttribute("userinfo", user);
+        model.addAttribute("userinfo", userService.selectById(user.getId()));
         model.addAttribute("list", itemPostService.selectByWriter(user.getId()));
-        
+
     	System.out.println("1. user : " + user);
 		System.out.println("2. loc1List : " + locationService.loc1Set());
         model.addAttribute("loc1List", locationService.loc1Set());
