@@ -113,7 +113,7 @@ const onRoomChange = (m) => {
 }
 
 const onReject = (m) => {
-  alert("상대 유저가 퇴장하여 메세지를 보낼수가 없습니다.");
+  alertModal("상대 유저가 퇴장하여 메세지를 보낼수가 없습니다.");
 }
 
 function renderRoomArea() {
