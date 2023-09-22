@@ -50,27 +50,47 @@
 						href="userpageTrade?id=${userinfo.id}">거래후기</a></li>
 				</ul>
 			</div>
-			<div class="reviews">
-				<!-- 테스트용..!! 임시입니다. 바뀔거에요 -->
-				<c:if test="${not empty list}">
-					<c:forEach var="list" items="${ list }">
-						<c:if test="${list.seller == userinfo.id }">
-							<c:if test="${list.seller_content != null }">
-								<div class="review card">
-									<div class="review-header">
-										<h4>${ list.buyer }</h4>
-									</div>
+				<div class="reviews">
+				<c:forEach items="${tradeList}" var="trade">
+					<c:if test="${(trade.sellerName == userinfo.nickname and trade.buyer_content != null)
+					or (trade.buyerName == userinfo.nickname and trade.seller_content != null) }">
+						<div class="review card">
+							<div class="review-header">
+								<h4>
+									<c:if test="${trade.sellerName == userinfo.nickname}">
+										${trade.buyerName}
+									</c:if>
+									<c:if test="${trade.sellerName != userinfo.nickname}">
+										${trade.sellerName}
+									</c:if>
+								</h4>
+								<span>-
+									<c:if test="${trade.sellerName == userinfo.nickname}">
+										${trade.bLoc1} ${trade.bLoc2} ${trade.bLoc3}
+									</c:if>
+									<c:if test="${trade.sellerName != userinfo.nickname}">
+										${trade.sLoc1} ${trade.sLoc2} ${trade.sLoc3}
+									</c:if>
+								</span>
+							</div>
+							<div class="post-title" onclick="location.href='${pageContext.request.contextPath}/page/detail?id=${trade.item_post_id}'">
+								물품글: ${trade.title}
+							</div>
+							<div class="review-content">
+								<c:if test="${trade.sellerName == userinfo.nickname}">
+									${trade.buyer_content}
+								</c:if>
+								<c:if test="${trade.sellerName != userinfo.nickname}">
+									${trade.seller_content}
+								</c:if>
+							</div>
+							<div class="review-footer">
+								${trade.time} 거래완료
+							</div>
 
-									<div class="review-content">${list.seller_content}</div>
-									<div class="review-footer">${list.created_at }</div>
-								</div>
-							</c:if>
-						</c:if>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty list }">
-					<h3>내역이 없습니다.</h3>
-				</c:if>
+						</div>
+					</c:if>
+				</c:forEach>
 			</div>
 		</div>
 		<div class="section-footer"></div>

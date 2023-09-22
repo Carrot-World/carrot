@@ -34,19 +34,33 @@ function hartBtnHandler() {
     }
 }
 
-function completeBtnHandler(writer) {
-    var el = $("#completeBtn");
-    var id = el.attr("value");
+let completeModal = null;
 
-    el.attr("disabled", true);
+function completeBtnHandler(postId) {
+    if (completeModal === null) {
+        completeModal = new bootstrap.Modal("#completeModal");
+    }
 
     $.ajax({
-        url: "/api/item/getBuyer",
-        data: {id, writer},
-        method: "get",
-        dataType: "text"
+        url: "/page/modal/complete/"+postId,
+        method: "get"
     }).done((result) => {
-        console.log(result);
-        el.attr("disabled", false);
+        document.querySelector("#completeModal .modal-dialog").innerHTML = result;
+        completeModal.show();
+    })
+}
+
+function submitBtnHandler(postId) {
+    const value = document.querySelector("#buyerSelector").value;
+    if (value === '') {
+        return;
+    }
+    $.ajax({
+        url: "/api/item/trade/"+postId+"/"+value,
+        method: "get",
+    }).done(() => {
+        location.reload();
+    }).catch((err) => {
+        console.log(err);
     })
 }

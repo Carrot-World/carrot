@@ -93,5 +93,10 @@
         where c.ITEM_POST_ID = #{itemPostId}
         and u1.id = c.seller
         and u2.id = c.buyer
+        and c.status = 3
+    </select>
+
+    <select id="getChatRoomByPostId" parameterType="int" resultType="com.carrot.domain.ChatRoomVO">
+        select id from chatting_room where item_post_id = #{itemPostId}
     </select>
 </mapper>

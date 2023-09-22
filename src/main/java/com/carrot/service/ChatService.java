@@ -120,4 +120,8 @@ public class ChatService {
         }
         return buyerList;
     }
+
+    public List<ChatRoomVO> getChatRoomByPostId(int postId) {
+        return session.getMapper(ChatRepository.class).getChatRoomByPostId(postId);
+    }
 }

@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.carrot.domain.HartVO;
@@ -45,6 +43,9 @@ public class ItemPostController {
 
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    SimpMessagingTemplate template;
 
     @RequestMapping(value = "/page/detail", method = RequestMethod.GET)
     public String detailItem(int id, Model model) {
@@ -142,6 +143,34 @@ public class ItemPostController {
             return "redirect:/page/mypageSell";
         } else {
             return "accessDenied";
+        }
+    }
+
+    @RequestMapping("/page/modal/complete/{id}")
+    public String completeModal(@PathVariable String id, Model model) {
+        int itemId = Integer.parseInt(id);
+        List<String> buyerList = chatService.getBuyerList(itemId);
+        model.addAttribute("buyerList", buyerList);
+        model.addAttribute("postId", itemId);
+        return "completeModal";
+    }
+
+    @ResponseBody
+    @RequestMapping("/api/item/trade/{postId}/{name}")
+    public void createTrade(@PathVariable int postId, @PathVariable String name) {
+        UserVO user = userService.getUserInfo();
+        itemPostService.complete(postId);
+        itemPostService.createTrade(postId, name);
+
+        List<ChatRoomVO> chatRooms = chatService.getChatRoomByPostId(postId);
+        if (chatRooms != null) {
+            for (ChatRoomVO room : chatRooms) {
+                ChatMessageVO message = new ChatMessageVO();
+                message.setContent("물품이 판매되었습니다.");
+                message.setWriterName(user.getNickname());
+                template.convertAndSend("/socket/message/"+room.getId(),
+                        chatService.sendMessage(message, room.getId(), user.getId()));
+            }
         }
     }
 }

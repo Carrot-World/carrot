@@ -10,9 +10,8 @@
         #{writer}, 0, #{price}, 0, #{category_id}, #{created_at}, #{hart_cnt})
     </insert>
 
-    <update id="updateComplete" parameterType="com.carrot.domain.ItemPostVO">
-        update ITEM_POST set status = 1
-        where id = #{id} and writer = #{writer}
+    <update id="updateComplete" parameterType="int">
+        update ITEM_POST set status = 1 where id = #{id}
     </update>
 
     <update id="delete" parameterType="com.carrot.domain.ItemPostVO">
@@ -90,7 +89,7 @@
         nvl(c.chat_cnt, 0) as chat_cnt,
         nvl(h.hart_cnt, 0) as hart_cnt
         from item_post p
-        left join (select item_post_id, count(*) over (partition by ITEM_POST_ID) as chat_cnt from CHATTING_ROOM) c
+        left join (select item_post_id, count(*) over (partition by ITEM_POST_ID) as chat_cnt from CHATTING_ROOM where status = 3) c
         on p.id = c.ITEM_POST_ID
         left join (select item_post_id, count(*) over (partition by item_post_id) as hart_cnt from hart) h
         on p.id = h.item_post_id
@@ -122,14 +121,14 @@
     <update id="minusChatCnt" parameterType="int">
         update item_post set chat_cnt = chat_cnt - 1 where id=#{postId}
     </update>
-    
-    
-    <select id="selectTradeById" resultType="com.carrot.domain.TradeVO">
-    	select * from trade where seller=#{id} or buyer=#{id} order by id desc
-    </select>
-    
-    <select id="selectHeartById" resultType="com.carrot.domain.ItemPostVO">
-    	select i.* from item_post i, hart h where i.id = h.item_post_id and h.user_id=#{id}
-    </select>
-    
+
+    <insert id="createTrade" parameterType="hashMap">
+        insert into trade values (
+            trade_id.nextval, #{postId}, null, null,
+            (select writer from item_post where id = #{postId}),
+            (select id from user_info where nickname = #{buyerName}),
+            #{date}
+        )
+    </insert>
+
 </mapper>

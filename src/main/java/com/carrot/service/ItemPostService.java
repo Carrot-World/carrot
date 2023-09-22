@@ -2,6 +2,7 @@ package com.carrot.service;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.FetchProfile.Item;
@@ -93,19 +94,22 @@ public class ItemPostService {
         sqlSession.getMapper(ItemPostRepository.class).minusChatCnt(postId);
     }
   
-    public int complete(ItemPostVO vo) {
-        return sqlSession.getMapper(ItemPostRepository.class).updateComplete(vo);
+    public int complete(int postId) {
+        return sqlSession.getMapper(ItemPostRepository.class).updateComplete(postId);
     }
   
     public int delete(ItemPostVO vo) {
         return sqlSession.getMapper(ItemPostRepository.class).delete(vo);
     }
-    
-    
-    public List<TradeVO> selectTradeById(String id) { //거래 후기 조회
-    	return sqlSession.getMapper(ItemPostRepository.class).selectTradeById(id);
+
+    public void createTrade(int postId, String buyerName) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("postId", postId);
+        map.put("buyerName", buyerName);
+        map.put("date", new Date(System.currentTimeMillis()));
+        sqlSession.getMapper(ItemPostRepository.class).createTrade(map);
     }
-    
+
     public List<ItemPostVO> selectHeartById(String id) { //찜 목록 조회
     	List<ItemPostVO> list =  sqlSession.getMapper(ItemPostRepository.class).selectHeartById(id);
     	

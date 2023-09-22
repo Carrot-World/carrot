@@ -235,3 +235,27 @@ button.disabled {
     font-size: 26px;
     font-weight: bold;
 }
+
+/* 판매완료 모달 */
+
+.orange-btn {
+    background-color: #fd7e14;
+    color: #fff !important;
+}
+
+.orange-btn:hover,
+.orange-btn:active {
+    background-color: #fd7e14 !important;
+    color: #fff !important;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+}
+
+.input-row label {
+    width: 30%;
+    font-size: 20px;
+    font-weight: bold;
+}

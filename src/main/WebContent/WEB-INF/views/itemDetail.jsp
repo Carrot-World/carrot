@@ -128,7 +128,7 @@
                 <c:if test="${item.writer == user.id}">
                     <c:if test="${item.status == 0}">
                         <button class="btn" id="completeBtn" value="${item.id}"
-                                onclick="completeBtnHandler('${item.writer}')">판매완료하기</button>
+                                onclick="completeBtnHandler(${item.id})">판매완료하기</button>
                         <form action="/api/item/delete" method="post" class="button-wrapper">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <input type="hidden" name="id" value="${item.id}"/>
@@ -145,5 +145,11 @@
         </div>
     </div>
 </div>
+<c:if test="${item.writer == user.id && item.status == 0}">
+<div class="modal fade" id="completeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+    </div>
+</div>
+</c:if>
 </body>
 </html>

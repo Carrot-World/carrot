@@ -150,6 +150,13 @@ ul.nav {
 .review-footer {
   margin-top: 8px;
 }
+.post-title {
+  font-size: 18px;
+}
+
+.review-content {
+  margin-top: 8px;
+}
 
 .section-footer {
   margin-top: 16px !important;
@@ -248,4 +255,29 @@ div.input > .form-select {
 
 button {
   color: #fff !important;
+}
+
+/* 리뷰모달 */
+#writeModal .modal-dialog {
+  width: 600px;
+}
+
+#writeModal .modal-content {
+  width: 600px;
+  max-width: 600px;
+}
+
+#writeModal label {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#writeModal textarea {
+  height: 200px;
+  resize: none;
+  margin-top: 8px;
+}
+
+.write-btn {
+  width: auto;
 }

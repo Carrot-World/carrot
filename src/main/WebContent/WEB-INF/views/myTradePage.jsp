@@ -7,7 +7,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta id="_csrf" name="_csrf" content="${_csrf.token}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 <title>${ userinfo.nickname }의거래 후기 페이지</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
@@ -59,44 +60,50 @@
 			</div>
 			<!-- 테스트용..!! 임시입니다. 바뀔거에요 -->
 			<div class="reviews">
-				<c:if test="${not empty list}">
-				<c:forEach var="list" items="${ list }">
-				<c:if test="${list.buyer == userinfo.id }">
-					<div class="review card">
-						<div class="review-header">
-							<h4>${ list.seller }</h4>
-						</div>
-						
-						<c:if test="${list.seller_content != null }">
-						<div class="review-content">${list.seller_content}</div>
-						<div class="review-footer">${list.created_at }</div>
-						</c:if>
-						<c:if test="${list.seller_content == null }">
-						<button style="background-color: green; border-radius: 0.375rem;">거래후기 남기러 가기</button>
-						</c:if>
-					
+			<c:forEach items="${tradeList}" var="trade">
+				<div class="review card">
+					<div class="review-header">
+						<h4>
+							<c:if test="${trade.sellerName == userinfo.nickname}">
+								${trade.buyerName}
+							</c:if>
+							<c:if test="${trade.sellerName != userinfo.nickname}">
+								${trade.sellerName}
+							</c:if>
+						</h4>
+						<span>-
+							<c:if test="${trade.sellerName == userinfo.nickname}">
+								${trade.bLoc1} ${trade.bLoc2} ${trade.bLoc3}
+							</c:if>
+							<c:if test="${trade.sellerName != userinfo.nickname}">
+								${trade.sLoc1} ${trade.sLoc2} ${trade.sLoc3}
+							</c:if>
+						</span>
 					</div>
-				</c:if>
-				<c:if test="${list.seller == userinfo.id }">
-					<div class="review card">
-						<div class="review-header">
-							<h4>${ list.buyer }</h4>
-						</div>
-						
-						<c:if test="${list.buyer_content != null }">
-						<div class="review-content">${list.buyer_content}</div>
-						<div class="review-footer">${list.created_at }</div>
-						</c:if>
-						<c:if test="${list.buyer_content == null }">
-						<button style="background-color: orange; border-radius: 0.375rem;">거래후기 보러 가기</button>
-						</c:if>
+					<div class="post-title" onclick="location.href='${pageContext.request.contextPath}/page/detail?id=${trade.item_post_id}'">
+						물품글: ${trade.title}
 					</div>
-				</c:if>
-				</c:forEach>
-				</c:if>
-				<c:if test="${empty list}">
-					<h3> 내역이 없습니다. </h3>
+					<c:if test="${trade.sellerName == userinfo.nickname and trade.buyer_content != null}">
+						<div class="review-content">
+							${trade.buyer_content}
+						</div>
 					</c:if>
+					<c:if test="${trade.buyerName == userinfo.nickname and trade.seller_content != null}">
+						<div class="review-content">
+								${trade.seller_content}
+						</div>
+					</c:if>
+					<div class="review-footer">
+							${trade.time} 거래완료
+					</div>
+					<c:if test="${(trade.buyerName == userinfo.nickname && trade.buyer_content == null)
+					or (trade.sellerName == userinfo.nickname && trade.seller_content == null)}">
+						<div class="review-content">
+							<button class="btn orange-btn write-btn" onclick="writeModalOpen(${trade.id})">후기작성</button>
+						</div>
+					</c:if>
+				</div>
+			</c:forEach>
 			</div>
 		</div>
 		<div class="section-footer"></div>
@@ -117,8 +124,7 @@
 					<div class="input-row">
 						<div class="label">ID:</div>
 						<div class="input">
-							<input class="form-control" type="text" value="${ userinfo.id }"
-						id="userid" readonly="readonly">
+							<input class="form-control" type="text" value="${ userinfo.id }" id="userid" readonly="readonly"/>
 				</div>
 			</div>
 
@@ -231,6 +237,27 @@
 		</div>
 	</div>
 </div>
+
+<!-- 후기남기기 모달 -->
+<div class="modal fade" id="writeModal" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="writeModalLabel">후기작성</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<label for="writeForm">OOO님의 후기작성</label>
+				<textarea class="form-control write-btn" id="writeForm"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn orange-btn write-btn" onclick="">후기등록</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/tradeWriteModal.js"></script>
 </body>
 </html>
