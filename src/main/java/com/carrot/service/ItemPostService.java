@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.FetchProfile.Item;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.carrot.domain.ImageVO;
 import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.SearchVO;
+import com.carrot.domain.TradeVO;
 import com.carrot.domain.UserVO;
 import com.carrot.repository.ItemPostRepository;
 
@@ -58,11 +61,19 @@ public class ItemPostService {
         return imageService.setFirstImage(itemPostList);
     }
     
-    public List<ItemPostVO> selectByWriter(String writer) {
+    public List<ItemPostVO> selectByWriter(String writer) { //판매내역조회 
     	List<ItemPostVO> list = sqlSession.getMapper(ItemPostRepository.class).selectByWriter(writer);
     	if (list.isEmpty()) {
             return null;
         }
+    	return imageService.setFirstImage(list) ;
+    }
+    
+    public List<ItemPostVO> selectByBuyer(String buyer) { //구매내역조회
+    	List<ItemPostVO> list = sqlSession.getMapper(ItemPostRepository.class).selectByBuyer(buyer);
+    	if (list.isEmpty()) {
+    		return null;
+    	}
     	return imageService.setFirstImage(list) ;
     }
 
@@ -99,4 +110,12 @@ public class ItemPostService {
         sqlSession.getMapper(ItemPostRepository.class).createTrade(map);
     }
 
+    public List<ItemPostVO> selectHeartById(String id) { //찜 목록 조회
+    	List<ItemPostVO> list =  sqlSession.getMapper(ItemPostRepository.class).selectHeartById(id);
+    	
+    	if (list.isEmpty()) {
+    		return null;
+    	}
+    	return imageService.setFirstImage(list) ;
+    }
 }

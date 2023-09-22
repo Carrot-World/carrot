@@ -55,11 +55,11 @@ pageEncoding="UTF-8"%>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="password">비밀번호 입력</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="영문,숫자,특수문자 하나씩 " required/>
+                <input type="password" class="form-control" id="password" name="password" placeholder="6~12자 이내 영문,숫자,특문" required/>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="passwordChk">비밀번호 확인</label>
-                <input type="password" class="form-control" id="passwordChk" name="passwordChk" placeholder="6~12자로 적어주세요" required />
+                <input type="password" class="form-control" id="passwordChk" name="passwordChk" placeholder="비밀번호 확인" required />
               </div>
             </div>
 
@@ -135,7 +135,9 @@ pageEncoding="UTF-8"%>
       </footer>
     </div>
 
+
     <!-- 이메일 인증Modal -->
+    <!--  
     <div class="modal fade" id="emailCertifyModal" data-bs-backdrop="static" data-bs-keyboard="false" 
     	tabindex="-1" aria-labelledby="emailCertifyModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -165,7 +167,68 @@ pageEncoding="UTF-8"%>
         </div>
       </div>
     </div>
+    -->
     
+    <!-- 이메일 인증요청  -->
+    <div
+      class="modal fade"
+      id="emailCertifyModal"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              이메일 인증
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-row">
+              <div class="label idModal_label">인증번호:</div>
+              <div class="input">
+                <input
+                  class="form-control idModal_input"
+                  type="text"
+                  id="emailModal_num"
+                />
+              </div>
+            </div>
+            <div class="input-row-hidden">
+              <div class="label idModal_label"></div>
+              <div class="input">
+                <span id="emailModal_msg"></span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn orange-btn"
+              id="emailModal_compl"
+            >
+              인증확인
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
   </body>
 </html>

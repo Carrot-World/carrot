@@ -54,10 +54,11 @@
 					<li class="nav-item"><a class="nav-link" aria-current="page"
 						href="mypageSell">판매물품</a></li>
 					<li class="nav-item"><a class="nav-link" href="mypageBuy">구매물품</a></li>
-					<li class="nav-item"><a class="nav-link active"
-						href="mypageTrade">거래후기</a></li>
+					<li class="nav-item"><a class="nav-link" href="mypageHeart">찜 목록</a></li>
+					<li class="nav-item"><a class="nav-link active" href="mypageTrade">거래후기</a></li>
 				</ul>
 			</div>
+			<!-- 테스트용..!! 임시입니다. 바뀔거에요 -->
 			<div class="reviews">
 			<c:forEach items="${tradeList}" var="trade">
 				<div class="review card">
@@ -103,7 +104,6 @@
 					</c:if>
 				</div>
 			</c:forEach>
-
 			</div>
 		</div>
 		<div class="section-footer"></div>
@@ -115,7 +115,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="updateModalLabel">내정보수정</h1>
+				<h1 class="modal-title fs-5" id="updateModalLabel">내 정보수정</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -214,7 +214,7 @@
 					<div class="input-row">
 						<div class="label">새 비밀번호:</div>
 						<div class="input">
-							<input class="form-control" type="password">
+							<input class="form-control" type="password" id="newpassword1" placeholder="영어, 숫자, 특수문자 1개 이상씩 사용하여 6~12자">
 						</div>
 					</div>
 

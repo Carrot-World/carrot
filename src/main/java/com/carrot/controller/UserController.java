@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.carrot.domain.ItemPostVO;
 import com.carrot.domain.LocationVO;
+import com.carrot.domain.TradeVO;
 import com.carrot.domain.UserVO;
 
 @Controller
@@ -43,7 +44,11 @@ public class UserController {
         model.addAttribute("userinfo", userService.selectById(user.getId()));
         List<ItemPostVO> list = itemPostService.selectByWriter(user.getId());
         model.addAttribute("list", list);
-        model.addAttribute("itemcnt", list.size());
+        
+        if ( list != null) {
+            model.addAttribute("itemcnt", list.size());
+            }
+        
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
@@ -55,6 +60,13 @@ public class UserController {
 	public String myPageBuy(Model model) {
 		UserVO user = userService.getUserInfo();
         model.addAttribute("userinfo", userService.selectById(user.getId()));
+        List<ItemPostVO> list = itemPostService.selectByBuyer(user.getId());
+        model.addAttribute("list", list);
+        
+        if ( list != null) {
+            model.addAttribute("itemcnt", list.size());
+            }
+        
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
@@ -62,10 +74,33 @@ public class UserController {
 		return "myBuyPage";
 	}
 
+	@RequestMapping("/page/mypageHeart") //마이페이지 (찜 목록)
+	public String myPageHeart(Model model) {
+		UserVO user = userService.getUserInfo();
+		model.addAttribute("userinfo", userService.selectById(user.getId()));
+		List<ItemPostVO> list = itemPostService.selectHeartById(user.getId());
+		model.addAttribute("list", list);
+		
+		if ( list != null) {
+			model.addAttribute("itemcnt", list.size());
+		}
+		
+		model.addAttribute("loc1List", locationService.loc1Set());
+		model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
+		model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
+		
+		return "myHeartPage";
+	}
+	
 	@RequestMapping("/page/mypageTrade") //마이페이지 (거래후기)
 	public String myPageTrade(Model model) {
 		UserVO user = userService.getUserInfo();
         model.addAttribute("userinfo", userService.selectById(user.getId()));
+        
+        List<TradeVO> list = itemPostService.selectTradeById(user.getId());
+        model.addAttribute("list", list);
+        System.out.println("마이페이지 (거래후기)" + list);
+        
         model.addAttribute("loc1List", locationService.loc1Set());
         model.addAttribute("loc2List", locationService.loc2Set(new LocationVO(user.getLoc1())));
         model.addAttribute("loc3List", locationService.loc3Set(new LocationVO(user.getLoc1(), user.getLoc2())));
@@ -80,12 +115,16 @@ public class UserController {
 		UserVO login = userService.getUserInfo();
 		UserVO user = userService.selectById(id);
 		model.addAttribute("userinfo", user);
+		
 		if ( login.getId().equals(user.getId())) {
 			return "redirect:/page/mypageSell";
 		}
+		
 		List<ItemPostVO> list = itemPostService.selectByWriter(user.getId());
         model.addAttribute("list", list);
+        if ( list != null) {
         model.addAttribute("itemcnt", list.size());
+        }
 		return "userSellPage";
 	}
 
@@ -99,6 +138,7 @@ public class UserController {
 		UserVO user = userService.selectById(id);
 		model.addAttribute("userinfo", user);
 		model.addAttribute("tradeList", tradeService.getListByUserId(id));
+
 		return "userTradePage";
 	}
 

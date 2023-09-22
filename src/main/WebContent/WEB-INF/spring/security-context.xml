@@ -49,6 +49,7 @@
 				<security:intercept-url pattern="/page/mypageSell" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/mypageBuy" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/mypageTrade" access="isAuthenticated()" />
+				<security:intercept-url pattern="/page/mypageHeart" access="isAuthenticated()" />
 				
 				<security:intercept-url pattern="/page/userpageSell" access="isAuthenticated()" />
 				<security:intercept-url pattern="/page/userpageSell/**" access="isAuthenticated()" />

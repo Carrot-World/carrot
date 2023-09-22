@@ -42,7 +42,7 @@ defer></script>
 	<div class="title">
 		<h2>${ postdetail.title }</h2>
 		<h4
-			onclick="location.href='/page/userpageSell/${postdetail.writer}'">${ postdetail.nickname }</h4>
+			onclick="location.href='/page/userpageSell?id=${postdetail.writer}'" style="cursor: pointer">${ postdetail.nickname }</h4>
 	</div>
 </div>
 <div class="section-content">

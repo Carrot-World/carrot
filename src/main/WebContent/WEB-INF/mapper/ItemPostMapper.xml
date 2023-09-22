@@ -69,6 +69,10 @@
     <select id="selectByWriter" resultType="com.carrot.domain.ItemPostVO">
         select * from item_post where  (status = 0 or status = 1) and writer=#{writer} order by status asc, id desc
     </select>
+    
+    <select id="selectByBuyer" resultType="com.carrot.domain.ItemPostVO">
+    	select i.* from trade t, item_post i where t.item_post_id = i.id and buyer=#{buyer} order by i.id desc
+    </select>
 
     <select id="search" resultType="com.carrot.domain.ItemPostVO" parameterType="com.carrot.domain.SearchVO">
         select distinct p.id,
@@ -126,4 +130,5 @@
             #{date}
         )
     </insert>
+
 </mapper>

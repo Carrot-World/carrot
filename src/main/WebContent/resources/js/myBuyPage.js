@@ -56,51 +56,72 @@ function updateModalOpen() {
 
 
 function updateInfo(e) {
-    /* var target = document.getElementById('btnUdpateInfo');
+  /* var target = document.getElementById('btnUdpateInfo');
     const e = document.querySelector('#userid').value;
 
     target.addEventListener('click', function(e){ */
-    const nickname = document.querySelector("#newnickname").value;
-    const email = document.querySelector("#newemail").value;
-    const loc1 = document.querySelector("#loc1").value;
-    const loc2 = document.querySelector("#loc2").value;
-    const loc3 = document.querySelector("#loc3").value;
+  const nickname = document.querySelector("#newnickname").value;
+  const email = document.querySelector("#newemail").value;
+  const loc1 = document.querySelector("#loc1").value;
+  const loc2 = document.querySelector("#loc2").value;
+  const loc3 = document.querySelector("#loc3").value;
 
-    let data = {
-        'id': e,
-        'nickname': nickname,
-        'email': email,
-        'loc1': loc1,
-        'loc2': loc2,
-        'loc3': loc3
-    };
+  if (loc1 === "도시 선택" || loc2 === "지역 선택" || loc3 == "동네 선택") {
+    alert("지역 설정을 꼭 해주셔야 합니다.");
+    return false;
+  }
 
-    $.ajax({
-        url: '/api/myPage/updateinfo',
-        type: 'POST',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token)
-        },
-        success: (result) => {
-            console.log(result);
-            location.reload();
-        },
-        error: () => {
-            alert('수정 실패')
-            location.reload();
-        }
-    })
+  let data = {
+    id: e,
+    nickname: nickname,
+    email: email,
+    loc1: loc1,
+    loc2: loc2,
+    loc3: loc3,
+  };
 
+  $.ajax({
+    url: "/api/myPage/updateinfo",
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader(header, token);
+    },
+    success: (result) => {
+      console.log(result);
+      location.reload();
+    },
+    error: () => {
+      alert("수정 실패");
+      location.reload();
+    },
+  });
 }
 /* ) */
 
 function updatePassword(e) {
 
-    const password = document.querySelector("#password").value;
-    const newpassword = document.querySelector("#newpassword").value;
+    const password = document.querySelector("#password").value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');;
+  const newpassword1 = document.querySelector("#newpassword1").value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');;
+  const newpassword = document.querySelector("#newpassword").value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');;
+ 
+  var passwordTest =
+   /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,12}$/;
+
+  
+	if (!passwordTest.test(newpassword1)) {
+	alert(
+	  "비밀번호는 영어, 숫자, 특수문자 1개 이상씩 사용하여 6~12자로 적어주세요."
+	);
+	return false;
+  }
+  
+  if (newpassword1 !== newpassword) {
+    alert("비밀번호 확인을 해주세요.");
+    return false;
+  }
 
     let data = {
         'id': e,
@@ -286,3 +307,135 @@ function changeLoc2Select() {
 function optionEl(loc) {
     return '<option value="' + loc + '">' + loc + "</option>";
 }
+
+$("#emailModal_req").click(function (e) {
+  e.preventDefault();
+  var email = $("#emailModal_email").val();
+  var tokenInput = $("#token");
+  var data = { email: email };
+  data[tokenInput.attr("name")] = tokenInput.val();
+  console.log(email);
+  console.log("데이터:" + data);
+  $.ajax({
+    async: true,
+    type: "POST",
+    data,
+    url: "/api/mypage/emailcheck",
+    dataType: "json",
+    contentType: "application/x-www-form-urlencoded",
+    success: function (cnt) {
+      if (cnt > 0) {
+        alert("해당 이메일 존재");
+        $("#emailModal_email").focus();
+      } else {
+        sendEmail();
+      }
+    },
+    error: function (error) {
+      alert("이메일을 재입력해주세요.");
+    },
+  });
+});
+
+function sendEmail() {
+  var email_auth_cd = "";
+  var eamil_auth_compl = false;
+
+  var email = $("#emailModal_email").val();
+  var tokenInput = $("#token");
+  var data = { email: email };
+  data[tokenInput.attr("name")] = tokenInput.val();
+
+  $.ajax({
+    type: "POST",
+    url: "/api/sendemail",
+    data,
+    success: function (data) {
+      alert("인증번호가 발송되었습니다.");
+      email_auth_cd = data;
+    },
+    error: function (data) {
+      alert("메일 발송에 실패했습니다.");
+    },
+  });
+
+  $("#emailModal_compl").click(function () {
+    console.log("모달: " + $("#emailModal_num").val());
+    console.log("발급 :" + email_auth_cd);
+    if ($("#emailModal_num").val() === email_auth_cd) {
+      alert("인증이 완료되었습니다.");
+      $("#emailModal_email").val(email);
+      emailModalClose();
+    }
+    if ($("#emailModal_num").val() !== email_auth_cd) {
+      alert("인증에 실패했습니다.");
+    }
+  });
+}
+function emailModalOpen() {
+  $("#updateModal").modal("hide");
+  $("#emailModal").modal("show");
+}
+function emailModalClose() {
+  $("#emailModal").modal("hide");
+  $("#updateModal").modal("show");
+}
+
+function nicknameModalOpen() {
+  $("#updateModal").modal("hide");
+  $("#nicknameModal").modal("show");
+}
+function nicknameModalClose() {
+  $("#nicknameModal").modal("hide");
+  $("#updateModal").modal("show");
+}
+
+$("#nicknameModal_req").click(function (e) {
+  e.preventDefault();
+  var nickname = $("#nicknameModal_nic").val();
+  var tokenInput = $("#token");
+  var data = { nickname: nickname };
+  data[tokenInput.attr("name")] = tokenInput.val();
+  var nicknameTest = /^[가-힣a-zA-Z0-9]{3,7}$/;
+
+  if (!nicknameTest.test(nickname)) {
+    alert("닉네임은 한글, 영어, 숫자로 3~7글자로 입력 가능합니다.");
+    $("#nicknameModal_nic").focus();
+    return false;
+  }
+  if (nickname.search(/\s/) !== -1) {
+    alert("닉네임에는 공백이 들어갈 수 없습니다.");
+  } else {
+    if (nickname.trim().length !== 0) {
+      $.ajax({
+        async: true,
+        type: "POST",
+        data,
+        url: "/api/mypage/niccheck",
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded",
+        success: function (cnt) {
+          if (cnt > 0) {
+            alert("이미 존재하는 닉네임입니다.");
+            //$("#submit").attr("disabled", "disabled");
+            $("#nicknameModal_nic").focus();
+          } else {
+            alert("사용 가능한 닉네임 입니다");
+            //$("#submit").removeAttr("disabled");
+          }
+        },
+        error: function (error) {
+          alert("닉네임을 재입력해주세요.");
+        },
+      });
+    } else {
+      alert("닉네임을 입력해주세요.");
+    }
+  }
+});
+
+$("#nicknameModal_compl").click(function (e) {
+  alert("회원 정보 수정 버튼을 꼭 눌러주세요.");
+  $("#newnickname").val($("#nicknameModal_nic").val());
+  nicknameModalClose();
+});

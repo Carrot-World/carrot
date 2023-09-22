@@ -77,3 +77,37 @@ body {
   background-color: #8c8c8c! important;
   color: #f9f9f9!important
 }
+
+div.idModal_label {
+  width: 20%;
+  text-align: right;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+div.input {
+  display: flex;
+  gap: 10px;
+  width: 80%;
+}
+
+.idModal_input {
+  width: 80% !important;
+}
+.input-row-hidden {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding-left: 15px;
+  align-items: center;
+  font-size: 12px;
+  color: red;
+}
+.input-row {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  align-items: center;
+}
