@@ -21,5 +21,6 @@ public interface ItemPostRepository {
     public int delete(ItemPostVO vo);
     public int updateComplete(int postId);
     public void createTrade(Map map);
+    public List<TradeVO> selectTradeById(String id); //거래후기 조회
     public List<ItemPostVO> selectHeartById(String id); //찜 목록 조회
 }
