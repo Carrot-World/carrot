@@ -102,6 +102,7 @@
       });
     </script>
     <script src="${pageContext.request.contextPath}/resources/js/chat.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/notifyModal.js"></script>
   </body>
 </html>
 

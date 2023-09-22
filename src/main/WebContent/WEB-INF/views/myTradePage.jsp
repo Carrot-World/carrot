@@ -44,7 +44,7 @@
 
 				<div class="button-wrapper">
 					<button class="btn update" data-bs-target="#updateModal"
-						data-bs-toggle="modal">내정보수정</button>
+						data-bs-toggle="modal">내 정보수정</button>
 				</div>
 			</div>
 		</div>
