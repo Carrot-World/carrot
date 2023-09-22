@@ -121,20 +121,11 @@ public class SnsLoginController {
 				customUser.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		System.out.println("loc모음집:" + vo.getLoc1() + vo.getLoc2() + vo.getLoc3());
 		if (vo.getLoc1() == null || vo.getLoc2() == null || vo.getLoc3() == null) {
-			redirectAttr.addFlashAttribute("req_locRegist", "loc_isNull");
-			System.out.println("if문 안");
 			return "redirect:/api/success";
-//					 return "redirect:/api/success/{req_locRegist}";
-			// 마이페이지 - 나의 정보 수정으로 갈것 /redirect 해야할수도. 아래내용 jsp추가
-//						if('${req_locRegist}' == "loc_isNull"){
-//							alert("지역 등록되어있지 않슴다 등록해주세요");
-//							window.location.href = "/page/listItem";
-//		
+
 		}
-		System.out.println("if문 밖");
-		return "redirect:/page/itemList"; 
+		return "redirect:/page/main"; 
 	}
 
 	@GetMapping("/api/signup/callback/kakao")
@@ -183,20 +174,10 @@ public class SnsLoginController {
 				customUser.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		System.out.println("loc모음집:" + vo.getLoc1() + vo.getLoc2() + vo.getLoc3());
 		if (vo.getLoc1() == null || vo.getLoc2() == null || vo.getLoc3() == null) {
-			redirectAttr.addFlashAttribute("req_locRegist", "loc_isNull");
-			System.out.println("if문 안");
 			return "redirect:/api/success";
-//							 return "redirect:/api/success/{req_locRegist}";
-			// 마이페이지 - 나의 정보 수정으로 갈것 /redirect 해야할수도. 아래내용 jsp추가
-//								if('${req_locRegist}' == "loc_isNull"){
-//									alert("지역 등록되어있지 않슴다 등록해주세요");
-//									window.location.href = "/page/listItem";
-//				
 		}
-		System.out.println("if문 밖");
-		return "redirect:/page/itemList"; 
+		return "redirect:/page/main"; 
 
 	}
 	
@@ -246,19 +227,11 @@ public class SnsLoginController {
 				customUser.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		System.out.println("loc모음집:" + vo.getLoc1() + vo.getLoc2() + vo.getLoc3());
 		if (vo.getLoc1() == null || vo.getLoc2() == null || vo.getLoc3() == null) {
-			redirectAttr.addFlashAttribute("req_locRegist", "loc_isNull");
-			System.out.println("if문 안");
+			
 			return "redirect:/api/success";
-//							 return "redirect:/api/success/{req_locRegist}";
-			// 마이페이지 - 나의 정보 수정으로 갈것 /redirect 해야할수도. 아래내용 jsp추가
-//								if('${req_locRegist}' == "loc_isNull"){
-//									alert("지역 등록되어있지 않슴다 등록해주세요");
-//									window.location.href = "/page/listItem";
 //				
 		}
-		System.out.println("if문 밖");
-		return "redirect:/page/itemList"; 
+		return "redirect:/page/main"; 
 	}
 }

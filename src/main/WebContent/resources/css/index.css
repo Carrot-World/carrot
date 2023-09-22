@@ -32,3 +32,65 @@ a.logo {
 .section > div {
     width: 100%;
 }
+
+.orange-btn {
+    background-color: #fd7e14;
+    color: #fff !important;
+}
+
+.orange-btn:hover,
+.orange-btn:active {
+    background-color: #fd7e14 !important;
+    color: #fff !important;
+}
+/* modal */
+.modal-dialog {
+  width: 710px;
+  max-width:710px;
+}
+
+.modal-content {
+   width :710px; 
+}
+
+.modal-title {
+   font-size :30px !important; 
+}
+
+
+.input-wrapper > div{
+   margin-top :12px; 
+   display :flex; 
+   gap :10px; 
+   width :100%; 
+   padding :12px;  
+   align-items:center ;  
+}
+div.label{
+    width :20%; 
+    text-align:right ;   
+    font-size :20px ;   
+    font-weight:bold ;
+}
+div.input{
+    display:flex ;
+     gap :10px ;
+      width :80% ;
+}
+div.input > .form-control{
+       width:50% ;  
+}
+div.input > .form-select{     
+        width:130px ;      
+ }
+#currBtn, .orange-btn {     
+        background-color:#fd7e14 ;
+ }
+#currBtn:hover, #currBtn:focus ,.orange-btn:hover,.orange-btn:focus {       
+        background-color:#fd7e14 !important ;       
+        color:#fff !important ;    
+}    
+button{        
+         color:#fff !important ;
+ }    
+
