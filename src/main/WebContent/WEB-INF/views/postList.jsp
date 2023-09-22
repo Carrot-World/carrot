@@ -118,10 +118,10 @@
 
 	</div>
 	<div class="section-content" id="component">
-		<c:if test="${list == null}">
+		<c:if test="${ empty list}">
             <h3> 게시글이 없습니다.</h3>
         </c:if>
-        <c:if test="${list != null}">
+        <c:if test="${ not empty list}">
 		<div class="post-container">
 			<table class="table table-hover post-table">
 				<thead>

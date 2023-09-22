@@ -225,7 +225,7 @@
 					<div class="input-row">
 						<div class="label">새 비밀번호:</div>
 						<div class="input">
-							<input class="form-control" type="password">
+							<input class="form-control" type="password" id="newpassword1" placeholder="영어, 숫자, 특수문자 1개 이상씩 사용하여 6~12자">
 						</div>
 					</div>
 
