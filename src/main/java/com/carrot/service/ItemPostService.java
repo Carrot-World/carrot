@@ -102,6 +102,10 @@ public class ItemPostService {
         return sqlSession.getMapper(ItemPostRepository.class).delete(vo);
     }
 
+    public List<TradeVO> selectTradeById(String id) { //거래 후기 조회
+        return sqlSession.getMapper(ItemPostRepository.class).selectTradeById(id);
+    }
+
     public void createTrade(int postId, String buyerName) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("postId", postId);
