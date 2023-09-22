@@ -53,6 +53,7 @@
 
 			<div>
 				<div class="items">
+				<c:if test="${not empty list}">
 					<c:forEach items="${list}" var="item">
 						<c:if test="${ item.status == 0 }">
 							<div class="card"
@@ -112,6 +113,12 @@
 							<div class="card hidden" id="${i}" style="visibility: hidden"></div>
 						</c:forEach>
 					</c:if>
+					</c:if>
+					
+					<c:if test="${empty list}">
+					<h3> 내역이 없습니다. </h3>
+					</c:if>
+					
 				</div>
 			</div>
 		</div>

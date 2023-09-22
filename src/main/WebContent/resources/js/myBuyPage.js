@@ -103,8 +103,25 @@ function updateInfo(e) {
 
 function updatePassword(e) {
 
-    const password = document.querySelector("#password").value;
-    const newpassword = document.querySelector("#newpassword").value;
+    const password = document.querySelector("#password").value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');;
+  const newpassword1 = document.querySelector("#newpassword1").value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');;
+  const newpassword = document.querySelector("#newpassword").value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');;
+ 
+  var passwordTest =
+   /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{6,12}$/;
+
+  
+	if (!passwordTest.test(newpassword1)) {
+	alert(
+	  "비밀번호는 영어, 숫자, 특수문자 1개 이상씩 사용하여 6~12자로 적어주세요."
+	);
+	return false;
+  }
+  
+  if (newpassword1 !== newpassword) {
+    alert("비밀번호 확인을 해주세요.");
+    return false;
+  }
 
     let data = {
         'id': e,
