@@ -184,6 +184,12 @@ pageEncoding="UTF-8"%>
                 </button>
               </div>
             </div>
+            <div class="input-row-hidden">
+              <div class="label idModal_label"></div>
+              <div class="input">
+                <span id="idFinderModal_reqmsg"></span>
+              </div>
+            </div>
             <div class="input-row">
               <div class="label idModal_label">인증번호:</div>
               <div class="input">
@@ -269,6 +275,12 @@ pageEncoding="UTF-8"%>
                 <button class="btn orange-btn" id="pwdFinderModal_req">
                   인증요청
                 </button>
+              </div>
+            </div>
+            <div class="input-row-hidden">
+              <div class="label idModal_label"></div>
+              <div class="input">
+                <span id="pwdFinderModal_reqmsg"></span>
               </div>
             </div>
             <div class="input-row">

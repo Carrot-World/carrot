@@ -87,7 +87,6 @@ $("#btn-nicCheck").click(function (e) {
     }
   }
 });
-
 $("#btn-emailCheck").click(function (e) {
   e.preventDefault();
 
@@ -114,6 +113,7 @@ $("#btn-emailCheck").click(function (e) {
           $("#modal-text-email").val(email);
           $("#res-authnum-text").val("");
           $("#emailCertifyModal").modal("show");
+          $("#emailModal_num").val("");
           sendEmail();
         }
       },
@@ -297,9 +297,9 @@ $("#btn-signUp").click(function (e) {
   }
 
   if (
-    $("#loc1").val() === null ||
-    $("#loc2").val() === null ||
-    $("#loc3").val() === null
+    $("#loc1").val() === '도시 선택' ||
+    $("#loc2").val() === '지역 선택' ||
+    $("#loc3").val() === '동네 선택'
   ) {
     alertModal("위치를 지정해 주세요.");
     return false;
@@ -336,13 +336,15 @@ $("#btn-signUp").click(function (e) {
     dataType: "json",
     contentType: "application/x-www-form-urlencoded",
     success: function (result) {
-      if (result === 2) {
+      if (result === true) {
         registerAlertModal(
           "회원가입에 성공했습니다.\n로그인 창으로 돌아갑니다.",
           "/page/login"
         );
       }
-      alertModal("다시 시도해주세요.");
+      if (result !== true) {
+        alertModal(result + "다시 시도해주세요.");
+      }
     },
     error: function (error) {
       alertModal("회원가입을 다시 시도해 주세요.");

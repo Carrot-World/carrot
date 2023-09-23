@@ -4,6 +4,8 @@ $(".btn-email").click(function () {
 
 $("#idFind").click(function (e) {
   e.preventDefault();
+  $("#idFinderModal_email").val("");
+  $("#idFinderModal_num").val("");
   $("#idFinderModal").modal("show");
 });
 
@@ -25,8 +27,12 @@ $("#idFinderModal_req").click(function (e) {
       contentType: "application/x-www-form-urlencoded",
       success: function (cnt) {
         if (cnt < 1) {
-          alertModal("해당 정보로 가입된 아이디가 없습니다.");
+          $("#idFinderModal_reqmsg").html(
+            "※ 해당 정보로 가입된 아이디가 없습니다."
+          );
+          //alertModal("해당 정보로 가입된 아이디가 없습니다.");
         } else {
+          $("#idFinderModal_reqmsg").html("※ 인증번호 전송 대기중입니다.");
           sendEmail();
         }
       },
@@ -49,7 +55,8 @@ function sendEmail() {
     url: "/api/sendemail",
     data,
     success: function (data) {
-      alertModal("인증번호가 발송되었습니다.");
+      //alertModal("인증번호가 발송되었습니다.");
+      $("#idFinderModal_reqmsg").html("※ 인증번호가 발송되었습니다");
       email_auth_cd = data;
     },
     error: function (data) {
@@ -71,7 +78,8 @@ function sendEmail() {
         contentType: "application/x-www-form-urlencoded",
 
         success: function (id, response) {
-          alertModal("해당 아이디는" + id + "입니다");
+          $("#idFinderModal").modal("hide");
+          alertModal("해당 아이디는 " + id + " 입니다");
         },
         error: function (jqXHR, textStatus, errorThrown) {
           alertModal("재실행 해주세요.");
@@ -82,6 +90,9 @@ function sendEmail() {
 }
 
 $("#passwordFind").click(function (e) {
+  $("#pwdFinderModal_id").val("");
+  $("#pwdFinderModal_email").val("");
+  $("#pwdFinderModal_num").val("");
   $("#pwdFinderModal").modal("show");
 });
 
@@ -110,9 +121,13 @@ $("#pwdFinderModal_req").click(function (e) {
     contentType: "application/x-www-form-urlencoded",
     success: function (cnt) {
       if (cnt < 1) {
-        alertModal("해당 정보로 가입된 아이디가 없습니다.");
+        //alertModal("해당 정보로 가입된 아이디가 없습니다.");
+        $("#pwdFinderModal_reqmsg").html(
+          "※ 해당 정보로 가입된 아이디가 없습니다."
+        );
       } else {
-        sendEmail();
+        sendEmailpwd();
+        $("#pwdFinderModal_reqmsg").html("※ 인증번호 전송 대기중입니다.");
       }
     },
     error: function (error) {
@@ -121,7 +136,7 @@ $("#pwdFinderModal_req").click(function (e) {
   });
 });
 
-function sendEmail() {
+function sendEmailpwd() {
   var email_auth_cd = "";
   var id = $("#pwdFinderModal_id").val();
   var email = $("#pwdFinderModal_email").val();
@@ -134,7 +149,8 @@ function sendEmail() {
     url: "/api/sendemail",
     data: data,
     success: function (data) {
-      alertModal("인증번호가 발송되었습니다.");
+      //alertModal("인증번호가 발송되었습니다.");
+      $("#pwdFinderModal_reqmsg").html("※ 인증번호가 발송되었습니다");
       email_auth_cd = data;
     },
     error: function (data) {

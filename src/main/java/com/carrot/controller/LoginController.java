@@ -67,7 +67,7 @@ public class LoginController {
 
 	@ResponseBody
 	@PostMapping("/api/signup")
-	public int signUp(@RequestParam String id, @RequestParam String nickname, @RequestParam String password, @RequestParam String email, 
+	public boolean signUp(@RequestParam String id, @RequestParam String nickname, @RequestParam String password, @RequestParam String email, 
 			@RequestParam String loc1, @RequestParam String loc2, @RequestParam String loc3, RedirectAttributes redirectAttr) {
 		String encodepw = encoder.encode(password);
 
@@ -77,8 +77,10 @@ public class LoginController {
 
 		int result = mapper.signUp(vo);
 		result += mapper.signUp_auth(authVo);
-		
-		return result;
+		if(result < 2) {
+			return false;
+		}
+		return true;
 	}
 
 	@GetMapping("/api/success")
