@@ -61,6 +61,7 @@ pageEncoding="UTF-8"%>
                 <label for="passwordChk">비밀번호 확인</label>
                 <input type="password" class="form-control" id="passwordChk" name="passwordChk" placeholder="비밀번호 확인" required />
               </div>
+              
             </div>
 
             <div class="row">
@@ -229,6 +230,26 @@ pageEncoding="UTF-8"%>
         </div>
       </div>
     </div>
+    
+    <%-- 이메일 수정 confirm 모달 --%>
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="passwordModalLabel">알림</h1>
+                </div>
+                <div class="modal-body">
+                    <label style="width: 100%; font-weight: 500;" id="modalContent"></label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cfmodal_confirmBtn">확인</button>
+                    <button type="button" class="btn btn-danger" id="cfmodal_cancelBtn">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="${pageContext.request.contextPath}/resources/js/kakaoGeocoder.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/notifyModal.js"></script>
   </body>
 </html>
