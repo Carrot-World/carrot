@@ -55,11 +55,11 @@ pageEncoding="UTF-8"%>
             <div class="row">
               <div class="col-md-6 mb-3">
                 <label for="password">비밀번호 입력</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="6~12자 이내 영문,숫자,특문" required/>
+                <input type="password" class="form-control" id="password" name="password" placeholder="6~12자 이내 영문,숫자,특문 입력" required/>
               </div>
               <div class="col-md-6 mb-3">
-                <label for="passwordChk">비밀번호 확인</label>
-                <input type="password" class="form-control" id="passwordChk" name="passwordChk" placeholder="비밀번호 확인" required />
+                <label for="passwordChk">비밀번호 확인</label> 
+                <input type="password" class="form-control" id="passwordChk" name="passwordChk" placeholder="6~12자 이내 영문,숫자,특문 입력" required />
               </div>
               
             </div>
@@ -207,7 +207,7 @@ pageEncoding="UTF-8"%>
             <div class="input-row-hidden">
               <div class="label idModal_label"></div>
               <div class="input">
-                <span id="emailModal_msg"></span>
+                <span id="emailModal_msg">※ 인증번호 전송 대기중입니다.</span>
               </div>
             </div>
           </div>
